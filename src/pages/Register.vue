@@ -49,6 +49,7 @@
 
 <script>
 import { Card, FormGroupInput, Button } from '@/components'
+import MainFooter from '../layout/MainFooter'
 export default {
   name: 'register',
   data () {
@@ -173,7 +174,8 @@ export default {
   components: {
     Card,
     [Button.name]: Button,
-    [FormGroupInput.name]: FormGroupInput
+    [FormGroupInput.name]: FormGroupInput,
+    MainFooter
   },
   methods: {
     register (formName) {

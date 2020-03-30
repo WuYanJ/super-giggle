@@ -11,13 +11,11 @@ import Vuetify from 'vuetify'
 import Vuelidate from 'vuelidate'
 import VueWechatTitle from 'vue-wechat-title'
 import 'babel-polyfill'
-import VeeValidate from 'vee-validate'
 
 Vue.use(VueWechatTitle)
 Vue.use(NowUiKit)
 Vue.use(Vuetify)
 Vue.use(Vuelidate)
-Vue.use(VeeValidate)
 Vue.use(ElementUI)
 
 // axios 配置

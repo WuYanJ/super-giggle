@@ -8,9 +8,7 @@
                 <div class="col-md-5 ml-auto mr-auto">
                     <card type="login" plain>
                       <h3>Apply For A Meeting.</h3>
-                      <el-form :label-position="labelPosition"
-                               :rules="rules" ref="applyMeeting"
-                               :label-width="labelWidth"
+                      <el-form ref="applyMeeting"
                                :inline="true"
                                :model="applyMeetingForm"
                                class="demo-form-inline">

@@ -9,7 +9,7 @@
         <div class="col-md-5 ml-auto mr-auto">
           <card type="login" plain>
             <h3>Sign in</h3>
-            <v-form :model="loginForm" :rules="rules" :ref="loginForm">
+            <v-form :model="loginForm" :ref="loginForm">
               <fg-input v-model="loginForm.username"
                         type="text"
                         class="no-border"
