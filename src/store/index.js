@@ -28,6 +28,7 @@ export default new Vuex.Store({
       localStorage.removeItem('token')
       localStorage.removeItem('userDetails')
       localStorage.removeItem('userName')
+      localStorage.removeItem('now')
       state.userDetails = null
       state.userName = null
       state.token = null

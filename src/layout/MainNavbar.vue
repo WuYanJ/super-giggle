@@ -8,7 +8,7 @@
   >
     <template slot-scope="{ toggle, isToggled }">
       <router-link v-popover:popover1 class="navbar-brand" to="/">
-        Now Ui Kit
+        Homepage
       </router-link>
       <el-popover
         ref="popover1"
@@ -18,38 +18,29 @@
         trigger="hover"
       >
         <div class="popover-body">
-          Designed by Invision. Coded by Creative Tim
+          Fudan Soft 2020.
         </div>
       </el-popover>
     </template>
     <template slot="navbar-menu">
-      <li class="nav-item">
-        <a
+      <li class="nav-item" v-if="!now">
+        <router-link
           class="nav-link"
-          href="https://www.creative-tim.com/product/vue-now-ui-kit"
-          target="_blank"
+          to="register"
         >
           <i class="now-ui-icons arrows-1_cloud-download-93"></i>
-          <p>Download</p>
-        </a>
+          <p>Sign up</p>
+        </router-link>
       </li>
-      <drop-down
-        tag="li"
-        title="Components"
-        icon="now-ui-icons design_app"
-        class="nav-item"
-      >
-        <nav-link to="/">
-          <i class="now-ui-icons business_chart-pie-36"></i> All components
-        </nav-link>
-        <a
-          href="https://demos.creative-tim.com/vue-now-ui-kit/documentation"
-          target="_blank"
-          class="dropdown-item"
+      <li class="nav-item" v-if="!now">
+        <router-link
+          class="nav-link"
+          to="login"
         >
-          <i class="now-ui-icons design_bullet-list-67"></i> Documentation
-        </a>
-      </drop-down>
+          <i class="now-ui-icons arrows-1_cloud-download-93"></i>
+          <p>Sign in</p>
+        </router-link>
+      </li>
       <drop-down
               tag="li"
               title="Link"
@@ -57,42 +48,29 @@
               class="nav-item"
       >
         <nav-link to="/landing">
-          <i class="now-ui-icons education_paper"></i> Landing
-        </nav-link>
-        <nav-link to="/login">
-          <i class="now-ui-icons users_circle-08"></i> Login
-        </nav-link>
-        <nav-link to="/profile">
-          <i class="now-ui-icons users_single-02"></i> Profile
+          <i class="now-ui-icons education_paper"></i> About Us
         </nav-link>
       </drop-down>
-      <li class="nav-item">
-        <a
-          class="nav-link btn btn-neutral"
-          href="https://www.creative-tim.com/product/vue-now-ui-kit-pro"
-          target="_blank"
-        >
-          <i class="now-ui-icons arrows-1_share-66"></i>
-          <p>Upgrade to PRO</p>
-        </a>
-      </li>
       <drop-down
         tag="li"
-        v-bind:title="username"
+        v-bind:title="userName"
         icon="now-ui-icons design_app"
         class="nav-item"
-        @command="handleCommand"
+        v-if="now"
     >
-      <nav-link to="/profile">
-        <i class="now-ui-icons business_chart-pie-36"></i> Profile
-      </nav-link>
-      <nav-link
-        to="/"
+        <nav-link to="/profile">
+          <i class="now-ui-icons business_chart-pie-36"></i> Profile
+        </nav-link>
+        <nav-link to="/meeting">
+          <i class="now-ui-icons business_chart-pie-36"></i> New Meeting
+        </nav-link>
+      <div
         class="dropdown-item"
-        command="logout"
+        divided
+        @click="logout"
       >
         <i class="now-ui-icons design_bullet-list-67"></i> Logout
-      </nav-link>
+      </div>
     </drop-down>
     </template>
   </navbar>
@@ -112,7 +90,8 @@ export default {
     return {
       collapse: true,
       fullscreen: false,
-      username: store.state.userName, // userDetails.getUsername()
+      userName: store.state.userName, // userDetails.getUsername()
+      now: store.state.now,
       message: 2
     }
   },
@@ -124,13 +103,9 @@ export default {
     [Popover.name]: Popover
   },
   methods: {
-    handleCommand (command) {
-      if (command === 'logout') {
-        this.$store.commit('logout')
-        location.reload()
-      } else if (command === 'toWorkspace') {
-        this.$router.replace('/workspace')
-      }
+    logout () {
+      this.$store.commit('logout')
+      location.reload()
     }
   }
 }

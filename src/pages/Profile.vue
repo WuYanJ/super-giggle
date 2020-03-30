@@ -10,7 +10,7 @@
         <div class="photo-container">
           <img src="../../public/img/ryan.jpg" alt="" />
         </div>
-        <h3 class="title">Ryan Scheinder</h3>
+        <h3 class="title">{{userName}}</h3>
         <p class="category">Photographer</p>
         <div class="content">
           <div class="social-description">
@@ -49,75 +49,28 @@
             <i class="fab fa-instagram"></i>
           </a>
         </div>
-        <h3 class="title">About me</h3>
-        <h5 class="description">
-          An artist of considerable range, Ryan — the name taken by
-          Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and
-          records all of his own music, giving it a warm, intimate feel with a
-          solid groove structure. An artist of considerable range.
-        </h5>
+<!--        新的会议信息-->
         <div class="row">
-          <div class="col-md-6 ml-auto mr-auto">
-            <h4 class="title text-center">My Portfolio</h4>
+          <div class="col-md-12 ml-auto mr-auto">
+            <h4 class="title text-center">News</h4>
+            <div v-for="value in objects" :key="value.meetingInfo">
+              {{value}}
+            </div>
           </div>
-          <tabs
-            pills
-            class="nav-align-center"
-            tab-content-classes="gallery"
-            tab-nav-classes="nav-pills-just-icons"
-            type="primary"
-          >
-            <tab-pane title="Profile">
-              <i slot="label" class="now-ui-icons design_image"></i>
-
-              <div class="col-md-10 ml-auto mr-auto">
-                <div class="row collections">
-                  <div class="col-md-6">
-                    <img src="../../public/img/bg6.jpg" class="img-raised" />
-                    <img src="../../public/img/bg11.jpg" alt="" class="img-raised" />
-                  </div>
-                  <div class="col-md-6">
-                    <img src="../../public/img/bg7.jpg" alt="" class="img-raised" />
-                    <img src="../../public/img/bg8.jpg" alt="" class="img-raised" />
-                  </div>
-                </div>
-              </div>
-            </tab-pane>
-
-            <tab-pane title="Home">
-              <i slot="label" class="now-ui-icons location_world"></i>
-
-              <div class="col-md-10 ml-auto mr-auto">
-                <div class="row collections">
-                  <div class="col-md-6">
-                    <img src="../../public/img/bg1.jpg" alt="" class="img-raised" />
-                    <img src="../../public/img/bg3.jpg" alt="" class="img-raised" />
-                  </div>
-                  <div class="col-md-6">
-                    <img src="../../public/img/bg8.jpg" alt="" class="img-raised" />
-                    <img src="../../public/img/bg7.jpg" alt="" class="img-raised" />
-                  </div>
-                </div>
-              </div>
-            </tab-pane>
-
-            <tab-pane title="Messages">
-              <i slot="label" class="now-ui-icons sport_user-run"></i>
-
-              <div class="col-md-10 ml-auto mr-auto">
-                <div class="row collections">
-                  <div class="col-md-6">
-                    <img src="../../public/img/bg3.jpg" alt="" class="img-raised" />
-                    <img src="../../public/img/bg8.jpg" alt="" class="img-raised" />
-                  </div>
-                  <div class="col-md-6">
-                    <img src="../../public/img/bg7.jpg" alt="" class="img-raised" />
-                    <img src="../../public/img/bg6.jpg" class="img-raised" />
-                  </div>
-                </div>
-              </div>
-            </tab-pane>
-          </tabs>
+        </div>
+        <div class="row">
+          <div class="col-md-12 ml-auto mr-auto">
+            <div v-for="value in objects" :key="value.meetingInfo">
+              {{value}}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 ml-auto mr-auto">
+            <div v-for="value in objects" :key="value.meetingInfo2">
+              {{value}}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -125,6 +78,7 @@
 </template>
 <script>
 import { Tabs, TabPane } from '@/components'
+import store from './../store'
 
 export default {
   name: 'profile',
@@ -132,6 +86,15 @@ export default {
   components: {
     Tabs,
     TabPane
+  },
+  data () {
+    return {
+      userName: store.state.userName, // userDetails.getUsername()
+      objects: {
+        meetingInfo: 'How to do in Vue' + 'Jaoe' + '200' + 'beng',
+        meetingInfo2: 'How to do huihuiVue' + 'Jaddddoe' + '2q1200' + 'beng'
+      }
+    }
   }
 }
 </script>

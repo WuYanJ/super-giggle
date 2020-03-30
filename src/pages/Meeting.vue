@@ -1,78 +1,62 @@
 <template>
     <div class="page-header clear-filter" filter-color="orange">
         <div
-                class="page-header-image"
-        ></div>
+      class="page-header-image"
+    ></div>
         <div class="content">
             <div class="container">
                 <div class="col-md-5 ml-auto mr-auto">
                     <card type="login" plain>
                       <h3>Apply For A Meeting.</h3>
-                        <v-form
-                                ref="form"
-                                v-model="applyMeetingForm"
-                                lazy-validation
-                        >
-                          <div class="col-sm-16 col-lg-16">
-                            <fg-input v-model="applyMeetingForm.abbrName"
-                                      :counter="10"
-                                      :rules="abbrnameRules"
-                                      placeholder="Conference Name(abbr.)"
-                                      required></fg-input>
-                          </div>
-                          <br>
-                          <div class="col-sm-16 col-lg-16">
-                            <fg-input v-model="applyMeetingForm.fullName"
-                                      :rules="fullnameRules"
-                                      placeholder="Conference Name(formal)"
-                                      required></fg-input>
-                          </div>
-                          <br>
-                          <div class="col-sm-16 col-lg-16">
-                            <fg-input v-model="applyMeetingForm.spot"
-                                      :rules="fullnameRules"
-                                      placeholder="Spot"
-                                      required></fg-input>
-                          </div>
-                          <br>
-                            <fg-input>
-                                <el-date-picker
-                                        type="date"
-                                        popper-class="date-picker date-picker-primary"
-                                        placeholder="Meeting Date"
-                                        v-model="applyMeetingForm.date"
-                                >
-                                </el-date-picker>
-                            </fg-input>
-                            <br>
-                            <fg-input>
-                                <el-date-picker
-                                        type="date"
-                                        popper-class="date-picker date-picker-primary"
-                                        placeholder="Submit Due Date "
-                                        v-model="applyMeetingForm.submitDueDate"
-                                >
-                                </el-date-picker>
-                            </fg-input>
-                            <br>
-                            <fg-input>
-                                <el-date-picker
-                                        type="date"
-                                        popper-class="date-picker date-picker-primary"
-                                        placeholder="Release Result Time"
-                                        v-model="applyMeetingForm.resultReleaseDate"
-                                >
-                                </el-date-picker>
-                            </fg-input>
-                            <br>
-<!--                            <n-checkbox v-model="checkboxes.unchecked">I have already know every rules.</n-checkbox>-->
-                        </v-form>
+                      <el-form :label-position="labelPosition"
+                               :rules="rules" ref="applyMeeting"
+                               :label-width="labelWidth"
+                               :inline="true"
+                               :model="applyMeetingForm"
+                               class="demo-form-inline">
+                        <el-form-item prop="abbrName" style=" margin-bottom: 5px">
+                          Conference Name(abbr.)
+                          <el-input v-model="applyMeetingForm.abbrName" label="Conference Name(abbr.)"
+                                    placeholder="Conference Name(abbr.)"
+                          ></el-input>
+                        </el-form-item>
+                        <el-form-item prop="fullName" style=" margin-bottom: 5px">
+                          Conference Name(formal)
+                          <el-input v-model="applyMeetingForm.fullName" placeholder="Conference Name(formal)"
+                                    class="input"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="date" style="margin-bottom: 5px">
+                          Choose Conference Date
+                          <el-date-picker type="date" placeholder="Choose Conference Date"
+                                          v-model="applyMeetingForm.date"></el-date-picker>
+                        </el-form-item>
+                        <el-form-item prop="submitDueDate" style="margin-bottom: 5px">
+                          Choose Submit Due Date
+                          <el-date-picker type="date" placeholder="Choose Submit Due Date"
+                                          v-model="applyMeetingForm.submitDueDate"></el-date-picker>
+                        </el-form-item>
+                        <el-form-item prop="resultReleaseDate" style="margin-bottom: 5px">
+                          Choose Result Releasing Date
+                          <el-date-picker type="date"
+                                          placeholder="Choose Result Releasing Date"
+                                          v-model="applyMeetingForm.resultReleaseDate">
+                          </el-date-picker>
+                        </el-form-item>
+
+                        <el-form-item prop="spot">
+                          Conference Venue
+                          <el-select v-model="applyMeetingForm.spot" placeholder="Conference Venue">
+                            <el-option label="Shanghai" value="shanghai"></el-option>
+                            <el-option label="Beijing" value="beijing"></el-option>
+                          </el-select>
+                        </el-form-item>
+                      </el-form>
 
                         <template slot="raw-content">
                             <div class="card-footer text-center">
                                 <a
                                         v-on:click="submit()"
-                                        href="/"
+                                        href="/workspace"
                                         class="btn btn-primary btn-round btn-lg btn-block"
                                 >Ready To Apply</a
                                 >
@@ -168,11 +152,11 @@ export default {
         .then(resp => {
           if (resp.status === 200 && resp.data.hasOwnProperty('abbrName')) {
             alert('successful application')
-            this.$router.replace({path: '/workspace'})
+            this.$router.push({path: '/workspace'})
             this.$store.commit('login', resp.data)
           } else if (resp.status === 200 && resp.data.hasOwnProperty('error')) {
             alert('please login first')
-            this.$router.replace({path: '/login'})
+            this.$router.push({path: '/login'})
           } else {
             alert('apply error')
           }
@@ -194,5 +178,10 @@ export default {
         margin-left: 3px;
     }
     }
+}
+input.el-input__inner {
+  padding: 0 30px;
+  opacity:0.5;
+  border-radius: 20px;
 }
 </style>

@@ -21,6 +21,7 @@
           <i class="input-group-text" :class="addonLeftIcon"></i>
         </div>
       </slot>
+
       <slot>
         <input
           :value="value"
@@ -31,6 +32,7 @@
           aria-describedby="addon-right addon-left"
         />
       </slot>
+
       <slot name="addonRight">
         <span
           v-if="addonRightIcon"

@@ -8,9 +8,7 @@
       <div class="container">
         <div class="col-md-5 ml-auto mr-auto">
           <card type="login" plain>
-            <div slot="header" class="logo-container">
-              <img v-lazy="'img/now-logo.png'" alt="" />
-            </div>
+            <h3>Sign in</h3>
             <v-form :model="loginForm" :rules="rules" :ref="loginForm">
               <fg-input v-model="loginForm.username"
                         type="text"
@@ -30,7 +28,6 @@
                <div class="card-footer text-center">
                   <a v-on:click="login"
                      :disabled="!loginForm"
-                  href="/"
                   class="btn btn-primary btn-round btn-lg btn-block"
                   >Get Started</a
                   >
@@ -56,6 +53,7 @@
   </div>
 </template>
 <script>
+import store from './../store'
 import { validationMixin } from 'vuelidate'
 import { Card, Button, FormGroupInput } from '@/components'
 import MainFooter from '@/layout/MainFooter'
@@ -83,27 +81,32 @@ export default {
       this.$refs.loginForm.validate()
     },
     login () {
-      this.$axios.post('/login', {
-        username: this.loginForm.username,
-        password: this.loginForm.password
-      })
-        .then(resp => {
-          console.log(resp)
-          if (resp.status === 200 && resp.data.hasOwnProperty('token')) {
-            alert('登录成功！')
-            this.$store.commit('login', resp.data)
-            this.$store.state.username = this.loginForm.username
-            localStorage.setItem('userName', this.loginForm.username)
-            localStorage.setItem('now', true)
-            this.$router.push({path: '/meeting'})
-          } else {
-            alert(resp.data)
-          }
+      if (store.state.userName != null) {
+        alert('已经登陆过了哥')
+      } else {
+        this.$axios.post('/login', {
+          username: this.loginForm.username,
+          password: this.loginForm.password
         })
-        .catch(error => {
-          console.log(error)
-          alert('用户名不存在！')
-        })
+          .then(resp => {
+            console.log(resp)
+            if (resp.status === 200 && resp.data.hasOwnProperty('token')) {
+              alert('登录成功！')
+              this.$store.commit('login', resp.data)
+              this.$store.state.username = this.loginForm.username
+              localStorage.setItem('userName', this.loginForm.username)
+              localStorage.setItem('now', true)
+              this.$router.push({path: '/meeting'})
+              location.reload()
+            } else {
+              alert(resp.data)
+            }
+          })
+          .catch(error => {
+            console.log(error)
+            alert('用户名不存在！')
+          })
+      }
     }
   }
 }

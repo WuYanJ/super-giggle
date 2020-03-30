@@ -13,12 +13,10 @@
         </div>
       </div>
     </div>
-    <signup-form></signup-form>
   </div>
 </template>
 <script>
 import { Parallax } from '@/components'
-import BasicElements from './components/BasicElementsSection'
 import Navigation from './components/Navigation'
 import TabsSection from './components/Tabs'
 import ProgressPagination from './components/ProgressPagination'
@@ -27,7 +25,6 @@ import Typography from './components/Typography'
 import JavascriptComponents from './components/JavascriptComponents'
 import CarouselSection from './components/CarouselSection'
 import NucleoIconsSection from './components/NucleoIconsSection'
-import SignupForm from './components/SignupForm'
 import ExamplesSection from './components/ExamplesSection'
 import DownloadSection from './components/DownloadSection'
 
@@ -36,7 +33,6 @@ export default {
   bodyClass: 'index-page',
   components: {
     Parallax,
-    BasicElements,
     Navigation,
     TabsSection,
     ProgressPagination,
@@ -45,7 +41,6 @@ export default {
     JavascriptComponents,
     CarouselSection,
     NucleoIconsSection,
-    SignupForm,
     ExamplesSection,
     DownloadSection
   }

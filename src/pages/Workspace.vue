@@ -1,9 +1,8 @@
 <template>
     <div>
-        <div class="page-header page-header-small" >
+      <div class="page-header page-header-small clear-filter" filter-color="orange">
             <parallax
                     class="page-header-image"
-                    style="background-image: url('img/bg6.jpg')"
             >
             </parallax>
             <div class="content-center">
@@ -13,7 +12,7 @@
             </div>
         </div>
         <div class="section">
-            <div class="container">
+            <div class="container" >
                 <div class="button-container">
                     <a href="#button" class="btn btn-primary btn-round btn-lg">Follow</a>
                     <a
@@ -33,55 +32,30 @@
                         <i class="fab fa-instagram"></i>
                     </a>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 ml-auto mr-auto">
-                        <h4 class="title text-center">My Meeting</h4>
+<!--以上是按钮组-->
+              <div class="section">
+                <div class="container">
+                  <div class="row applyRow">
+                    <div class="col-md-3 meetingBlock">
+                      <div v-for="value in objects" :key="value.abbrName">
+                        {{value}}
+                      </div>
                     </div>
-                    <tabs
-                            pills
-                            class="nav-align-center"
-                            tab-content-classes="gallery"
-                            tab-nav-classes="nav-pills-just-icons"
-                            type="primary"
-                    >
-                        <tab-pane title="Profile">
-                            <i slot="label" class="now-ui-icons design_image"></i>
-                            <div class="col-md-6 ml-auto mr-auto">
-                                <div class="row collections">
-                                    <tabs-section></tabs-section>
-                                </div>
-                            </div>
-                        </tab-pane>
-
-                        <tab-pane title="Home">
-                            <i slot="label" class="now-ui-icons location_world"></i>
-
-                            <div class="col-md-6 ml-auto mr-auto">
-                                <div class="row collections">
-                                        <img src="img/bg7.jpg" alt="" class="img-raised" />
-                                </div>
-                            </div>
-                        </tab-pane>
-
-                        <tab-pane title="Messages">
-                            <i slot="label" class="now-ui-icons sport_user-run"></i>
-                            <div class="col-md-6 ml-auto mr-auto">
-                                <div class="row collections">
-                                        <img src="img/bg6.jpg" class="img-raised" />
-                                </div>
-                            </div>
-                        </tab-pane>
-
-                        <tab-pane title="Messages">
-                            <i slot="label" class="now-ui-icons sport_user-run"></i>
-                            <div class="col-md-6 ml-auto mr-auto">
-                                <div class="row collections">
-                                    <img src="img/bg6.jpg" class="img-raised" />
-                                </div>
-                            </div>
-                        </tab-pane>
-                    </tabs>
+                    <div class="col-md-3 meetingBlock" v-for="value in objects" :key="value.abbrName">
+                      {{value}}
+                    </div>
+                    <div class="col-md-3 meetingBlock">
+                      <div>qazxcfew</div>
+                    </div>
+                    <div class="col-md-3 meetingBlock">
+                      <div>qazxcfew</div>
+                    </div>
+                    <div class="col-md-3 meetingBlock">
+                      <div>qazxcfew</div>
+                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
         </div>
     </div>
@@ -91,6 +65,7 @@
 import { Tabs, TabPane, Button } from '@/components'
 import Navigation from './components/Navigation'
 import TabsSection from './components/Tabs'
+// Connection conn = DriverManager.getConnection('jdbc:h2:mem:testdb', 'sa', '');
 
 export default {
   name: 'workspace',
@@ -101,10 +76,29 @@ export default {
     [Button.name]: Button,
     Navigation,
     TabsSection
+  },
+  data () {
+    return {
+      objects: {
+        abbrName: 'How to do in Vue',
+        fullName: 'Jaoe',
+        date: '200',
+        spot: 'beng',
+        submitDueDate: 'haha',
+        resultReleaseDate: '23152'
+      }
+    }
   }
 }
 </script>
 
-<style scoped>
-
+<style>
+  .meetingBlock {
+    padding: 20px;
+    margin: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px 0 grey;
+    font-size: 20px;
+    letter-spacing: -0.05em;
+  }
 </style>

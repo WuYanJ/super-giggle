@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '../pages/Index'
 import Login from '../pages/Login'
+import Register from '../pages/Register'
 import Profile from '../pages/Profile.vue'
 import Landing from '../pages/Landing'
 import Meeting from '../pages/Meeting'
@@ -22,7 +23,8 @@ export const router = new Router({
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
-      }
+      },
+      meta: { title: 'Homepage' }
     },
     {
       path: '/landing',
@@ -31,7 +33,8 @@ export const router = new Router({
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
-      }
+      },
+      meta: { title: 'Landing' }
     },
     {
       path: '/login',
@@ -39,7 +42,17 @@ export const router = new Router({
       components: { default: Login, header: MainNavbar },
       props: {
         header: { colorOnScroll: 400 }
-      }
+      },
+      meta: { title: 'Login' }
+    },
+    {
+      path: '/register',
+      name: 'register',
+      components: { default: Register, header: MainNavbar },
+      props: {
+        header: { colorOnScroll: 400 }
+      },
+      meta: { title: 'Register' }
     },
     {
       path: '/meeting',
@@ -50,7 +63,8 @@ export const router = new Router({
         footer: { backgroundColor: 'black' }
       },
       meta: {
-        requireAuth: true // 需要登录权限
+        requireAuth: true, // 需要登录权限
+        title: 'Meeting'
       }
     },
     {
@@ -60,7 +74,10 @@ export const router = new Router({
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
-      }
+      },
+      meta: {
+        requireAuth: true, // 需要登录权限
+        title: 'Profile' }
     },
     {
       path: '/workspace',
@@ -69,7 +86,10 @@ export const router = new Router({
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
-      }
+      },
+      meta: {
+        requireAuth: true, // 需要登录权限
+        title: 'Workspace' }
     }
   ]
 })
