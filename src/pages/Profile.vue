@@ -32,44 +32,34 @@
       <div class="container">
         <div class="button-container">
           <a href="#button" class="btn btn-primary btn-round btn-lg">Follow</a>
-          <a
-            href="#button"
-            class="btn btn-default btn-round btn-lg btn-icon"
-            rel="tooltip"
-            title="Follow me on Twitter"
-          >
-            <i class="fab fa-twitter"></i>
-          </a>
-          <a
-            href="#button"
-            class="btn btn-default btn-round btn-lg btn-icon"
-            rel="tooltip"
-            title="Follow me on Instagram"
-          >
-            <i class="fab fa-instagram"></i>
-          </a>
         </div>
 <!--        新的会议信息-->
-        <div class="row">
-          <div class="col-md-12 ml-auto mr-auto">
-            <h4 class="title text-center">News</h4>
-            <div v-for="value in objects" :key="value.meetingInfo">
-              {{value}}
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12 ml-auto mr-auto">
-            <div v-for="value in objects" :key="value.meetingInfo">
-              {{value}}
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12 ml-auto mr-auto">
-            <div v-for="value in objects" :key="value.meetingInfo2">
-              {{value}}
-            </div>
+<!--        <div class="row">-->
+<!--          <div class="col-md-12 ml-auto mr-auto">-->
+<!--            <h4 class="title text-center">News</h4>-->
+<!--            <div v-for="value in objects" :key="value.meetingInfo">-->
+<!--              {{value}}-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="row">-->
+<!--          <div class="col-md-12 ml-auto mr-auto">-->
+<!--            <div v-for="value in objects" :key="value.meetingInfo">-->
+<!--              {{value}}-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="row">-->
+<!--          <div class="col-md-12 ml-auto mr-auto">-->
+<!--            <div v-for="value in objects" :key="value.meetingInfo2">-->
+<!--              {{value}}-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+        <div class="section">
+          <div class="container">
+              <v-table></v-table>
+            <v-table></v-table>
           </div>
         </div>
       </div>
@@ -78,6 +68,7 @@
 </template>
 <script>
 import { Tabs, TabPane } from '@/components'
+import vTable from './Table'
 import store from './../store'
 
 export default {
@@ -85,7 +76,8 @@ export default {
   bodyClass: 'profile-page',
   components: {
     Tabs,
-    TabPane
+    TabPane,
+    vTable
   },
   data () {
     return {

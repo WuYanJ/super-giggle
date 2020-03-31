@@ -7,6 +7,7 @@ import Profile from '../pages/Profile.vue'
 import Landing from '../pages/Landing'
 import Meeting from '../pages/Meeting'
 import Workspace from '../pages/Workspace'
+import Line from '../pages/Line'
 import MainNavbar from '../layout/MainNavbar.vue'
 import MainFooter from '../layout/MainFooter.vue'
 import store from '../store'
@@ -90,6 +91,17 @@ export const router = new Router({
       meta: {
         requireAuth: true, // 需要登录权限
         title: 'Workspace' }
+    },
+    {
+      path: '/line',
+      name: 'line',
+      components: { default: Line, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      },
+      meta: {
+        title: 'Line' }
     }
   ]
 })

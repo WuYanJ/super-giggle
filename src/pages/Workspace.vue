@@ -35,25 +35,28 @@
 <!--以上是按钮组-->
               <div class="section">
                 <div class="container">
-                  <div class="row applyRow">
-                    <div class="col-md-3 meetingBlock">
-                      <div v-for="value in objects" :key="value.abbrName">
-                        {{value}}
-                      </div>
-                    </div>
-                    <div class="col-md-3 meetingBlock" v-for="value in objects" :key="value.abbrName">
-                      {{value}}
-                    </div>
-                    <div class="col-md-3 meetingBlock">
-                      <div>qazxcfew</div>
-                    </div>
-                    <div class="col-md-3 meetingBlock">
-                      <div>qazxcfew</div>
-                    </div>
-                    <div class="col-md-3 meetingBlock">
-                      <div>qazxcfew</div>
-                    </div>
-                  </div>
+                    <v-table></v-table>
+                  <v-table></v-table>
+                  <v-line></v-line>
+<!--                  <div class="row applyRow">-->
+<!--                    <div class="col-md-3 meetingBlock">-->
+<!--                      <div v-for="value in objects" :key="value.abbrName">-->
+<!--                        {{value}}-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-md-3 meetingBlock" v-for="value in objects" :key="value.abbrName">-->
+<!--                      {{value}}-->
+<!--                    </div>-->
+<!--                    <div class="col-md-3 meetingBlock">-->
+<!--                      <div>qazxcfew</div>-->
+<!--                    </div>-->
+<!--                    <div class="col-md-3 meetingBlock">-->
+<!--                      <div>qazxcfew</div>-->
+<!--                    </div>-->
+<!--                    <div class="col-md-3 meetingBlock">-->
+<!--                      <div>qazxcfew</div>-->
+<!--                    </div>-->
+<!--                  </div>-->
                 </div>
               </div>
             </div>
@@ -65,6 +68,8 @@
 import { Tabs, TabPane, Button } from '@/components'
 import Navigation from './components/Navigation'
 import TabsSection from './components/Tabs'
+import vTable from './Table'
+import vLine from './Line'
 // Connection conn = DriverManager.getConnection('jdbc:h2:mem:testdb', 'sa', '');
 
 export default {
@@ -73,6 +78,8 @@ export default {
   components: {
     Tabs,
     TabPane,
+    vTable,
+    vLine,
     [Button.name]: Button,
     Navigation,
     TabsSection

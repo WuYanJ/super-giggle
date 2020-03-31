@@ -11,12 +11,15 @@ import Vuetify from 'vuetify'
 import Vuelidate from 'vuelidate'
 import VueWechatTitle from 'vue-wechat-title'
 import 'babel-polyfill'
+import 'vuetify/dist/vuetify.min.css'
 
 Vue.use(VueWechatTitle)
 Vue.use(NowUiKit)
 Vue.use(Vuetify)
 Vue.use(Vuelidate)
 Vue.use(ElementUI)
+
+export default new Vuetify({ })
 
 // axios 配置
 var axios = require('axios')
@@ -68,6 +71,7 @@ new Vue({
   el: '#app',
   router,
   store,
+  vuetify: new Vuetify(),
   components: { App },
   template: '<App/>'
 })
