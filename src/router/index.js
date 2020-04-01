@@ -7,7 +7,10 @@ import Profile from '../pages/Profile.vue'
 import Landing from '../pages/Landing'
 import Meeting from '../pages/Meeting'
 import Workspace from '../pages/Workspace'
+import AdminApprove from '../pages/AdminApprove'
 import Line from '../pages/Line'
+import Contribute from '../pages/Contribute'
+import Invite from '../pages/Invite'
 import MainNavbar from '../layout/MainNavbar.vue'
 import MainFooter from '../layout/MainFooter.vue'
 import store from '../store'
@@ -102,6 +105,36 @@ export const router = new Router({
       },
       meta: {
         title: 'Line' }
+    },
+    {
+      path: '/adminApprove',
+      name: 'adminApprove',
+      components: { default: AdminApprove, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      },
+      meta: { title: 'AdminApprove' }
+    },
+    {
+      path: '/contribute',
+      name: 'contribute',
+      components: { default: Contribute, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      },
+      meta: { title: 'Contribute' }
+    },
+    {
+      path: '/invite',
+      name: 'invite',
+      components: { default: Invite, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      },
+      meta: { title: 'Invite' }
     }
   ]
 })

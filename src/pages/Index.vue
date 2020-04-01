@@ -13,6 +13,41 @@
         </div>
       </div>
     </div>
+    <div class="section section-basic">
+      <div class="container">
+        <h2 class="title">
+          Conference News
+        </h2>
+        <v-app>
+          <v-expansion-panels>
+            <v-expansion-panel
+              v-for="(item,i) in 5"
+              :key="i"
+            >
+              <v-expansion-panel-header>Conference</v-expansion-panel-header>
+              <v-expansion-panel-content>
+               Abbr Name:
+                </v-expansion-panel-content>
+              <v-expansion-panel-content>
+                Full Name:
+              </v-expansion-panel-content>
+              <v-expansion-panel-content>
+                Date:
+              </v-expansion-panel-content>
+              <v-expansion-panel-content>
+                Submit Due Date:
+              </v-expansion-panel-content>
+              <v-expansion-panel-content>
+                Result Release Date:
+              </v-expansion-panel-content>
+              <v-expansion-panel-content>
+                Spot:
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-app>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -43,6 +78,17 @@ export default {
     NucleoIconsSection,
     ExamplesSection,
     DownloadSection
+  },
+  data () {
+    return {
+      count: 0
+    }
+  },
+  methods: {
+    load () {
+      if(this.count < 22)
+      this.count += 2
+    }
   }
 }
 </script>

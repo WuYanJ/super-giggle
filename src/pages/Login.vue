@@ -48,6 +48,12 @@
           </card>
         </div>
       </div>
+      <alert type="success" dismissible>
+        <div class="alert-icon">
+          <i class="now-ui-icons ui-2_like"></i>
+        </div>
+        <strong>Well done!</strong> You successfully signed in!
+      </alert>
     </div>
     <main-footer></main-footer>
   </div>
@@ -55,7 +61,8 @@
 <script>
 import store from './../store'
 import { validationMixin } from 'vuelidate'
-import { Card, Button, FormGroupInput } from '@/components'
+import { Card, Button, FormGroupInput, Alert } from '@/components'
+
 import MainFooter from '@/layout/MainFooter'
 export default {
   name: 'login-page',
@@ -64,6 +71,7 @@ export default {
   components: {
     Card,
     MainFooter,
+    Alert,
     [Button.name]: Button,
     [FormGroupInput.name]: FormGroupInput
   },
@@ -73,7 +81,8 @@ export default {
         username: '',
         password: ''
       },
-      loading: false
+      loading: false,
+      showAlert: false
     }
   },
   methods: {

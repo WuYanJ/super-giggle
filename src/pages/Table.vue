@@ -25,38 +25,33 @@
 
               <v-list dense>
                 <v-list-item>
-                  <v-list-item-content>Calories:</v-list-item-content>
-                  <v-list-item-content class="align-end">{{ item.calories }}</v-list-item-content>
+                  <v-list-item-content>Abbr Name</v-list-item-content>
+                  <v-list-item-content class="align-end">{{ item.abbrNname }}</v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
-                  <v-list-item-content>Fat:</v-list-item-content>
-                  <v-list-item-content class="align-end">{{ item.fat }}</v-list-item-content>
+                  <v-list-item-content>Full Name</v-list-item-content>
+                  <v-list-item-content class="align-end">{{ item.fullName }}</v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
-                  <v-list-item-content>Carbs:</v-list-item-content>
-                  <v-list-item-content class="align-end">{{ item.carbs }}</v-list-item-content>
+                  <v-list-item-content>Date</v-list-item-content>
+                  <v-list-item-content class="align-end">{{ item.date }}</v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
-                  <v-list-item-content>Protein:</v-list-item-content>
-                  <v-list-item-content class="align-end">{{ item.protein }}</v-list-item-content>
+                  <v-list-item-content>Submit Due Date</v-list-item-content>
+                  <v-list-item-content class="align-end">{{ item.submitDueDate }}</v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
-                  <v-list-item-content>Sodium:</v-list-item-content>
-                  <v-list-item-content class="align-end">{{ item.sodium }}</v-list-item-content>
+                  <v-list-item-content>Result Release Date</v-list-item-content>
+                  <v-list-item-content class="align-end">{{ item.resultReleaseDate }}</v-list-item-content>
                 </v-list-item>
 
                 <v-list-item>
-                  <v-list-item-content>Calcium:</v-list-item-content>
-                  <v-list-item-content class="align-end">{{ item.calcium }}</v-list-item-content>
-                </v-list-item>
-
-                <v-list-item>
-                  <v-list-item-content>Iron:</v-list-item-content>
-                  <v-list-item-content class="align-end">{{ item.iron }}</v-list-item-content>
+                  <v-list-item-content>Spot</v-list-item-content>
+                  <v-list-item-content class="align-end">{{ item.spot }}</v-list-item-content>
                 </v-list-item>
               </v-list>
             </v-card>
@@ -75,44 +70,40 @@ export default {
     itemsPerPage: 4,
     items: [
       {
-        name: 'Frozen Yogurt',
-        calories: 159,
-        fat: 6.0,
-        carbs: 24,
-        protein: 4.0,
-        sodium: 87,
-        calcium: '14%',
-        iron: '1%'
+        name: 'Conference1',
+        abbrNname: 'Frozen Yogurt',
+        fullName: 159,
+        date: 6.0,
+        submitDueDate: 24,
+        resultReleaseDate: 4.0,
+        spot: 87
       },
       {
         name: 'Ice cream sandwich',
-        calories: 237,
-        fat: 9.0,
-        carbs: 37,
-        protein: 4.3,
-        sodium: 129,
-        calcium: '8%',
-        iron: '1%'
+        abbrNname: 'Frozen Yogurt',
+        fullName: 159,
+        date: 6.0,
+        submitDueDate: 24,
+        resultReleaseDate: 4.0,
+        spot: 87
       },
       {
         name: 'Eclair',
-        calories: 262,
-        fat: 16.0,
-        carbs: 23,
-        protein: 6.0,
-        sodium: 337,
-        calcium: '6%',
-        iron: '7%'
+        abbrNname: 'Frozen Yogurt',
+        fullName: 159,
+        date: 6.0,
+        submitDueDate: 24,
+        resultReleaseDate: 4.0,
+        spot: 87
       },
       {
         name: 'Cupcake',
-        calories: 305,
-        fat: 3.7,
-        carbs: 67,
-        protein: 4.3,
-        sodium: 413,
-        calcium: '3%',
-        iron: '8%'
+        abbrNname: 'Frozen Yogurt',
+        fullName: 159,
+        date: 6.0,
+        submitDueDate: 24,
+        resultReleaseDate: 4.0,
+        spot: 87
       }
     ]
   })

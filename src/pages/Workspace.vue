@@ -14,28 +14,16 @@
         <div class="section">
             <div class="container" >
                 <div class="button-container">
-                    <a href="#button" class="btn btn-primary btn-round btn-lg">Follow</a>
-                    <a
-                            href="#button"
-                            class="btn btn-default btn-round btn-lg btn-icon"
-                            rel="tooltip"
-                            title="Follow me on Twitter"
-                    >
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a
-                            href="#button"
-                            class="btn btn-default btn-round btn-lg btn-icon"
-                            rel="tooltip"
-                            title="Follow me on Instagram"
-                    >
-                        <i class="fab fa-instagram"></i>
-                    </a>
+                    <a href="/#/meeting" class="btn btn-primary btn-round btn-lg">New A Meeting</a>
                 </div>
 <!--以上是按钮组-->
               <div class="section">
                 <div class="container">
-                    <v-table></v-table>
+                  <h3 class="title">As PC Member</h3>
+                  <v-table></v-table>
+                  <h3 class="title">As Chair</h3>
+                  <v-table></v-table>
+                  <h3 class="title">As Author</h3>
                   <v-table></v-table>
                   <v-line></v-line>
 <!--                  <div class="row applyRow">-->
