@@ -61,8 +61,14 @@
         <nav-link to="/profile">
           <i class="now-ui-icons business_chart-pie-36"></i> Profile
         </nav-link>
-        <nav-link to="/meeting">
+        <nav-link to="/workspace">
+          <i class="now-ui-icons business_chart-pie-36"></i> My Workspace
+        </nav-link>
+        <nav-link to="/meeting" v-if="userName!=='admin'">
           <i class="now-ui-icons business_chart-pie-36"></i> New Meeting
+        </nav-link>
+        <nav-link to="/adminApprove" v-if="userName==='admin'">
+          <i class="now-ui-icons business_chart-pie-36"></i> Approve Meeting
         </nav-link>
       <div
         class="dropdown-item"
