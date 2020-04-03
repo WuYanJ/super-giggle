@@ -10,6 +10,7 @@
 <!--          <img class="n-logo" src="../../src/assets/logo.png" alt="" />-->
           <h1 class="h1-seo">Paper Forum.</h1>
           <h3>A complete Paper submission and review ecology</h3>
+
         </div>
       </div>
     </div>
@@ -21,27 +22,30 @@
         <v-app>
           <v-expansion-panels>
             <v-expansion-panel
-              v-for="(item,i) in 5"
+              v-for="(item,i) in conferences"
               :key="i"
             >
-              <v-expansion-panel-header>Conference</v-expansion-panel-header>
+              <v-expansion-panel-header>Conference: {{item.abbrName}} —— Chair: {{item.chair}}</v-expansion-panel-header>
               <v-expansion-panel-content>
-               Abbr Name:
-                </v-expansion-panel-content>
-              <v-expansion-panel-content>
-                Full Name:
+                Chair: {{item.chair}}
               </v-expansion-panel-content>
               <v-expansion-panel-content>
-                Date:
+                Abbr Name: {{item.abbrName}}
               </v-expansion-panel-content>
               <v-expansion-panel-content>
-                Submit Due Date:
+                full Name: {{item.fullName}}
               </v-expansion-panel-content>
               <v-expansion-panel-content>
-                Result Release Date:
+                Date: {{item.date}}
               </v-expansion-panel-content>
               <v-expansion-panel-content>
-                Spot:
+                Submit Due Date: {{item.submitDueDate}}
+              </v-expansion-panel-content>
+              <v-expansion-panel-content>
+                Result Release Date: {{item.resultReleaseDate}}
+              </v-expansion-panel-content>
+              <v-expansion-panel-content>
+                Spot: {{ item.spot}}
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -78,6 +82,41 @@ export default {
     NucleoIconsSection,
     ExamplesSection,
     DownloadSection
+  },
+  data () {
+    const generateConference = _ => {
+      const conferences = [];
+      this.$axios.post('/allMeetings')
+        .then(resp => {
+          var response = resp.data
+          response.forEach((meeting,index) => {
+            var obj={
+              meeting,
+              index
+            }
+            conferences.push({
+              chair : meeting.chair,
+              pcMembers : meeting.pcMembers,
+              abbrName : meeting.abbrName,
+              fullName : meeting.fullName,
+              date : meeting.date,
+              spot : meeting.spot,
+              submitDueDate : meeting.submitDueDate,
+              resultReleaseDate : meeting.resultReleaseDate
+            });
+          })
+          return conferences;
+        })
+        .catch(error =>{
+          console.log(error)
+          alert('get meetings error')
+        })
+      return conferences;
+    };
+    return {
+      // conferences: generateConference(),
+      conferences: generateConference(),
+    }
   }
 }
 </script>
