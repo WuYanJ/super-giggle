@@ -105,7 +105,7 @@ export default {
               this.$store.state.username = this.loginForm.username
               localStorage.setItem('userName', this.loginForm.username)
               localStorage.setItem('now', true)
-              this.$router.push({path: '/meeting'})
+              this.$router.replace({path: '/workspace'})
               location.reload()
             } else {
               alert(resp.data)

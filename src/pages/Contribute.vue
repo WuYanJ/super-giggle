@@ -8,8 +8,8 @@
         <div class="col-md-5 ml-auto mr-auto">
           <card plain>
             <h3 class="title">Contribute</h3>
-            <el-form :model="contribute" :rules="rules" class="register_container" label-position="left"
-                     label-width="0px" v-loading="loading" :ref="contribute">
+            <el-form :model="contribute" class="register_container" label-position="left"
+                     label-width="0px" :ref="contribute">
               <el-form-item>
               <el-input :disabled="true" placeholder="会议名称：xxxx">
               </el-input>

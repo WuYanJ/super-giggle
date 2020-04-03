@@ -5,15 +5,18 @@
     ></div>
     <div class="content">
       <div class="container">
+
         <div class="col-md-12 ml-auto mr-auto">
           <card plain >
             <h1 class="title">Invite</h1>
             <p style="text-align: center; margin: 0 0 20px">邀请数据库中已注册用户成为该会议的 PC Member </p>
+            <br>
+            <br>
             <div class="col-md-6 ml-auto mr-auto" >
               <v-expansion-panels>
                 <v-expansion-panel
                 >
-                  <v-expansion-panel-header>Conference Info</v-expansion-panel-header>
+                  <v-expansion-panel-header>{{meetingName}}</v-expansion-panel-header>
                   <v-expansion-panel-content>
                     Abbr Name:
                   </v-expansion-panel-content>
@@ -35,16 +38,15 @@
                 </v-expansion-panel>
               </v-expansion-panels>
             </div>
+<!--            穿梭框部分-->
             <div class="col-md-12 ml-auto mr-auto" >
               <el-transfer
                 style="text-align: left;display: inline-block"
-                v-model="value"
+                v-model="selectList"
                 filterable
-                :left-default-checked="[2, 3]"
-                :right-default-checked="[1]"
                 :render-content="renderFunc"
-                :titles="['Source', 'Target']"
-                :button-texts="['Delete', 'Select']"
+                :titles="['All users', 'PC member']"
+                :button-texts="['delete', 'select']"
                 :format="{
                 noChecked: '${total}',
                 hasChecked: '${checked}/${total}'}"
@@ -69,21 +71,34 @@
     data() {
       const generateData = _ => {
         const data = [];
-        for (let i = 1; i <= 15; i++) {
-          data.push({
-            key: i,
-            label: `备选项 ${ i }`,
-            disabled: i % 4 === 0
-          });
-        }
+        this.$axios.post('/allUsers')
+          .then(resp => {
+            var response = resp.data
+            response.forEach((username, index) => {
+              var obj={
+                username,
+                index
+              }
+              data.push({
+                label: username,
+                key: username, // 无奈之举！后续可以把 key 还原为 index，通过 index map 到 label
+              });
+            })
+            return data;
+          })
+          .catch(error =>{
+            console.log(error)
+            alert('get users error')
+          })
         return data;
       };
+
       return {
+        meetingName: 'AAA',
         data: generateData(),
-        value: [1],
-        value4: [1],
+        selectList: [], // selectList: [1], 效果是第2个条目自动在右边 => selectList v-model
         renderFunc(h, option) {
-          return'<span>{ options.key } - { options.label }</span>';
+          return <span> { option.key } - { option.label }</span>;
         }
       };
     },
@@ -92,8 +107,16 @@
         console.log(value, direction, movedKeys);
       },
       invite() {
-        this.$axios.post('/invite')//未实现
+        this.$axios.post('/invite',{
+          meetingName: this.meetingName,
+          pcMemberNames: this.selectList,
+        })//未实现
           .then(resp => {
+            if (resp.status === 200 && resp.data.hasOwnProperty('abbrName')) {
+              alert('successful Invitation')
+            } else {
+              alert('invite error')
+            }
           })
           .catch(error => {
             console.log(error)

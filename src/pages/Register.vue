@@ -194,7 +194,7 @@ export default {
               if (resp.status === 200 && resp.data.hasOwnProperty('id')) {
                 // 跳转到login
                 alert('successful registration')
-                this.$router.replace('/login')
+                this.$router.push('/login')
               } else {
                 alert('register error')
               }

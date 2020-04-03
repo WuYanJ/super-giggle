@@ -78,17 +78,6 @@ export default {
     NucleoIconsSection,
     ExamplesSection,
     DownloadSection
-  },
-  data () {
-    return {
-      count: 0
-    }
-  },
-  methods: {
-    load () {
-      if(this.count < 22)
-      this.count += 2
-    }
   }
 }
 </script>

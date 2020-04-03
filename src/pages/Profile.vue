@@ -68,7 +68,7 @@
 </template>
 <script>
 import { Tabs, TabPane } from '@/components'
-import vTable from './Table'
+import vTable from './components/Table'
 import store from './../store'
 
 export default {

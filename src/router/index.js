@@ -4,10 +4,11 @@ import Index from '../pages/Index'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
 import Profile from '../pages/Profile.vue'
-import Landing from '../pages/Landing'
-import Meeting from '../pages/Meeting'
+import AboutUs from '../pages/AboutUs'
+import ApplyMeeting from '../pages/ApplyMeeting'
 import Workspace from '../pages/Workspace'
-import Line from '../pages/Line'
+import AdminApprove from '../pages/AdminApprove'
+import TimeLine from '../pages/components/TimeLine'
 import Contribute from '../pages/Contribute'
 import Invite from '../pages/Invite'
 import MainNavbar from '../layout/MainNavbar.vue'
@@ -30,14 +31,14 @@ export const router = new Router({
       meta: { title: 'Homepage' }
     },
     {
-      path: '/landing',
-      name: 'landing',
-      components: { default: Landing, header: MainNavbar, footer: MainFooter },
+      path: '/aboutUs',
+      name: 'aboutUs',
+      components: { default: AboutUs, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
       },
-      meta: { title: 'Landing' }
+      meta: { title: 'AboutUs' }
     },
     {
       path: '/login',
@@ -58,17 +59,18 @@ export const router = new Router({
       meta: { title: 'Register' }
     },
     {
-      path: '/meeting',
-      name: 'meeting',
-      components: { default: Meeting, header: MainNavbar, footer: MainFooter },
+      path: '/applyMeeting',
+      name: 'applyMeeting',
+      components: { default: ApplyMeeting, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
-      },
-      meta: {
-        requireAuth: true, // 需要登录权限
-        title: 'Meeting'
       }
+      // ,
+      // meta: {
+      //   requireAuth: true, // 需要登录权限
+      //   title: 'ApplyMeeting'
+      // }
     },
     {
       path: '/profile',
@@ -95,15 +97,25 @@ export const router = new Router({
         title: 'Workspace' }
     },
     {
-      path: '/line',
-      name: 'line',
-      components: { default: Line, header: MainNavbar, footer: MainFooter },
+      path: '/timeLine',
+      name: 'timeLine',
+      components: { default: TimeLine, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
       },
       meta: {
         title: 'Line' }
+    },
+    {
+      path: '/adminApprove',
+      name: 'adminApprove',
+      components: { default: AdminApprove, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      },
+      meta: { title: 'AdminApprove' }
     },
     {
       path: '/contribute',

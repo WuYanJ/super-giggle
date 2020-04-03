@@ -15,89 +15,15 @@
         <div class="section">
             <div class="container" >
                 <div class="button-container">
-                    <a href="/#/meeting" class="btn btn-primary btn-round btn-lg">New A Meeting</a>
+                  <router-link to="applyMeeting">
+                    <p class="btn btn-primary btn-round btn-lg">New A Meeting</p>
+                  </router-link>
                 </div>
-<!--以上是按钮组-->
-              <div class="section" v-if="userName!=='admin'">
-                <div class="container">
-                  <h3 class="title">YOU ARE INVITED IN :</h3>
-                  <v-app>
-                    <v-container fluid>
-                      <v-data-iterator
-                        :items="items"
-                        :items-per-page.sync="itemsPerPage"
-                        hide-default-footer
-                      >
 
-                        <template v-slot:default="props">
-                          <v-row>
-                            <v-col
-                              v-for="item in props.items"
-                              :key="item.name"
-                              cols="12"
-                              sm="6"
-                              md="4"
-                              lg="3"
-                            >
-                              <v-card>
-                                <v-card-title class="subheading font-weight-bold">conference</v-card-title>
-
-                                <v-divider></v-divider>
-
-                                <v-list dense>
-                                  <v-list-item>
-                                    <v-list-item-content>Abbr Name</v-list-item-content>
-                                    <v-list-item-content class="align-end">{{ item.abbrName }}</v-list-item-content>
-                                  </v-list-item>
-
-                                  <v-list-item>
-                                    <v-list-item-content>Full Name</v-list-item-content>
-                                    <v-list-item-content class="align-end">{{ item.fullName }}</v-list-item-content>
-                                  </v-list-item>
-
-                                  <v-list-item>
-                                    <v-list-item-content>Date</v-list-item-content>
-                                    <v-list-item-content class="align-end">{{ item.date }}</v-list-item-content>
-                                  </v-list-item>
-
-                                  <v-list-item>
-                                    <v-list-item-content>Submit Due Date</v-list-item-content>
-                                    <v-list-item-content class="align-end">{{ item.submitDueDate }}</v-list-item-content>
-                                  </v-list-item>
-
-                                  <v-list-item>
-                                    <v-list-item-content>Result Release Date</v-list-item-content>
-                                    <v-list-item-content class="align-end">{{ item.resultReleaseDate }}</v-list-item-content>
-                                  </v-list-item>
-
-                                  <v-list-item>
-                                    <v-list-item-content>Spot</v-list-item-content>
-                                    <v-list-item-content class="align-end">{{ item.spot }}</v-list-item-content>
-                                  </v-list-item>
-                                </v-list>
-                                <n-button type="neutral" round size="lg" v-on:click="approve()">Approve</n-button>
-                              </v-card>
-                            </v-col>
-                          </v-row>
-                        </template>
-                      </v-data-iterator>
-                    </v-container>
-                  </v-app>
-                  <h3 class="title">AS PC MEMBER</h3>
-                  <v-table></v-table>
-                  <h3 class="title">AS CHAIR</h3>
-                  <v-table></v-table>
-                  <h3 class="title">AS AUTHOR</h3>
-                  <v-table></v-table>
-                  <v-line></v-line>
-                </div>
-              </div>
-              <div class="section" v-if="userName==='admin'">
+              <div class="section">
                 <div class="container" >
-                  <button v-on:click="submit()">test</button>
-                  <!--以上是按钮组-->
-                  <p class="title">{{response1}}</p>
-                  <!--            <v-table ></v-table>-->
+<!--                  <button v-on:click="submit()">test</button>-->
+<!--                  <p class="title">{{response1}}</p>-->
                   <v-app>
                     <v-container fluid>
                       <v-data-iterator
@@ -109,12 +35,12 @@
                         <template v-slot:default="props">
                           <v-row>
                             <v-col
-                              v-for="item in props.items"
+                              v-for="(item,itemIndex) in props.items"
                               :key="item.name"
                               cols="12"
                               sm="6"
                               md="4"
-                              lg="3"
+                              lg="6"
                             >
                               <v-card>
                                 <v-card-title class="subheading font-weight-bold">conference</v-card-title>
@@ -152,7 +78,7 @@
                                     <v-list-item-content class="align-end">{{ item.spot }}</v-list-item-content>
                                   </v-list-item>
                                 </v-list>
-                                <n-button type="neutral" round size="lg" v-on:click="approve()">Approve</n-button>
+                                <n-button type="neutral" round size="lg" v-on:click="del(itemIndex)">Approve</n-button>
                               </v-card>
                             </v-col>
                           </v-row>
@@ -163,7 +89,6 @@
                 </div>
               </div>
             </div>
-
             </div>
         </div>
 </template>
@@ -172,8 +97,8 @@
 import { Tabs, TabPane, Button } from '@/components'
 import Navigation from './components/Navigation'
 import TabsSection from './components/Tabs'
-import vTable from './Table'
-import vLine from './Line'
+import vTable from './components/Table'
+import vLine from './components/TimeLine'
 import store from './../store'
 // Connection conn = DriverManager.getConnection('jdbc:h2:mem:testdb', 'sa', '');
 
@@ -232,10 +157,16 @@ export default {
   },
   methods: {
     submit () {
-      this.$axios.post('/meetingApprove')
+      this.$axios.post('/meetingIApplied',store.state.userName)
         .then(resp => {
-          this.response1 = resp.data.length
-          this.items[1].abbrName = resp.data[1].abbrName
+          for(let i = 0;i < resp.data.length;i ++){
+            this.items[i].abbrName = resp.data[i].abbrName
+            this.items[i].fullName = resp.data[i].fullName
+            this.items[i].date = resp.data[i].date
+            this.items[i].spot = resp.data[i].spot
+            this.items[i].submitDueDate = resp.data[i].submitDueDate
+            this.items[i].resultReleaseDate = resp.data[i].resultReleaseDate
+          }
         })
         .catch(error => {
           console.log(error)
@@ -249,6 +180,9 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+    del (itemIndex) {
+      this.items.splice(itemIndex,1)
     }
   }
 }

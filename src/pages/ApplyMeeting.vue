@@ -54,7 +54,6 @@
                             <div class="card-footer text-center">
                                 <a
                                         v-on:click="submit()"
-                                        href="/workspace"
                                         class="btn btn-primary btn-round btn-lg btn-block"
                                 >Ready To Apply</a
                                 >
@@ -83,6 +82,7 @@ import { Card, Button, FormGroupInput, Checkbox } from '@/components'
 import MainFooter from '@/layout/MainFooter'
 import JavascriptComponents from './components/JavascriptComponents'
 import { DatePicker } from 'element-ui'
+import store from '../store'
 
 export default {
   name: 'meeting',
@@ -140,6 +140,7 @@ export default {
   methods: {
     submit () {
       this.$axios.post('/meeting', {
+        chair: store.state.userName,
         abbrName: this.applyMeetingForm.abbrName,
         fullName: this.applyMeetingForm.fullName,
         date: this.applyMeetingForm.date,
@@ -150,11 +151,11 @@ export default {
         .then(resp => {
           if (resp.status === 200 && resp.data.hasOwnProperty('abbrName')) {
             alert('successful application')
-            this.$router.push({path: '/workspace'})
+            this.$router.replace({path: '/workspace'})
             this.$store.commit('login', resp.data)
           } else if (resp.status === 200 && resp.data.hasOwnProperty('error')) {
             alert('please login first')
-            this.$router.push({path: '/login'})
+            this.$router.replace({path: '/login'})
           } else {
             alert('apply error')
           }

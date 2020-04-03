@@ -54,13 +54,13 @@ axios.interceptors.response.use(
     console.log(error.response)
     if (error) {
       // 清除token 如果不是register/login, 跳转至login
-      store.commit('logout')
-      router.currentRoute.path !== '/login' &&
-      router.currentRoute.path !== '/register' &&
-      router.replace({
-        path: '/login',
-        query: {redirect: router.currentRoute.path}
-      })
+      //store.commit('logout')//要改回来哦！注释掉方便调试！
+      // router.currentRoute.path !== '/login' &&//要改回来哦！注释掉方便调试！
+      // router.currentRoute.path !== '/register' &&//要改回来哦！注释掉方便调试！
+      // router.replace({//要改回来哦！注释掉方便调试！
+      //   path: '/login',//要改回来哦！注释掉方便调试！
+      //   query: {redirect: router.currentRoute.path}//要改回来哦！注释掉方便调试！
+      // })//要改回来哦！注释掉方便调试！
     }
     return Promise.reject(error.response.data)
   }
