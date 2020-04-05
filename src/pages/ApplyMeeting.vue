@@ -140,9 +140,10 @@ export default {
   methods: {
     submit () {
       this.$axios.post('/meeting', {
-        chair: store.state.userName,
         abbrName: this.applyMeetingForm.abbrName,
         fullName: this.applyMeetingForm.fullName,
+        chair: store.state.userName,
+        pcMembers : null,
         date: this.applyMeetingForm.date,
         spot: this.applyMeetingForm.spot,
         submitDueDate: this.applyMeetingForm.submitDueDate,
@@ -152,7 +153,6 @@ export default {
           if (resp.status === 200 && resp.data.hasOwnProperty('abbrName')) {
             alert('successful application')
             this.$router.replace({path: '/workspace'})
-            this.$store.commit('login', resp.data)
           } else if (resp.status === 200 && resp.data.hasOwnProperty('error')) {
             alert('please login first')
             this.$router.replace({path: '/login'})

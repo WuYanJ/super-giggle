@@ -13,10 +13,6 @@
     </div>
     <div class="section">
       <div class="container" >
-        <button v-on:click="submit()">test</button>
-        <!--以上是按钮组-->
-        <p class="title">{{response1}}</p>
-        <!--            <v-table ></v-table>-->
         <h1 class="title">TO BE APPROVED</h1>
         <v-app>
           <v-container fluid>
@@ -102,59 +98,46 @@
       TabsSection
     },
     data () {
+      const generateConferenceNotApproved = _ => {
+        const conferences = [];
+        this.$axios.post('/meetingToBeApproved')
+          .then(resp => {
+            if(resp != null) {
+              var response = resp.data
+              response.forEach((meeting,index) => {
+                var obj={
+                  meeting,
+                  index
+                }
+                conferences.push({
+                  chair : meeting.chair,
+                  pcMembers : meeting.pcMembers,
+                  abbrName : meeting.abbrName,
+                  fullName : meeting.fullName,
+                  date : meeting.date,
+                  spot : meeting.spot,
+                  submitDueDate : meeting.submitDueDate,
+                  resultReleaseDate : meeting.resultReleaseDate
+                });
+              })
+              return conferences;
+            } else return null;
+          })
+          .catch(error =>{
+            console.log(error)
+            alert('get meetings to be approved error')
+          })
+        return conferences;
+      };
       return {
-        response1: 'hahaha',
         itemsPerPage: 4,
-        items: [
-          {
-            abbrName: 'AAA',
-            fullName: 'Jaoe',
-            date: '200',
-            spot: 'beng',
-            submitDueDate: 'haha',
-            resultReleaseDate: '23152',
-          },
-          {
-            abbrName: 'Frozen Yogurt',
-            fullName: 159,
-            date: 6.0,
-            spot: 87,
-            submitDueDate: 24,
-            resultReleaseDate: 4.0,
-          },
-          {
-            abbrName: 'Frozen Yogurt',
-            fullName: 159,
-            date: 6.0,
-            spot: 87,
-            submitDueDate: 24,
-            resultReleaseDate: 4.0,
-          }
-        ]
+        items: generateConferenceNotApproved()
       }
     },
     methods: {
-      submit () {
-        this.$axios.post('/meetingApprove')
-          .then(resp => {
-            this.response1 = resp.data.length
-            for(let i = 0;i < resp.data.length;i ++){
-              this.items[i].abbrName = resp.data[i].abbrName
-              this.items[i].fullName = resp.data[i].fullName
-              this.items[i].date = resp.data[i].date
-              this.items[i].spot = resp.data[i].spot
-              this.items[i].submitDueDate = resp.data[i].submitDueDate
-              this.items[i].resultReleaseDate = resp.data[i].resultReleaseDate
-            }
-          })
-          .catch(error => {
-            console.log(error)
-            alert('errorrrrrrrrrr')
-          })
-      },
       approve (item,itemIndex) {
         this.$axios.post('/approveMeeting', {
-          meetingAbbrName: item.abbrName
+          meetingFullName: item.fullName
         })//后端未实现
           .then(resp => {
             if (resp.status === 200 && resp.data.hasOwnProperty('abbrName')) {

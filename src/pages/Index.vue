@@ -10,7 +10,6 @@
 <!--          <img class="n-logo" src="../../src/assets/logo.png" alt="" />-->
           <h1 class="h1-seo">Paper Forum.</h1>
           <h3>A complete Paper submission and review ecology</h3>
-
         </div>
       </div>
     </div>
@@ -88,6 +87,7 @@ export default {
       const conferences = [];
       this.$axios.post('/allMeetings')
         .then(resp => {
+          if(resp != null) {
           var response = resp.data
           response.forEach((meeting,index) => {
             var obj={
@@ -106,6 +106,7 @@ export default {
             });
           })
           return conferences;
+          } else return null
         })
         .catch(error =>{
           console.log(error)

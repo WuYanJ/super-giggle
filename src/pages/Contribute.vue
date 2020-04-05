@@ -18,7 +18,7 @@
                 <el-input type="text" v-model="contribute.fileTitle"
                           auto-complete="off" placeholder="Title......"></el-input>
               </el-form-item>
-              <el-form-item prop="password">
+              <el-form-item prop="text">
                 <el-input type="textarea" v-model="contribute.abstract"
                           auto-complete="off" placeholder="Abstract......"></el-input>
               </el-form-item>
@@ -27,6 +27,12 @@
                 <el-upload
                   class="upload-demo"
                   drag
+                  :file-list="fileList"
+                  :on-preview="handlePreview"
+                  :on-remove="handleRemove"
+                  :before-remove="beforeRemove"
+                  :limit="3"
+                  :on-exceed="handleExceed"
                   action="https://jsonplaceholder.typicode.com/posts/"
                   multiple>
                   <i class="el-icon-upload"></i>
@@ -34,7 +40,6 @@
                   <div class="el-upload__tip" slot="tip">Caution: Only pdf files are permitted.</div>
                 </el-upload>
               </el-form-item>
-
 
               <div class="clearfix"></div>
             </el-form>
@@ -80,6 +85,9 @@
       },
       beforeRemove(file, fileList) {
         return this.$confirm(`确定移除 ${ file.name }？`);
+      },
+      submit (contribute) {
+
       }
     }
   }
