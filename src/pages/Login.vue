@@ -90,7 +90,7 @@ export default {
       this.$refs.loginForm.validate()
     },
     login () {
-      if (store.state.userName != null) {
+      if (store.state.userName != null) {//
         alert('已经登陆过了哥')
       } else {
         this.$axios.post('/login', {

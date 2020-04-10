@@ -7,8 +7,7 @@
             </parallax>
             <div class="content-center">
                 <div class="container">
-                  <h1 class="title"  v-if="userName!=='admin'">Workspace, handling meeting .</h1>
-                  <h1 class="title" v-if="userName==='admin'">Admin: Handle Meetings ! </h1>
+                  <h1 class="title" >Workspace, handling meeting .</h1>
                 </div>
             </div>
         </div>

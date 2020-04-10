@@ -13,6 +13,8 @@ import Contribute from '../pages/Contribute'
 import Invite from '../pages/Invite'
 import MainNavbar from '../layout/MainNavbar.vue'
 import MainFooter from '../layout/MainFooter.vue'
+
+import pdfTest from '../pages/pdfTest'
 import store from '../store'
 
 Vue.use(Router)
@@ -136,7 +138,17 @@ export const router = new Router({
         footer: { backgroundColor: 'black' }
       },
       meta: { title: 'Invite' }
-    }
+    },
+    {
+      path: '/pdf',
+      name: 'pdfTest',
+      components: { default: pdfTest },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: 'black' }
+      },
+      meta: { title: 'pdfTest' }
+    },
   ]
 })
 

@@ -8,19 +8,24 @@
                 <div class="col-md-5 ml-auto mr-auto">
                     <card type="login" plain>
                       <h3>Apply For A Meeting.</h3>
-                      <el-form ref="applyMeeting"
+                      <el-form ref="applyMeetingForm"
                                :inline="true"
+                               :rules="rules"
                                :model="applyMeetingForm"
+                               v-loading="loading"
                                class="demo-form-inline">
                         <el-form-item prop="abbrName" style=" margin-bottom: 5px">
                           Conference Name(abbr.)
                           <el-input v-model="applyMeetingForm.abbrName" label="Conference Name(abbr.)"
+
                                     placeholder="Conference Name(abbr.)"
                           ></el-input>
                         </el-form-item>
-                        <el-form-item prop="fullName" style=" margin-bottom: 5px">
+                        <el-form-item prop="fullName" style=" margin-bottom: 5px"
+                        >
                           Conference Name(formal)
                           <el-input v-model="applyMeetingForm.fullName" placeholder="Conference Name(formal)"
+
                                     class="input"></el-input>
                         </el-form-item>
                         <el-form-item prop="date" style="margin-bottom: 5px">
@@ -53,7 +58,7 @@
                         <template slot="raw-content">
                             <div class="card-footer text-center">
                                 <a
-                                        v-on:click="submit()"
+                                        v-on:click="submit(applyMeetingForm)"
                                         class="btn btn-primary btn-round btn-lg btn-block"
                                 >Ready To Apply</a
                                 >
@@ -98,6 +103,29 @@ export default {
     DatePicker
   },
   data () {
+    const dataValid = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('can\'t be empty'))
+      }
+      if (value === '') {
+        return callback(new Error('can\'t be empty'))
+      }
+      return callback()
+    }
+    const usernameValid = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('can\'t be empty'))
+      } else if (value === '') {
+        return callback(new Error('can\'t be empty'))
+      } else {
+        // eslint-disable-next-line no-useless-escape
+        let reg = /^[a-zA-Z\-][a-zA-Z0-9_\-]*$/
+        if (!reg.test(value)) {
+          return callback(new Error('只能包含字母，数字或两种特殊字符(-_)且只能以字母或-开头'))
+        }
+      }
+      return callback()
+    }
     return {
       applyMeetingForm: {
         // 表单对象
@@ -120,50 +148,68 @@ export default {
       },
       valid: false,
       abbrName: '',
-      abbrnameRules: [
-        v => !!v || 'Name is required',
-        v => (v && v.length <= 10) || 'Name must be less than 10 characters'
-      ],
-      fullName: '',
-      fullnameRules: [
-        v => !!v || 'Name is required',
-        v => (v && v.length <= 20) || 'Name must be less than 20 characters'
-      ],
-      email: '',
-      emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
-      ],
-      spots: ''
+      rules: {
+        abbrName: [
+          {required: true, message: 'fill in abbr', trigger: 'blur'},
+          {min: 5, max: 32},
+          {validator: usernameValid, trigger: 'blur'},
+          {validator: dataValid, trigger: 'blur'}
+        ],
+        fullName: [
+          {required: true, message: 'fill in abbr', trigger: 'blur'},
+          {min: 5, max: 32},
+          {validator: usernameValid, trigger: 'blur'},
+          {validator: dataValid, trigger: 'blur'}
+        ],
+        date: [
+          {required: true, message: 'fill in abbr', trigger: 'blur'},
+        ],
+        submitDueDate: [
+          {required: true, message: 'fill in abbr', trigger: 'blur'},
+        ],
+        resultReleaseDate: [
+          {required: true, message: 'fill in abbr', trigger: 'blur'},
+        ],
+        spot: [
+          {required: true, message: 'fill in abbr', trigger: 'blur'},
+        ]
+      },
+      loading: false
     }
   },
   methods: {
-    submit () {
-      this.$axios.post('/meeting', {
-        abbrName: this.applyMeetingForm.abbrName,
-        fullName: this.applyMeetingForm.fullName,
-        chair: store.state.userName,
-        pcMembers : null,
-        date: this.applyMeetingForm.date,
-        spot: this.applyMeetingForm.spot,
-        submitDueDate: this.applyMeetingForm.submitDueDate,
-        resultReleaseDate: this.applyMeetingForm.resultReleaseDate
+    submit (formName) {
+      this.$refs.applyMeetingForm.validate(valid => {
+        if (valid) {
+          this.$axios.post('/meeting', {
+            abbrName: this.applyMeetingForm.abbrName,
+            fullName: this.applyMeetingForm.fullName,
+            chair: store.state.userName,
+            pcMembers: null,
+            date: this.applyMeetingForm.date,
+            spot: this.applyMeetingForm.spot,
+            submitDueDate: this.applyMeetingForm.submitDueDate,
+            resultReleaseDate: this.applyMeetingForm.resultReleaseDate
+          })
+            .then(resp => {
+              if (resp.status === 200 && resp.data.hasOwnProperty('abbrName')) {
+                alert('successful application')
+                this.$router.replace({path: '/workspace'})
+              } else if (resp.status === 200 && resp.data.hasOwnProperty('error')) {
+                alert('please login first')
+                this.$router.replace({path: '/login'})
+              } else {
+                alert('apply error')
+              }
+            })
+            .catch(error => {
+              console.log(error)
+              alert('Meeting Has Been Applied')
+            })
+        } else {
+          alert('表单填写不完整')
+        }
       })
-        .then(resp => {
-          if (resp.status === 200 && resp.data.hasOwnProperty('abbrName')) {
-            alert('successful application')
-            this.$router.replace({path: '/workspace'})
-          } else if (resp.status === 200 && resp.data.hasOwnProperty('error')) {
-            alert('please login first')
-            this.$router.replace({path: '/login'})
-          } else {
-            alert('apply error')
-          }
-        })
-        .catch(error => {
-          console.log(error)
-          alert('Meeting Has Been Applied')
-        })
     }
   }
 }

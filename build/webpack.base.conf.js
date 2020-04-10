@@ -75,7 +75,16 @@ module.exports = {
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
       }
-    ]
+    ],
+    loaders: [{
+      test: /\.js$/,
+      loaders: ['babel?cacheDirectory'],
+      exclude: /node_modules\/(?!(apollo-client)\/).*/,
+      include: [
+        path.resolve(__dirname, '..', 'client'),
+        path.resolve(__dirname, '..', 'node_modules', 'apollo-client')
+      ]
+    }]
   },
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue

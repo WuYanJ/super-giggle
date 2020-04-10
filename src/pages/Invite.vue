@@ -92,7 +92,8 @@
               data.push({
                 label: username,
                 key: username, // 无奈之举！后续可以把 key 还原为 index，通过 index map 到 label
-                disabled: username === store.state.userName
+                disabled: username === store.state.userName || username === 'admin'
+
               });
             })
             return data;
@@ -100,6 +101,29 @@
           .catch(error =>{
             console.log(error)
             alert('get users error')
+          })
+
+        this.$axios.post('/alreadyInvitedUsers')
+          .then(resp => {
+            var response = resp.data
+
+            response.forEach((username, index) => {
+              var obj = {
+                username,
+                index
+              }
+              data.push({
+                label: username,
+                key: username, // 无奈之举！后续可以把 key 还原为 index，通过 index map 到 label
+                disabled: true
+
+              });
+            })
+
+            return data;
+          })
+          .catch(error =>{
+            console.log(error)
           })
         return data;
       };
@@ -140,6 +164,7 @@
       },
       invite() {
         this.$axios.post('/invite',{
+          chair: store.state.userName,
           currentMeeting: this.currentMeeting,
           pcMemberNames: this.selectList,
         })//未实现
