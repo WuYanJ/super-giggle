@@ -162,16 +162,16 @@ export default {
           {validator: dataValid, trigger: 'blur'}
         ],
         date: [
-          {required: true, message: 'fill in abbr', trigger: 'blur'},
+          {required: true, message: 'Date is required', trigger: 'blur'},
         ],
         submitDueDate: [
-          {required: true, message: 'fill in abbr', trigger: 'blur'},
+          {required: true, message: 'Submit Due Date is required', trigger: 'blur'},
         ],
         resultReleaseDate: [
-          {required: true, message: 'fill in abbr', trigger: 'blur'},
+          {required: true, message: 'Result Release Date is required', trigger: 'blur'},
         ],
         spot: [
-          {required: true, message: 'fill in abbr', trigger: 'blur'},
+          {required: true, message: 'Spot is required', trigger: 'blur'},
         ]
       },
       loading: false

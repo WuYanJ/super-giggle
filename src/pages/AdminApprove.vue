@@ -66,6 +66,7 @@
                         </v-list-item>
                       </v-list>
                       <n-button type="neutral" round size="lg" @click="approve(item,itemIndex)">Approve-{{item.abbrName}}</n-button>
+                      <n-button type="neutral" round size="lg" @click="reject(item,itemIndex)">Reject-{{item.abbrName}}</n-button>
                     </v-card>
                   </v-col>
                 </v-row>
@@ -125,8 +126,6 @@
                           <v-list-item-content class="align-end">{{ item.spot }}</v-list-item-content>
                         </v-list-item>
                       </v-list>
-                      <n-button type="neutral" round size="lg" @click="approve(item,itemIndex)">Approve-{{item.abbrName}}</n-button>
-                      <n-button type="neutral" round size="lg" @click="reject(item,itemIndex)">Reject-{{item.abbrName}}</n-button>
                     </v-card>
                   </v-col>
                 </v-row>
@@ -227,6 +226,7 @@
         alreadyApprovedMeetings: generateConferenceAlreadyApproved()
       }
     },
+
     methods: {
       approve (item,itemIndex) {
         this.$axios.post('/approveMeeting', {

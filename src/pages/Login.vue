@@ -105,7 +105,9 @@ export default {
               this.$store.state.username = this.loginForm.username
               localStorage.setItem('userName', this.loginForm.username)
               localStorage.setItem('now', true)
-              this.$router.replace({path: '/workspace'})
+              if(this.loginForm.username === 'admin'){
+                this.$router.replace({path: '/adminApprove'})
+              }else this.$router.replace({path: '/workspace'})
               location.reload()
             } else {
               alert(resp.data)

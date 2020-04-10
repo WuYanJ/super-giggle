@@ -10,7 +10,7 @@
           <card plain >
             <h1 class="title">Invite</h1>
             <p style="text-align: center; margin: 0 0 20px">邀请数据库中已注册用户成为该会议的 PC Member </p>
-            <p>{{currentMeeting}}</p>
+            <p>当前会议：{{currentMeeting}}</p>
             <br>
             <br>
             <div class="col-md-12 ml-auto mr-auto">
@@ -74,25 +74,24 @@
           })
           .catch(error => {
             console.log(error)
-            alert('get meetings error')
           })
         return conferences;
       };
 
       const generateData = _ => {
         const data = [];
-        this.$axios.post('/allUsers')
+        this.$axios.post('/notInvitedUsers')
           .then(resp => {
             var response = resp.data
-            response.forEach((username, index) => {
+            response.forEach((user, index) => {
               var obj={
-                username,
+                user,
                 index
               }
               data.push({
-                label: username,
-                key: username, // 无奈之举！后续可以把 key 还原为 index，通过 index map 到 label
-                disabled: username === store.state.userName || username === 'admin'
+                label: user.affiliation+"-"+user.region+"-"+user.email,
+                key: user.username, // 无奈之举！后续可以把 key 还原为 index，通过 index map 到 label
+                disabled: user.username === store.state.userName || user.username === 'admin'
 
               });
             })
@@ -103,23 +102,22 @@
             alert('get users error')
           })
 
-        this.$axios.post('/alreadyInvitedUsers')
+        this.$axios.post('/alreadyInvitedUsers',this.currentMeeting)
           .then(resp => {
             var response = resp.data
 
-            response.forEach((username, index) => {
+            response.forEach((user, index) => {
               var obj = {
-                username,
+                user,
                 index
               }
               data.push({
-                label: username,
-                key: username, // 无奈之举！后续可以把 key 还原为 index，通过 index map 到 label
+                label: user.username,
+                key: user.username, // 无奈之举！后续可以把 key 还原为 index，通过 index map 到 label
                 disabled: true
 
               });
             })
-
             return data;
           })
           .catch(error =>{

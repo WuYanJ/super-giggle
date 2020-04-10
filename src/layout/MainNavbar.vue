@@ -107,9 +107,25 @@ export default {
   },
   methods: {
     logout () {
-      this.$store.commit('logout')
-      this.$router.push({path: '/'})
-      location.reload()
+      this.$confirm('You want to logout?', 'Confirm', {
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: 'Logout!'
+        });
+        this.$store.commit('logout')
+        this.$router.push({path: '/'})
+        location.reload()
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: 'Cancelled'
+        });
+      });
+
     }
   }
 }

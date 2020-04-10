@@ -79,8 +79,7 @@
                                     <v-list-item-content class="align-end">{{ item.spot }}</v-list-item-content>
                                   </v-list-item>
                                 </v-list>
-                                <n-button type="neutral" round size="lg" v-on:click="allowContribute(i)">Allow Contribute</n-button>
-                                <n-button type="neutral" round size="lg" v-on:click="reject(i)">Reject</n-button>
+                                <n-button type="neutral" round size="lg" v-on:click="allowContribute(item,i)">Allow Contribute</n-button>
                               </v-card>
                             </router-link>
                           </v-col>
@@ -217,7 +216,6 @@
                                     <v-list-item-content class="align-end">{{ item.spot }}</v-list-item-content>
                                   </v-list-item>
                                 </v-list>
-                                <n-button type="neutral" round size="lg" v-on:click="del(i)">Approve</n-button>
                               </v-card>
                               </router-link>
                             </v-col>
@@ -284,7 +282,6 @@
                                   <v-list-item-content class="align-end">{{ item.spot }}</v-list-item-content>
                                 </v-list-item>
                               </v-list>
-                              <n-button type="neutral" round size="lg" v-on:click="del(i)">Approve</n-button>
                             </v-card>
                           </v-col>
                         </v-row>
@@ -350,7 +347,6 @@
                                   <v-list-item-content class="align-end">{{ item.spot }}</v-list-item-content>
                                 </v-list-item>
                               </v-list>
-                              <n-button type="neutral" round size="lg" v-on:click="del(i)">Approve</n-button>
                             </v-card>
                           </v-col>
                         </v-row>
@@ -413,7 +409,6 @@ export default {
         })
         .catch(error =>{
           console.log(error)
-          alert('get meetings error')
         })
       return conferences;
     };
@@ -445,7 +440,6 @@ export default {
         })
         .catch(error =>{
           console.log(error)
-          alert('get meetings error')
         })
       return conferences;
     };
@@ -477,7 +471,6 @@ export default {
         })
         .catch(error =>{
           console.log(error)
-          alert('get meetings error')
         })
       return conferences;
     };
@@ -509,67 +502,26 @@ export default {
         })
         .catch(error =>{
           console.log(error)
-          alert('get meetings error')
         })
       return conferences;
     };
 
     return {
       userName: store.state.userName,
-      router: 'login',
+      router: '',
       itemsPerPage: 4,
       myConferences: generateAppliedConference(),
-      invitedConferences: generateAppliedConference(),
+      invitedConferences: generateInvitedConference(),
       appliedConferences: generateAppliedConference(),
-      joinedConferences: generateAppliedConference(),
-      contributedConferences :generateAppliedConference()
+      joinedConferences: generateJoinedConference(),
+      contributedConferences :generateContributedConference()
     }
   },
   methods: {
-    approve () {
-      this.$axios.post('/approve')//后端未实现
-        .then(resp => {
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
-    agree (itemIndex) {
-      this.items.splice(itemIndex,1)
-      this.$axios.post('/agreeInvitation',{
-        userName: store.state.userName,
-        meetingFullName: this.items.fullName
-      })
-        .then(resp => {
-          if (resp.status === 200 && resp.data.hasOwnProperty('token')) {//4.4 abbrName改token
-            alert('successful agreement')
-          } else alert('agree error')
-        })
-        .catch(error => {
-          console.log(error)
-          alert('agreement is not committed')
-        })
-    },
-    reject (itemIndex) {
-      this.items.splice(itemIndex,1)
-      this.$axios.post('/rejectInvitation',{
-        userName: store.state.userName,
-        meetingFullName: this.items.fullName
-      })
-        .then(resp => {
-          if (resp.status === 200 && resp.data.hasOwnProperty('abbrName')) {
-            alert('successful rejection')
-          } else alert('reject error')
-        })
-        .catch(error => {
-          console.log(error)
-          alert('rejection is not committed')
-        })
-    },
-    allowContribute (itemIndex) {
+    allowContribute (item,itemIndex) {
       this.$axios.post('/allowContribute',{
         userName: store.state.userName,
-        meetingFullName: this.items.fullName
+        meetingFullName: item.fullName
       })
         .then(resp => {
           if (resp.status === 200 && resp.data.hasOwnProperty('abbrName')) {

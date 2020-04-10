@@ -66,6 +66,8 @@ import NucleoIconsSection from './components/NucleoIconsSection'
 import ExamplesSection from './components/ExamplesSection'
 import DownloadSection from './components/DownloadSection'
 
+import store from "../store"
+
 export default {
   name: 'index',
   bodyClass: 'index-page',
@@ -110,12 +112,40 @@ export default {
         })
         .catch(error =>{
           console.log(error)
-          alert('get meetings error')
+        })
+      return conferences;
+    };
+    const generateOpenedContributionConference = _ => {
+      const conferences = [];
+      this.$axios.post('/meetingOpenedContribution',store.state.userName)
+        .then(resp => {
+          if(resp != null) {
+            var response = resp.data
+            response.forEach((meeting,index) => {
+              var obj={
+                meeting,
+                index
+              }
+              conferences.push({
+                chair : meeting.chair,
+                pcMembers : meeting.pcMembers,
+                abbrName : meeting.abbrName,
+                fullName : meeting.fullName,
+                date : meeting.date,
+                spot : meeting.spot,
+                submitDueDate : meeting.submitDueDate,
+                resultReleaseDate : meeting.resultReleaseDate
+              });
+            })
+            return conferences;
+          } else return null
+        })
+        .catch(error =>{
+          console.log(error)
         })
       return conferences;
     };
     return {
-      // conferences: generateConference(),
       conferences: generateConference(),
     }
   }

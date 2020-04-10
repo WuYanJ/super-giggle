@@ -117,7 +117,9 @@ export const router = new Router({
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
       },
-      meta: { title: 'AdminApprove' }
+      meta: {
+        requireAuth : true,
+        title: 'AdminApprove' }
     },
     {
       path: '/contribute',
@@ -156,7 +158,16 @@ export const router = new Router({
 router.beforeEach(function (to, from, next) {
   if (to.matched.some(record => record.meta.requireAuth)) {
     if (store.state.token) {
-      next()
+      if(to.path === "/adminApprove"){
+        if(store.state.userName === 'admin'){
+          next()
+        } else {
+          alert("没有管理员权限")
+          next({
+            path: '/workspace'
+          })
+        }
+      } else next()
     } else {
       alert('You Need Login First')
       next({

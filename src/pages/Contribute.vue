@@ -11,9 +11,6 @@
             <el-form :model="contribute" class="register_container" label-position="left"
                      label-width="0px" :ref="contribute">
               <el-form-item>
-<!--              <el-input :disabled="true" placeholder="会议名称：xxxx">-->
-<!--                -->
-<!--              </el-input>-->
                 <el-autocomplete
                   v-model="state"
                   :fetch-suggestions="querySearchAsync"
@@ -55,20 +52,6 @@
                 <input class="file" type="file" title="请选择文件" value="请选择文件">
               </el-form-item>
               <el-form-item>
-<!--                <div class="pdf" v-show="fileType === 'pdf'">-->
-<!--                  <p class="arrow">-->
-<!--                    <span @click="changePdfPage(0)" class="turn" :class="{grey: currentPage==1}">Preview</span>-->
-<!--                    {{currentPage}} / {{pageCount}}-->
-<!--                    <span @click="changePdfPage(1)" class="turn" :class="{grey: currentPage==pageCount}">Next</span>-->
-<!--                  </p>-->
-<!--                  <pdf-->
-<!--                    :src="src"-->
-<!--                  :page="currentPage"-->
-<!--                  @num-pages="pageCount=$event"-->
-<!--                  @page-loaded="currentPage=$event"-->
-<!--                  @loaded="loadPdfHandler">-->
-<!--                  </pdf>-->
-<!--                </div>-->
                 <el-button
                   class="view"
                   round
@@ -104,8 +87,7 @@
     data () {
       const generateOpenedContributionConference = _ => {
         const conferences = [];
-        // this.$axios.post('/meetingOpenedContribution')
-        this.$axios.post('/allMeetings')
+        this.$axios.post('/meetingOpenedContribution',store.state.userName)
           .then(resp => {
             if (resp != null) {
               var response = resp.data
@@ -232,24 +214,26 @@
         formData.append('file', document.querySelector('input[type=file]').files[0]) // 'file' 这个名字要和后台获取文件的名字一样;
         formData.append('user', store.state.userName)
         formData.append('meeting', this.currentMeeting)
+        formData.append('title', this.contribute.fileTitle)
+        formData.append('abstract', this.contribute.abstract)
 
         console.log("file:"+document.querySelector('input[type=file]').files[0].name)
         console.log("user:"+store.state.userName)
         console.log("meeting:"+this.currentMeeting)
+        console.log("title:"+this.contribute.fileTitle)
+        console.log("abstract:"+this.contribute.abstract)
 
-        //'userfile'是formData这个对象的键名
+
         axios({
-          url: '/uploadwork',   //****: 你的ip地址
+          url: '/uploadwork',
           data: formData,
           method: 'post',
           headers: {
             'Content-Type': 'multipart/form-data',
-            // 'Access-Control-Allow-Origin': 'http://127.0.0.1:8080'
-            //这里是为了解决跨域问题，但是博主并没有用这种方式解决。后面会给出解决方案
           }
         }).then((res) => {
           console.log(res.data);
-        }) // 发送请求
+        })
       }
     }
   }
