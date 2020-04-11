@@ -160,8 +160,8 @@
                                     <v-list-item-content class="align-end">{{ item.statusMessage }}</v-list-item-content>
                                   </v-list-item>
                                 </v-list>
-                                <n-button type="neutral" round size="lg" v-on:click="agree(i)">Agree</n-button>
-                                <n-button type="neutral" round size="lg" v-on:click="reject(i)">Reject</n-button>
+                                <n-button type="neutral" round size="lg" v-on:click="agree(item,i)">Agree</n-button>
+                                <n-button type="neutral" round size="lg" v-on:click="reject(item,i)">Reject</n-button>
                               </v-card>
                             </router-link>
                           </v-col>
@@ -451,7 +451,7 @@ export default {
                 spot : meeting.spot,
                 submitDueDate : meeting.submitDueDate,
                 resultReleaseDate : meeting.resultReleaseDate,
-                statusMessage : meeting.status == 1 ? 'To Be Approved' : (meeting.status == 2 ?'Already Approved': (meeting.status == 3 ?'Allow Contribution':'Rejected'))
+                statusMessage : meeting.status === 1 ? 'To Be Approved' : (meeting.status === 2 ?'Already Approved': (meeting.status === 3 ?'Allow Contribution':'Rejected'))
               });
             })
             return conferences;
@@ -482,11 +482,48 @@ export default {
         .then(resp => {
           if (resp.status === 200 && resp.data.hasOwnProperty('abbrName')) {
             alert('successful allowance')
+            item.statusMessage = 'Allow Contribution'
           } else alert('allow error')
         })
         .catch(error => {
           console.log(error)
           alert('allow action is not committed')
+        })
+    },
+    agree (item,itemIndex) {
+      this.$axios.post('/agreeInvitation', {
+        username: store.state.userName,
+        meetingFullName: item.fullName
+      })
+        .then(resp => {
+          console.log(resp.status)
+          console.log(resp.data)
+          if (resp.status === 200 && resp.data === "accepted") {
+            alert('successful aggreement')
+            this.invitedConferences.splice(itemIndex,1)
+          } else {
+            alert('agree error')
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    reject (item,itemIndex) {
+      this.$axios.post('/rejectInvitation', {
+        username: store.state.userName,
+        meetingFullName: item.fullName
+      })
+        .then(resp => {
+          if (resp.status === 200 && resp.data === "rejected") {
+            alert('successful Rejection')
+            this.invitedConferences.splice(itemIndex,1)
+          } else {
+            alert('reject error')
+          }
+        })
+        .catch(error => {
+          console.log(error)
         })
     }
   }
