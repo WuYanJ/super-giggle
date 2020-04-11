@@ -157,7 +157,7 @@
                     </v-container>
                   </v-app>
 
-                  <h2 class="title">I Applied</h2>
+                  <h2 class="title">I Applied (To Be Approved)</h2>
                   <v-app>
                     <v-container fluid>
                       <v-data-iterator
@@ -382,9 +382,46 @@ export default {
     TabsSection
   },
   data () {
+    const generateMyApprovedConference = _ => {
+      const conferences = [];
+      this.$axios.post('/meetingIApplied',{
+        userName: store.state.userName,
+        status: 1
+      })
+        .then(resp => {
+          if(resp != null) {
+            var response = resp.data
+            response.forEach((meeting,index) => {
+              var obj={
+                meeting,
+                index
+              }
+              conferences.push({
+                chair : meeting.chair,
+                pcMembers : meeting.pcMembers,
+                abbrName : meeting.abbrName,
+                fullName : meeting.fullName,
+                date : meeting.date,
+                spot : meeting.spot,
+                submitDueDate : meeting.submitDueDate,
+                resultReleaseDate : meeting.resultReleaseDate
+              });
+            })
+            return conferences;
+          } else return null;
+        })
+        .catch(error =>{
+          console.log(error)
+        })
+      return conferences;
+    };
+
     const generateAppliedConference = _ => {
       const conferences = [];
-      this.$axios.post('/meetingIApplied',store.state.userName)
+      this.$axios.post('/meetingIApplied',{
+        userName: store.state.userName,
+        status: 0
+      })
         .then(resp => {
           if(resp != null) {
             var response = resp.data
@@ -510,7 +547,7 @@ export default {
       userName: store.state.userName,
       router: '',
       itemsPerPage: 4,
-      myConferences: generateAppliedConference(),
+      myConferences: generateMyApprovedConference(),
       invitedConferences: generateInvitedConference(),
       appliedConferences: generateAppliedConference(),
       joinedConferences: generateJoinedConference(),

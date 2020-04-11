@@ -28,17 +28,13 @@
               </el-form-item>
 
               <el-form-item>
-                <input class="file" type="file" title="请选择文件" value="请选择文件" ref="fileInput" @change="uploadFile">
-
-              </el-form-item>
-
-              <el-form-item>
-                <el-button
-                  class="view"
-                  round
-                  size="small"
-                  @click="viewFile()"
-                >预览文件</el-button>
+                <input class="file"
+                       type="file"
+                       title="请选择文件"
+                       value="请选择文件"
+                       ref="fileInput"
+                       @change="uploadFile"
+                >
               </el-form-item>
             </el-form>
 

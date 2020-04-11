@@ -184,7 +184,6 @@
           })
           .catch(error =>{
             console.log(error)
-            alert('get meetings to be approved error')
           })
         return conferences;
       };
@@ -216,7 +215,6 @@
           })
           .catch(error =>{
             console.log(error)
-            alert('get meetings already approved error')
           })
         return conferences;
       };

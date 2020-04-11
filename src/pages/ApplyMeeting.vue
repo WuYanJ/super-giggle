@@ -112,7 +112,7 @@ export default {
       }
       return callback()
     }
-    const usernameValid = (rule, value, callback) => {
+    const nameValid = (rule, value, callback) => {
       if (!value) {
         return callback(new Error('can\'t be empty'))
       } else if (value === '') {
@@ -150,15 +150,15 @@ export default {
       abbrName: '',
       rules: {
         abbrName: [
-          {required: true, message: 'fill in abbr', trigger: 'blur'},
+          {required: true, message: 'Fill in abbrName', trigger: 'blur'},
           {min: 5, max: 32},
-          {validator: usernameValid, trigger: 'blur'},
+          {validator: nameValid, trigger: 'blur'},
           {validator: dataValid, trigger: 'blur'}
         ],
         fullName: [
-          {required: true, message: 'fill in abbr', trigger: 'blur'},
+          {required: true, message: 'Fill in abbrName', trigger: 'blur'},
           {min: 5, max: 32},
-          {validator: usernameValid, trigger: 'blur'},
+          {validator: nameValid, trigger: 'blur'},
           {validator: dataValid, trigger: 'blur'}
         ],
         date: [

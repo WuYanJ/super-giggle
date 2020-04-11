@@ -67,12 +67,11 @@ export const router = new Router({
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
+      },
+      meta: {
+        requireAuth: true, // 需要登录权限
+        title: 'ApplyMeeting'
       }
-      // ,
-      // meta: {
-      //   requireAuth: true, // 需要登录权限
-      //   title: 'ApplyMeeting'
-      // }
     },
     {
       path: '/profile',
@@ -129,7 +128,9 @@ export const router = new Router({
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
       },
-      meta: { title: 'Contribute' }
+      meta: {
+        requireAuth : true,
+        title: 'Contribute' }
     },
     {
       path: '/invite',
@@ -139,7 +140,9 @@ export const router = new Router({
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: 'black' }
       },
-      meta: { title: 'Invite' }
+      meta: {
+        requireAuth : true,
+        title: 'Invite' }
     },
     {
       path: '/pdf',
@@ -167,8 +170,17 @@ router.beforeEach(function (to, from, next) {
             path: '/workspace'
           })
         }
-      } else next()
-    } else {
+      } else if(store.state.userName === 'admin') {
+        if(to.path !== "/adminApprove" || to.path !== "/"){
+          alert('Administer has not credential')
+          next({
+            path: '/adminApprove'
+          })
+        } else next()
+      }
+      else next()
+    }
+    else {
       alert('You Need Login First')
       next({
         path: '/login',
