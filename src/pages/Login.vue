@@ -102,7 +102,7 @@ export default {
             if (resp.status === 200 && resp.data.hasOwnProperty('token')) {
               alert('登录成功！')
               this.$store.commit('login', resp.data)
-              this.$store.state.username = this.loginForm.username
+              this.$store.state.userName = this.loginForm.username
               localStorage.setItem('userName', this.loginForm.username)
               localStorage.setItem('now', true)
               if(this.loginForm.username === 'admin'){

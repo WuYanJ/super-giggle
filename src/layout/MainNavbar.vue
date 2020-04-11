@@ -91,11 +91,8 @@ export default {
   },
   data () {
     return {
-      collapse: true,
-      fullscreen: false,
       userName: store.state.userName, // userDetails.getUsername()
       now: store.state.now,
-      message: 2
     }
   },
   components: {

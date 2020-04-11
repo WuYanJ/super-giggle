@@ -21,7 +21,7 @@ export default new Vuex.Store({
     updateName (state, name) {
       localStorage.setItem('userName', name)
       // eslint-disable-next-line no-undef
-      state.userName = userName
+      state.userName = name
     },
     logout (state) {
       // 移除token

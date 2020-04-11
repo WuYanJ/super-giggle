@@ -1,13 +1,13 @@
 <template>
-  <div class="page-header clear-filter" filter-color="orange">
+  <div class=" clear-filter" filter-color="orange">
     <div
       class="page-header-image"
     ></div>
     <div class="content">
-      <div class="container">
-        <div class="col-md-5 ml-auto mr-auto">
-          <card plain>
-            <h3 class="title">Contribute</h3>
+      <div class="container" >
+        <div class="col-md-8 ml-auto mr-auto">
+          <card plain style="margin-top: 200px">
+            <h1 class="title" style="color: white">Contribute</h1>
             <el-form :model="contribute" class="register_container" label-position="left"
                      label-width="0px" :ref="contribute">
               <el-form-item>
@@ -28,29 +28,10 @@
               </el-form-item>
 
               <el-form-item>
-<!--                <el-upload-->
-<!--                  class="upload-demo"-->
-<!--                  ref="upload"-->
-<!--                  accept="application/pdf"-->
-<!--                  :before-upload="beforeUpload"-->
-<!--                  drag-->
-<!--                  show-file-list-->
-<!--                  :file-list="fileList"-->
-<!--                  :on-preview="handlePreview"-->
-<!--                  :on-remove="handleRemove"-->
-<!--                  :before-remove="beforeRemove"-->
-<!--                  :limit="1"-->
-<!--                  :auto-upload="true"-->
-<!--                  :on-exceed="handleExceed"-->
-<!--                  action="https://jsonplaceholder.typicode.com/posts/"-->
-<!--                  multiple>-->
-<!--                  <i class="el-icon-upload"></i>-->
-<!--                  <div class="el-upload__text">Drag your file here，or <em>click here</em></div>-->
-<!--                  <div class="el-upload__tip" slot="tip">Caution: Only pdf files are permitted.</div>-->
-<!--                </el-upload>-->
+                <input class="file" type="file" title="请选择文件" value="请选择文件" ref="fileInput" @change="uploadFile">
 
-                <input class="file" type="file" title="请选择文件" value="请选择文件">
               </el-form-item>
+
               <el-form-item>
                 <el-button
                   class="view"
@@ -66,6 +47,10 @@
               <n-button type="neutral" round size="lg" v-on:click="submit()">Confirm</n-button>
             </div>
           </card>
+          <div class="canvas-container">
+            <canvas ref="myCanvas" class="pdf-container col-md-10 ml-auto mr-auto">
+            </canvas>
+          </div>
         </div>
       </div>
     </div>
@@ -73,9 +58,9 @@
   </div>
 </template>
 
-<script>
+<script >
+  import pdfJS from 'pdfjs-dist'
   import { Card, FormGroupInput, Button } from '@/components'
-
   import axios from 'axios'
   import store from "../store"
 
@@ -87,7 +72,7 @@
     data () {
       const generateOpenedContributionConference = _ => {
         const conferences = [];
-        this.$axios.post('/meetingOpenedContribution',store.state.userName)
+        this.$axios.post('/meetingOpenedContribution', store.state.userName)
           .then(resp => {
             if (resp != null) {
               var response = resp.data
@@ -110,6 +95,8 @@
         return conferences;
       };
       return {
+        pdfData: '', // PDF的base64
+        scale: 2, // 缩放值
         currentMeeting: '',
         selectAMeeting: generateOpenedContributionConference(),
         state: '',
@@ -118,9 +105,15 @@
           abstract: ''
         },
         fileList: [
-          {name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'},
-          {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}
-          ],
+          {
+            name: 'food.jpeg',
+            url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+          },
+          {
+            name: 'food2.jpeg',
+            url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+          }
+        ],
         fileData: '',
         currentPage: 0,
         pageCount: 0,
@@ -134,7 +127,7 @@
       [FormGroupInput.name]: FormGroupInput
     },
     methods: {
-      querySearchAsync(queryString, cb) {
+      querySearchAsync (queryString, cb) {
         var selectAMeeting = this.selectAMeeting;
         var results = queryString ? selectAMeeting.filter(this.createStateFilter(queryString)) : selectAMeeting;
 
@@ -143,86 +136,23 @@
           cb(results);
         }, 3000 * Math.random());
       },
-      handleSelect(item) {
+      handleSelect (item) {
         this.currentMeeting = item.value;
         console.log(item);
       },
 
-      beforeUpload(file) {
-        console.log("文件", file);
-        this.file = file;
-        this.fileName = file.name;
-        this.fileSize = file.size;
-        const isPdf = file.type === 'pdf';
-        let reader = new FileReader();
-        reader.readAsDataURL(file);
-        let that = this;
-        if (!isPdf) {
-          this.$message.error('上传头像图片只能是 pdf 格式!');
-        }
-        reader.onload = function() {
-          that.fileData = reader.result;
-          // console.log("fileData", reader.result);
-          console.log("fileData", that.fileData);
-        };
-        return false; // 返回false不会自动上传
-      },
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePreview(file) {
-        console.log(file);
-      },
-      handleExceed(files, fileList) {
-        this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-      },
-      beforeRemove(file, fileList) {
-        return this.$confirm(`确定移除 ${ file.name }？`);
-      },
-      viewFile() {
-        console.log("viewFile");
-        var win = window.open();
-        win.document.write(
-          '<body style="margin:0px;"><object data="' +
-          this.fileData +
-          '" type="application/pdf" width="100%" height="100%"><iframe src="' +
-          this.fileData +
-          '" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe></object></body>'
-        );
-        // win.document.write(
-        //   '<body style="margin:0px;"><iframe src="' +
-        //     this.fileData +
-        //     '" scrolling="no" width="100%" height="100%" frameborder="0" ></iframe></body>'
-        // );
-      },
-      uploadContract() {
-        let fileFormData = new FormData();
-        fileFormData.append("file", this.file);
-        fileFormData.append("doc_title", this.fileName);
-        uploadContract(fileFormData).then(res => {
-          if (res.code === 200) {
-            console.log("uploadContract", res);
-          } else {
-            this.$message({
-              message: res.msg,
-              type: "warning"
-            });
-          }
-        });
-      },
-      submit: function() {
+      submit: function () {
         formData.append('file', document.querySelector('input[type=file]').files[0]) // 'file' 这个名字要和后台获取文件的名字一样;
         formData.append('user', store.state.userName)
         formData.append('meeting', this.currentMeeting)
         formData.append('title', this.contribute.fileTitle)
         formData.append('abstract', this.contribute.abstract)
 
-        console.log("file:"+document.querySelector('input[type=file]').files[0].name)
-        console.log("user:"+store.state.userName)
-        console.log("meeting:"+this.currentMeeting)
-        console.log("title:"+this.contribute.fileTitle)
-        console.log("abstract:"+this.contribute.abstract)
-
+        console.log("file:" + document.querySelector('input[type=file]').files[0].name)
+        console.log("user:" + store.state.userName)
+        console.log("meeting:" + this.currentMeeting)
+        console.log("title:" + this.contribute.fileTitle)
+        console.log("abstract:" + this.contribute.abstract)
 
         axios({
           url: '/uploadwork',
@@ -234,6 +164,58 @@
         }).then((res) => {
           console.log(res.data);
         })
+      },
+
+      uploadFile () {
+        let inputDom = this.$refs.fileInput
+        let file = inputDom.files[0]
+        console.log(file.name)
+        let reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = () => {
+          this.pdfData = atob(reader.result.substring(reader.result.indexOf(',') + 1))
+          this.previewPDF()
+        }
+      },
+      previewPDF () {
+        // 引入pdf.js的字体
+        let CMAP_URL = 'https://unpkg.com/pdfjs-dist@2.0.943/cmaps/'
+        //读取base64的pdf流文件
+        let loadingTask = pdfJS.getDocument({
+          data: this.pdfData, // PDF base64编码
+          cMapUrl: CMAP_URL,
+          cMapPacked: true
+        })
+        loadingTask.promise.then((pdf) => {
+          this.loadFinished = true
+          let numPages = pdf.numPages
+          let pageNumber = 1
+          this.getPage(pdf, pageNumber, numPages)
+        })
+      },
+      getPage (pdf, pageNumber, numPages) {
+        let _this = this
+        pdf.getPage(pageNumber)
+          .then((page) => {
+            // 获取DOM中为预览PDF准备好的canvasDOM对象
+            let canvas = this.$refs.myCanvas
+            let viewport = page.getViewport(_this.scale)
+            canvas.height = viewport.height
+            canvas.width = viewport.width
+
+            let ctx = canvas.getContext('2d')
+            let renderContext = {
+              canvasContext: ctx,
+              viewport: viewport
+            }
+            page.render(renderContext)
+              .then(() => {
+              pageNumber += 1
+              if (pageNumber <= 1) {
+                _this.getPage(pdf, pageNumber, numPages)
+              }
+            })
+          })
       }
     }
   }
