@@ -48,12 +48,6 @@
           </card>
         </div>
       </div>
-      <alert type="success" dismissible>
-        <div class="alert-icon">
-          <i class="now-ui-icons ui-2_like"></i>
-        </div>
-        <strong>Well done!</strong> You successfully signed in!
-      </alert>
     </div>
     <main-footer></main-footer>
   </div>
