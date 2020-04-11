@@ -18,6 +18,11 @@
         <h2 class="title">
           Conference News
         </h2>
+        <div class="button-container">
+          <router-link to="contribute">
+            <p class="btn btn-primary btn-round btn-lg">Contribute</p>
+          </router-link>
+        </div>
         <v-app>
           <v-expansion-panels>
             <v-expansion-panel
