@@ -86,7 +86,6 @@
           })
           .catch(error => {
             console.log(error)
-            alert('get meetings error')
           })
         return conferences;
       };

@@ -10,7 +10,7 @@
           <card plain >
             <h1 class="title">Invite</h1>
             <p style="text-align: center; margin: 0 0 20px">邀请数据库中已注册用户成为该会议的 PC Member </p>
-            <p>当前会议：{{currentMeeting}}</p>
+            <p>当前会议：{{meetingName}}</p>
             <br>
             <br>
             <div class="col-md-12 ml-auto mr-auto">
@@ -19,6 +19,7 @@
                 :fetch-suggestions="querySearchAsync"
                 placeholder="Meeting Full Name..."
                 @select="handleSelect"
+                required
               ></el-autocomplete>
 
             </div>
@@ -78,9 +79,22 @@
         return conferences;
       };
 
-      const generateData = _ => {
+      return {
+        meetingName: '',
+        selectAMeeting: generateAppliedConference(),
+        state: '',
+        timeout:  null,
+        data: [],
+        selectList: [], // selectList: [1], 效果是第2个条目自动在右边 => selectList v-model
+        renderFunc(h, option) {
+          return <span> { option.key } - { option.label }</span>;
+        }
+      };
+    },
+    methods: {
+      generateData() {
         const data = [];
-        this.$axios.post('/notInvitedUsers')
+        this.$axios.post('/notInvitedUsers',this.meetingName)
           .then(resp => {
             var response = resp.data
             response.forEach((user, index) => {
@@ -95,17 +109,15 @@
 
               });
             })
-            return data;
           })
           .catch(error =>{
             console.log(error)
             alert('get users error')
           })
 
-        this.$axios.post('/alreadyInvitedUsers',this.currentMeeting)
+        this.$axios.post('/alreadyInvitedUsers',this.meetingName)
           .then(resp => {
             var response = resp.data
-
             response.forEach((user, index) => {
               var obj = {
                 user,
@@ -115,30 +127,14 @@
                 label: user.username,
                 key: user.username, // 无奈之举！后续可以把 key 还原为 index，通过 index map 到 label
                 disabled: true
-
               });
             })
-            return data;
           })
           .catch(error =>{
             console.log(error)
           })
         return data;
-      };
-
-      return {
-        currentMeeting: '',
-        selectAMeeting: generateAppliedConference(),
-        state: '',
-        timeout:  null,
-        data: generateData(),
-        selectList: [], // selectList: [1], 效果是第2个条目自动在右边 => selectList v-model
-        renderFunc(h, option) {
-          return <span> { option.key } - { option.label }</span>;
-        }
-      };
-    },
-    methods: {
+      },
       querySearchAsync(queryString, cb) {
         var selectAMeeting = this.selectAMeeting;
         var results = queryString ? selectAMeeting.filter(this.createStateFilter(queryString)) : selectAMeeting;
@@ -154,7 +150,8 @@
         };
       },
       handleSelect(item) {
-        this.currentMeeting = item.value;
+        this.meetingName = item.value;
+        this.data = this.generateData()
         console.log(item);
       },
       handleChange(abbrName, direction, movedKeys) {
@@ -163,12 +160,13 @@
       invite() {
         this.$axios.post('/invite',{
           chair: store.state.userName,
-          currentMeeting: this.currentMeeting,
+          meetingName: this.meetingName,
           pcMemberNames: this.selectList,
         })//未实现
           .then(resp => {
             if (resp.status === 200 && resp.data.hasOwnProperty('abbrName')) {
               alert('successful Invitation')
+              this.$router.replace('workspace')
             } else {
               alert('invite error')
             }
