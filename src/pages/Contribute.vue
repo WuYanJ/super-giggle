@@ -128,7 +128,7 @@
           ],
           abstract: [
             {required: true, message: 'Fill in abstract', trigger: 'blur'},
-            {min: 5, max: 80},
+            {min: 5, max: 800},
             {validator: nameValid, trigger: 'blur'},
             {validator: dataValid, trigger: 'blur'}
           ]
