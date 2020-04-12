@@ -69,8 +69,8 @@
                 }
                 data.push({
                   identity: user.fullname,
-                  label: user.affiliation + " " + user.region,
-                  key: user.username+"("+user.fullname+")", // 无奈之举！后续可以把 key 还原为 index，通过 index map 到 label
+                  label: "("+user.fullname+")"+user.affiliation + " " + user.region,
+                  key: user.username, // 无奈之举！后续可以把 key 还原为 index，通过 index map 到 label
                   disabled: user.username === store.state.userName || user.username === 'admin'
                 });
               })
@@ -92,8 +92,8 @@
                 }
                 data.push({
                   identity: user.fullname,
-                  label: user.affiliation + "-" + user.region,
-                  key: user.username+"("+user.fullname+")", // 无奈之举！后续可以把 key 还原为 index，通过 index map 到 label
+                  label: "("+user.fullname+")"+user.affiliation + "-" + user.region,
+                  key: user.username,
                   disabled: true
                 });
               })
@@ -208,5 +208,10 @@
     box-sizing: border-box;
     padding-left: 24px;
     line-height: 30px;
+  }
+  .el-button--primary.is-disabled, .el-button--primary.is-disabled:active, .el-button--primary.is-disabled:focus, .el-button--primary.is-disabled:hover {
+    color: #FFF;
+    background-color: #f96332;
+    border-color: #f96332;
   }
 </style>
