@@ -39,7 +39,7 @@
                           >
 
                               <v-card>
-                                <v-card-title class="subheading font-weight-bold">conference - {{item.identity}}
+                                <v-card-title class="subheading font-weight-bold">conference - {{item.identity}}&nbsp
                                   <router-link :to="item.router" v-if="item.identity === 'Chair' && (item.statusMessage === 'Already Approved' ||item.statusMessage === 'Allow Contribution') "> - Invite
                                   </router-link></v-card-title>
 
@@ -355,9 +355,32 @@ export default {
                 spot : meeting.spot,
                 submitDueDate : meeting.submitDueDate,
                 resultReleaseDate : meeting.resultReleaseDate,
-                statusMessage : meeting.status === 0 ? 'To Be Approved' : (meeting.status === 1 ?'Already Approved': (meeting.status === 2 ?'Allow Contribution':'Rejected'))
+                statusMessage : meeting.status === 0 ? 'To Be Approved' : (meeting.status === 1 ?'Already Approved': (meeting.status === 2 ?'Allow Contribution': (meeting.status === 3 ?'Ended':'Rejected')))
               });
             })
+        })
+      this.$axios.post('/meetingMyRejected',store.state.userName)
+        .then(resp => {
+          var response = resp.data
+          response.forEach((meeting,index) => {
+            var obj={
+              meeting,
+              index
+            }
+            conferences.push({
+              router : '',
+              identity : "Chair",
+              chair : meeting.chair,
+              pcMemberNames : meeting.pcMembers,
+              abbrName : meeting.abbrName,
+              fullName : meeting.fullName,
+              date : meeting.date,
+              spot : meeting.spot,
+              submitDueDate : meeting.submitDueDate,
+              resultReleaseDate : meeting.resultReleaseDate,
+              statusMessage : meeting.status === 0 ? 'To Be Approved' : (meeting.status === 1 ?'Already Approved': (meeting.status === 2 ?'Allow Contribution': (meeting.status === 3 ?'Ended':'Rejected')))
+            });
+          })
         })
 
       this.$axios.post('/meetingIJoined',store.state.userName)
@@ -379,7 +402,7 @@ export default {
                 spot : meeting.spot,
                 submitDueDate : meeting.submitDueDate,
                 resultReleaseDate : meeting.resultReleaseDate,
-                statusMessage : meeting.status === 0 ? 'To Be Approved' : (meeting.status === 1 ?'Already Approved': (meeting.status === 2 ?'Allow Contribution':'Rejected'))
+                statusMessage : meeting.status === 0 ? 'To Be Approved' : (meeting.status === 1 ?'Already Approved': (meeting.status === 2 ?'Allow Contribution': (meeting.status === 3 ?'Ended':'Rejected')))
               });
             })
         })
@@ -443,7 +466,7 @@ export default {
                 spot : meeting.spot,
                 submitDueDate : meeting.submitDueDate,
                 resultReleaseDate : meeting.resultReleaseDate,
-                statusMessage : meeting.status === 0 ? 'To Be Approved' : (meeting.status === 1 ?'Already Approved': (meeting.status === 2 ?'Allow Contribution':'Rejected'))
+                statusMessage : meeting.status === 0 ? 'To Be Approved' : (meeting.status === 1 ?'Already Approved': (meeting.status === 2 ?'Allow Contribution': (meeting.status === 3 ?'Ended':'Rejected')))
               });
             })
             return conferences;
@@ -475,7 +498,7 @@ export default {
                 spot : meeting.spot,
                 submitDueDate : meeting.submitDueDate,
                 resultReleaseDate : meeting.resultReleaseDate,
-                statusMessage : meeting.status === 0 ? 'To Be Approved' : (meeting.status === 1 ?'Already Approved': (meeting.status === 2 ?'Allow Contribution':'Rejected'))
+                statusMessage : meeting.status === 0 ? 'To Be Approved' : (meeting.status === 1 ?'Already Approved': (meeting.status === 2 ?'Allow Contribution': (meeting.status === 3 ?'Ended':'Rejected')))
               });
             })
             return conferences;

@@ -35,7 +35,8 @@
                 <h6 v-if="item.statusMessage==='Already Approved'" style="color: cornflowerblue">Status: {{item.statusMessage}}</h6>
                 <h6 v-else-if="item.statusMessage==='To Be Approved'" style="color: #edde34">Status: {{item.statusMessage}}</h6>
                 <h6 v-else-if="item.statusMessage==='Allow Contribution'" style="color: darkseagreen">Status: {{item.statusMessage}}</h6>
-                <h6 v-else style="color: gainsboro">Status: {{item.statusMessage}}</h6>
+                <h6 v-else-if="item.statusMessage==='Ended'" style="color: gainsboro">Status: {{item.statusMessage}}</h6>
+                <h6 v-else style="color: red">Status: {{item.statusMessage}}</h6>
               </v-expansion-panel-header>
               <v-expansion-panel-content>
                 Chair: {{item.chair}}
@@ -120,7 +121,7 @@ export default {
               spot : meeting.spot,
               submitDueDate : meeting.submitDueDate,
               resultReleaseDate : meeting.resultReleaseDate,
-              statusMessage : meeting.status === 0 ? 'To Be Approved' : (meeting.status === 1 ?'Already Approved': (meeting.status === 2 ?'Allow Contribution':'Rejected'))
+              statusMessage : meeting.status === 0 ? 'To Be Approved' : (meeting.status === 1 ?'Already Approved': (meeting.status === 2 ?'Allow Contribution': (meeting.status === 3 ?'Ended':'Rejected')))
             });
           })
           return conferences;
@@ -151,7 +152,7 @@ export default {
                 spot : meeting.spot,
                 submitDueDate : meeting.submitDueDate,
                 resultReleaseDate : meeting.resultReleaseDate,
-                statusMessage : meeting.status === 0 ? 'To Be Approved' : (meeting.status === 1 ?'Already Approved': (meeting.status === 2 ?'Allow Contribution':'Rejected'))
+                statusMessage : meeting.status === 0 ? 'To Be Approved' : (meeting.status === 1 ?'Already Approved': (meeting.status === 2 ?'Allow Contribution': (meeting.status === 3 ?'Ended':'Rejected')))
 
               });
             })
