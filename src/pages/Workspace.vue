@@ -39,7 +39,7 @@
                           >
 
                               <v-card>
-                                <v-card-title class="subheading font-weight-bold">conference - {{item.identity}} <router-link :to="item.router" v-if="item.identity === 'Chair'"> - Invite</router-link></v-card-title>
+                                <v-card-title class="subheading font-weight-bold">conference - {{item.identity}} <router-link :to="item.router" v-if="item.identity === 'Chair' && item.statusMessage === ('Already Approved' || 'Allow Contribution') "> - Invite</router-link></v-card-title>
 
                                 <v-divider></v-divider>
                                 <v-list dense>
@@ -87,7 +87,7 @@
                                   </v-list-item>
                                 </v-list>
                                 <n-button type="neutral" round size="lg"
-                                          v-if="item.statusMessage === 'Already Approved'"
+                                          v-if="item.statusMessage === 'Already Approved' && item.chair == userName"
                                           v-on:click="allowContribute(item,i)">Allow Contribute</n-button>
                               </v-card>
                           </v-col>
