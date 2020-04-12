@@ -47,6 +47,11 @@
                                 <v-divider></v-divider>
 
                                 <v-list dense>
+
+                                  <v-list-item>
+                                    <v-list-item-content>Chair</v-list-item-content>
+                                    <v-list-item-content class="align-end">{{ item.chair }}</v-list-item-content>
+                                  </v-list-item>
                                   <v-list-item>
                                     <v-list-item-content>Abbr Name</v-list-item-content>
                                     <v-list-item-content class="align-end">{{ item.abbrName }}</v-list-item-content>
@@ -344,7 +349,7 @@ export default {
                 index
               }
               conferences.push({
-                router : "invite",
+                router : meeting.status === -1 ? "" : "invite/"+meeting.fullName,
                 identity : "Chair",
                 chair : meeting.chair,
                 pcMemberNames : meeting.pcMembers,

@@ -10,6 +10,8 @@
 <!--          <img class="n-logo" src="../../src/assets/logo.png" alt="" />-->
           <h1 class="h1-seo">Paper Forum.</h1>
           <h3>A complete Paper submission and review ecology</h3>
+          <h3>↓</h3>
+          <h5>Drop down to find the latest meeting</h5>
         </div>
       </div>
     </div>
@@ -29,7 +31,7 @@
               v-for="(item,i) in conferences"
               :key="i"
             >
-              <v-expansion-panel-header>Conference: {{item.abbrName}} —— Chair: {{item.chair}}</v-expansion-panel-header>
+              <v-expansion-panel-header>Conference: {{item.abbrName}} —— Chair: {{item.chair}} —— Status: {{item.statusMessage}}</v-expansion-panel-header>
               <v-expansion-panel-content>
                 Chair: {{item.chair}}
               </v-expansion-panel-content>
@@ -37,7 +39,7 @@
                 Abbr Name: {{item.abbrName}}
               </v-expansion-panel-content>
               <v-expansion-panel-content>
-                full Name: {{item.fullName}}
+                Full Name: {{item.fullName}}
               </v-expansion-panel-content>
               <v-expansion-panel-content>
                 Date: {{item.date}}
@@ -113,7 +115,7 @@ export default {
               spot : meeting.spot,
               submitDueDate : meeting.submitDueDate,
               resultReleaseDate : meeting.resultReleaseDate,
-              status : meeting.status === 1 ? 'To Be Approved' : (meeting.status === 2 ?'Already Approved': (meeting.status === 3 ?'Allow Contribution':'Rejected'))
+              statusMessage : meeting.status === 0 ? 'To Be Approved' : (meeting.status === 1 ?'Already Approved': (meeting.status === 2 ?'Allow Contribution':'Rejected'))
             });
           })
           return conferences;

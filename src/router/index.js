@@ -133,7 +133,7 @@ export const router = new Router({
         title: 'Contribute' }
     },
     {
-      path: '/invite',
+      path: '/invite/:id',
       name: 'invite',
       components: { default: Invite, header: MainNavbar, footer: MainFooter },
       props: {

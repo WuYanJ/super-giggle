@@ -13,16 +13,16 @@
             <p>当前会议：{{meetingName}}</p>
             <br>
             <br>
-            <div class="col-md-12 ml-auto mr-auto">
-              <el-autocomplete
-                v-model="state"
-                :fetch-suggestions="querySearchAsync"
-                placeholder="Meeting Full Name..."
-                @select="handleSelect"
-                required
-              ></el-autocomplete>
+<!--            <div class="col-md-12 ml-auto mr-auto">-->
+<!--              <el-autocomplete-->
+<!--                v-model="state"-->
+<!--                :fetch-suggestions="querySearchAsync"-->
+<!--                placeholder="Meeting Full Name..."-->
+<!--                @select="handleSelect"-->
+<!--                required-->
+<!--              ></el-autocomplete>-->
 
-            </div>
+<!--            </div>-->
 <!--            穿梭框部分-->
             <div class="col-md-12 ml-auto mr-auto" >
               <el-transfer
@@ -55,6 +55,53 @@
   import { Card, FormGroupInput, Button } from '@/components'
   export default {
     data() {
+      const generateData = _ => {
+        const data = [];
+        this.$axios.post('/notInvitedUsers',this.$route.params.id)
+          .then(resp => {
+            if (resp != null) {
+              var response = resp.data
+              response.forEach((user, index) => {
+                var obj = {
+                  user,
+                  index
+                }
+                data.push({
+                  label: user.affiliation + "-" + user.region + "-" + user.email,
+                  key: user.username, // 无奈之举！后续可以把 key 还原为 index，通过 index map 到 label
+                  disabled: user.username === store.state.userName || user.username === 'admin'
+                });
+              })
+            }
+          })
+          .catch(error =>{
+            console.log(error)
+            alert('get users error')
+          })
+
+        this.$axios.post('/alreadyInvitedUsers',this.$route.params.id)
+          .then(resp => {
+            if (resp != null) {
+              var response = resp.data
+              response.forEach((user, index) => {
+                var obj = {
+                  user,
+                  index
+                }
+                data.push({
+                  label: user.username,
+                  key: user.username, // 无奈之举！后续可以把 key 还原为 index，通过 index map 到 label
+                  disabled: true
+                });
+              })
+            }
+            })
+          .catch(error =>{
+            console.log(error)
+          })
+        return data;
+      };
+
       const generateAppliedConference = _ => {
         const conferences = [];
         this.$axios.post('/meetingIApplied', store.state.userName)
@@ -80,11 +127,11 @@
       };
 
       return {
-        meetingName: '',
+        meetingName: this.$route.params.id,
         selectAMeeting: generateAppliedConference(),
         state: '',
         timeout:  null,
-        data: [],
+        data: generateData(),
         selectList: [], // selectList: [1], 效果是第2个条目自动在右边 => selectList v-model
         renderFunc(h, option) {
           return <span> { option.key } - { option.label }</span>;
@@ -92,68 +139,25 @@
       };
     },
     methods: {
-      generateData() {
-        const data = [];
-        this.$axios.post('/notInvitedUsers',this.meetingName)
-          .then(resp => {
-            var response = resp.data
-            response.forEach((user, index) => {
-              var obj={
-                user,
-                index
-              }
-              data.push({
-                label: user.affiliation+"-"+user.region+"-"+user.email,
-                key: user.username, // 无奈之举！后续可以把 key 还原为 index，通过 index map 到 label
-                disabled: user.username === store.state.userName || user.username === 'admin'
-
-              });
-            })
-          })
-          .catch(error =>{
-            console.log(error)
-            alert('get users error')
-          })
-
-        this.$axios.post('/alreadyInvitedUsers',this.meetingName)
-          .then(resp => {
-            var response = resp.data
-            response.forEach((user, index) => {
-              var obj = {
-                user,
-                index
-              }
-              data.push({
-                label: user.username,
-                key: user.username, // 无奈之举！后续可以把 key 还原为 index，通过 index map 到 label
-                disabled: true
-              });
-            })
-          })
-          .catch(error =>{
-            console.log(error)
-          })
-        return data;
-      },
-      querySearchAsync(queryString, cb) {
-        var selectAMeeting = this.selectAMeeting;
-        var results = queryString ? selectAMeeting.filter(this.createStateFilter(queryString)) : selectAMeeting;
-
-        clearTimeout(this.timeout);
-        this.timeout = setTimeout(() => {
-          cb(results);
-        }, 3000 * Math.random());
-      },
-      createStateFilter(queryString) {
-        return (state) => {
-          return (state.abbrName.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-        };
-      },
-      handleSelect(item) {
-        this.meetingName = item.value;
-        this.data = this.generateData()
-        console.log(item);
-      },
+      // querySearchAsync(queryString, cb) {
+      //   var selectAMeeting = this.selectAMeeting;
+      //   var results = queryString ? selectAMeeting.filter(this.createStateFilter(queryString)) : selectAMeeting;
+      //
+      //   clearTimeout(this.timeout);
+      //   this.timeout = setTimeout(() => {
+      //     cb(results);
+      //   }, 3000 * Math.random());
+      // },
+      // createStateFilter(queryString) {
+      //   return (state) => {
+      //     return (state.abbrName.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+      //   };
+      // },
+      // handleSelect(item) {
+      //   this.meetingName = item.value;
+      //   this.data = this.generateData()
+      //   console.log(item);
+      // },
       handleChange(abbrName, direction, movedKeys) {
         console.log(abbrName, direction, movedKeys);
       },
