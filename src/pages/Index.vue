@@ -31,7 +31,12 @@
               v-for="(item,i) in conferences"
               :key="i"
             >
-              <v-expansion-panel-header>Conference: {{item.abbrName}} —— Chair: {{item.chair}} —— Status: {{item.statusMessage}}</v-expansion-panel-header>
+              <v-expansion-panel-header>Conference: {{item.abbrName}} —— Chair: {{item.chair}} 👉
+                <h6 v-if="item.statusMessage==='Already Approved'" style="color: cornflowerblue">Status: {{item.statusMessage}}</h6>
+                <h6 v-else-if="item.statusMessage==='To Be Approved'" style="color: #edde34">Status: {{item.statusMessage}}</h6>
+                <h6 v-else-if="item.statusMessage==='Allow Contribution'" style="color: darkseagreen">Status: {{item.statusMessage}}</h6>
+                <h6 v-else style="color: gainsboro">Status: {{item.statusMessage}}</h6>
+              </v-expansion-panel-header>
               <v-expansion-panel-content>
                 Chair: {{item.chair}}
               </v-expansion-panel-content>
@@ -54,7 +59,7 @@
                 Spot: {{ item.spot}}
               </v-expansion-panel-content>
               <v-expansion-panel-content >
-                Status: {{ item.status}}
+                Status: {{ item.statusMessage}}
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -145,7 +150,9 @@ export default {
                 date : meeting.date,
                 spot : meeting.spot,
                 submitDueDate : meeting.submitDueDate,
-                resultReleaseDate : meeting.resultReleaseDate
+                resultReleaseDate : meeting.resultReleaseDate,
+                statusMessage : meeting.status === 0 ? 'To Be Approved' : (meeting.status === 1 ?'Already Approved': (meeting.status === 2 ?'Allow Contribution':'Rejected'))
+
               });
             })
             return conferences;

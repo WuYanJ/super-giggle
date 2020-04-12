@@ -17,9 +17,6 @@
                   <router-link to="applyMeeting">
                     <p class="btn btn-primary btn-round btn-lg">New A Meeting</p>
                   </router-link>
-                  <router-link to="invite">
-                    <p class="btn btn-primary btn-round btn-lg">Invite</p>
-                  </router-link>
                 </div>
               <div class="section">
                 <div class="container" >
@@ -40,14 +37,12 @@
                             md="4"
                             lg="6"
                           >
-                            <router-link  :to="item.router">
+
                               <v-card>
-                                <v-card-title class="subheading font-weight-bold">conference-{{item.identity}}</v-card-title>
+                                <v-card-title class="subheading font-weight-bold">conference - {{item.identity}} <router-link :to="item.router" v-if="item.identity === 'Chair'"> - Invite</router-link></v-card-title>
 
                                 <v-divider></v-divider>
-
                                 <v-list dense>
-
                                   <v-list-item>
                                     <v-list-item-content>Chair</v-list-item-content>
                                     <v-list-item-content class="align-end">{{ item.chair }}</v-list-item-content>
@@ -95,7 +90,6 @@
                                           v-if="item.statusMessage === 'Already Approved'"
                                           v-on:click="allowContribute(item,i)">Allow Contribute</n-button>
                               </v-card>
-                            </router-link>
                           </v-col>
                         </v-row>
                       </v-data-iterator>

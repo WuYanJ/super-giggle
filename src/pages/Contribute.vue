@@ -33,6 +33,7 @@
                        title="请选择文件"
                        value="请选择文件"
                        ref="fileInput"
+                       accept=".application/pdf"
                        @change="uploadFile"
                 >
               </el-form-item>
@@ -99,21 +100,21 @@
           fileTitle: '',
           abstract: ''
         },
-        fileList: [
-          {
-            name: 'food.jpeg',
-            url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-          },
-          {
-            name: 'food2.jpeg',
-            url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-          }
-        ],
-        fileData: '',
-        currentPage: 0,
+        // fileList: [
+        //   {
+        //     name: 'food.jpeg',
+        //     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+        //   },
+        //   {
+        //     name: 'food2.jpeg',
+        //     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+        //   }
+        // ],
+        // fileData: '',
+        // currentPage: 0,
         pageCount: 0,
         fileType: 'pdf',
-        src: '/Users/wuyanjie/Desktop/系统之美（书）.pdf'
+        // src: '/Users/wuyanjie/Desktop/系统之美（书）.pdf'
       }
     },
     components: {
@@ -131,6 +132,11 @@
           cb(results);
         }, 3000 * Math.random());
       },
+      createStateFilter(queryString) {
+          return (state) => {
+            return (state.abbrName.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+          };
+        },
       handleSelect (item) {
         this.currentMeeting = item.value;
         console.log(item);
