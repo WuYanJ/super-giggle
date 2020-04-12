@@ -235,6 +235,7 @@
             if (resp.status === 200 && resp.data.hasOwnProperty('abbrName')) {
               alert('successful Approval')
               this.notApprovedMeetings.splice(itemIndex,1)
+              location.reload()
             } else {
               alert('approve error')
             }

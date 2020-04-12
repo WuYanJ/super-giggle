@@ -58,11 +58,11 @@
         class="nav-item"
         v-if="now"
     >
-        <nav-link to="/profile">
-          <i class="now-ui-icons business_chart-pie-36"></i> Profile
+        <nav-link to="/profile" v-if="userName!=='admin'">
+          <i class="now-ui-icons business_chart-pie-36" ></i> Profile
         </nav-link>
-        <nav-link to="/workspace">
-          <i class="now-ui-icons business_chart-pie-36" v-if="userName!=='admin'"></i> WorkSpace
+        <nav-link to="/workspace" v-if="userName!=='admin'">
+          <i class="now-ui-icons business_chart-pie-36" ></i> WorkSpace
         </nav-link>
         <nav-link to="/applyMeeting" v-if="userName!=='admin'">
           <i class="now-ui-icons business_chart-pie-36"></i> New Meeting
