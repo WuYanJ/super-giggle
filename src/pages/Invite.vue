@@ -70,7 +70,7 @@
                 data.push({
                   identity: user.fullname,
                   label: user.affiliation + "-" + user.region,
-                  key: user.username, // 无奈之举！后续可以把 key 还原为 index，通过 index map 到 label
+                  key: user.username+"("+user.fullname+")", // 无奈之举！后续可以把 key 还原为 index，通过 index map 到 label
                   disabled: user.username === store.state.userName || user.username === 'admin'
                 });
               })
@@ -93,7 +93,7 @@
                 data.push({
                   identity: user.fullname,
                   label: user.affiliation + "-" + user.region,
-                  key: user.fullname, // 无奈之举！后续可以把 key 还原为 index，通过 index map 到 label
+                  key: user.username+"("+user.fullname+")", // 无奈之举！后续可以把 key 还原为 index，通过 index map 到 label
                   disabled: true
                 });
               })
@@ -193,9 +193,20 @@
   };
 </script>
 
-<style scoped>
-  .transfer-footer {
-    margin-left: 20px;
-    padding: 6px 5px;
+<style >
+  /*.transfer-footer {*/
+  /*  margin-left: 20px;*/
+  /*  padding: 6px 5px;*/
+  /*}*/
+  .el-transfer-panel__item.el-checkbox .el-checkbox__label {
+    width: 200% !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding-left: 24px;
+    line-height: 30px;
   }
 </style>
