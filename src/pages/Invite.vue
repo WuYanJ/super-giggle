@@ -69,7 +69,7 @@
                 }
                 data.push({
                   identity: user.fullname,
-                  label: user.affiliation + "-" + user.region,
+                  label: user.affiliation + " " + user.region,
                   key: user.username+"("+user.fullname+")", // 无奈之举！后续可以把 key 还原为 index，通过 index map 到 label
                   disabled: user.username === store.state.userName || user.username === 'admin'
                 });
