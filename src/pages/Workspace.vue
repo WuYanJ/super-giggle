@@ -359,7 +359,7 @@ export default {
               });
             })
         })
-      this.$axios.post('/meetingMyRejected',store.state.userName)
+      this.$axios.post('/meetingMyEnded',store.state.userName)
         .then(resp => {
           var response = resp.data
           response.forEach((meeting,index) => {
