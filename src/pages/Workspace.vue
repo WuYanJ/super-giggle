@@ -39,7 +39,9 @@
                           >
 
                               <v-card>
-                                <v-card-title class="subheading font-weight-bold">conference - {{item.identity}} <router-link :to="item.router" v-if="item.identity === 'Chair' && item.statusMessage === ('Already Approved' || 'Allow Contribution') "> - Invite</router-link></v-card-title>
+                                <v-card-title class="subheading font-weight-bold">conference - {{item.identity}}
+                                  <router-link :to="item.router" v-if="item.identity === 'Chair' && (item.statusMessage === 'Already Approved' ||item.statusMessage === 'Allow Contribution') "> - Invite
+                                  </router-link></v-card-title>
 
                                 <v-divider></v-divider>
                                 <v-list dense>
