@@ -140,8 +140,8 @@
         formData.append('file', document.querySelector('input[type=file]').files[0]) // 'file' 这个名字要和后台获取文件的名字一样;
         formData.append('user', store.state.userName)
         formData.append('meeting', this.currentMeeting)
-        formData.append('title', this.contribute.fileTitle)
-        formData.append('abstract', this.contribute.abstract)
+        formData.append('fileTitle', this.contribute.fileTitle)
+        formData.append('fileAbstract', this.contribute.abstract)
 
         console.log("file:" + document.querySelector('input[type=file]').files[0].name)
         console.log("user:" + store.state.userName)

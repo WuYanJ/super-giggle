@@ -51,6 +51,9 @@
               <v-expansion-panel-content>
                 Spot: {{ item.spot}}
               </v-expansion-panel-content>
+              <v-expansion-panel-content >
+                Status: {{ item.status}}
+              </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
         </v-app>
@@ -109,7 +112,8 @@ export default {
               date : meeting.date,
               spot : meeting.spot,
               submitDueDate : meeting.submitDueDate,
-              resultReleaseDate : meeting.resultReleaseDate
+              resultReleaseDate : meeting.resultReleaseDate,
+              status : meeting.status === 1 ? 'To Be Approved' : (meeting.status === 2 ?'Already Approved': (meeting.status === 3 ?'Allow Contribution':'Rejected'))
             });
           })
           return conferences;
@@ -151,7 +155,7 @@ export default {
       return conferences;
     };
     return {
-      conferences: generateConference(),
+      conferences: generateConference()
     }
   }
 }

@@ -40,9 +40,9 @@
                             md="4"
                             lg="6"
                           >
-                            <router-link :to="router">
+                            <router-link  :to="item.router">
                               <v-card>
-                                <v-card-title class="subheading font-weight-bold">conference</v-card-title>
+                                <v-card-title class="subheading font-weight-bold">conference-{{item.identity}}</v-card-title>
 
                                 <v-divider></v-divider>
 
@@ -114,7 +114,6 @@
                             md="4"
                             lg="6"
                           >
-                            <router-link :to="router">
                               <v-card>
                                 <v-card-title class="subheading font-weight-bold">conference</v-card-title>
 
@@ -163,81 +162,80 @@
                                 <n-button type="neutral" round size="lg" v-on:click="agree(item,i)">Agree</n-button>
                                 <n-button type="neutral" round size="lg" v-on:click="reject(item,i)">Reject</n-button>
                               </v-card>
-                            </router-link>
                           </v-col>
                         </v-row>
                       </v-data-iterator>
                     </v-container>
                   </v-app>
 
-                  <h2 class="title">I Joined</h2>
-                  <v-app>
-                    <v-container fluid>
-                      <v-data-iterator
-                        :items="joinedConferences"
-                        :items-per-page.sync="itemsPerPage"
-                        hide-default-footer
-                      >
-                        <v-row>
-                          <v-col
-                            v-for="(item,i) in joinedConferences"
-                            :key="i"
-                            cols="12"
-                            sm="6"
-                            md="4"
-                            lg="6"
-                          >
-                            <v-card>
-                              <v-card-title class="subheading font-weight-bold">conference</v-card-title>
+<!--                  <h2 class="title">I Joined</h2>-->
+<!--                  <v-app>-->
+<!--                    <v-container fluid>-->
+<!--                      <v-data-iterator-->
+<!--                        :items="joinedConferences"-->
+<!--                        :items-per-page.sync="itemsPerPage"-->
+<!--                        hide-default-footer-->
+<!--                      >-->
+<!--                        <v-row>-->
+<!--                          <v-col-->
+<!--                            v-for="(item,i) in joinedConferences"-->
+<!--                            :key="i"-->
+<!--                            cols="12"-->
+<!--                            sm="6"-->
+<!--                            md="4"-->
+<!--                            lg="6"-->
+<!--                          >-->
+<!--                            <v-card>-->
+<!--                              <v-card-title class="subheading font-weight-bold">conference-{{item.identity}}</v-card-title>-->
 
-                              <v-divider></v-divider>
+<!--                              <v-divider></v-divider>-->
 
-                              <v-list dense>
-                                <v-list-item>
-                                  <v-list-item-content>Abbr Name</v-list-item-content>
-                                  <v-list-item-content class="align-end">{{ item.abbrName }}</v-list-item-content>
-                                </v-list-item>
+<!--                              <v-list dense>-->
+<!--                                <v-list-item>-->
+<!--                                  <v-list-item-content>Abbr Name</v-list-item-content>-->
+<!--                                  <v-list-item-content class="align-end">{{ item.abbrName }}</v-list-item-content>-->
+<!--                                </v-list-item>-->
 
-                                <v-list-item>
-                                  <v-list-item-content>Full Name</v-list-item-content>
-                                  <v-list-item-content class="align-end">{{ item.fullName }}</v-list-item-content>
-                                </v-list-item>
+<!--                                <v-list-item>-->
+<!--                                  <v-list-item-content>Full Name</v-list-item-content>-->
+<!--                                  <v-list-item-content class="align-end">{{ item.fullName }}</v-list-item-content>-->
+<!--                                </v-list-item>-->
 
-                                <v-list-item>
-                                  <v-list-item-content>PC Members</v-list-item-content>
-                                  <v-list-item-content class="align-end">{{ item.pcMemberNames }}</v-list-item-content>
-                                </v-list-item>
+<!--                                <v-list-item>-->
+<!--                                  <v-list-item-content>PC Members</v-list-item-content>-->
+<!--                                  <v-list-item-content class="align-end">{{ item.pcMemberNames }}</v-list-item-content>-->
+<!--                                </v-list-item>-->
 
-                                <v-list-item>
-                                  <v-list-item-content>Date</v-list-item-content>
-                                  <v-list-item-content class="align-end">{{ item.date }}</v-list-item-content>
-                                </v-list-item>
+<!--                                <v-list-item>-->
+<!--                                  <v-list-item-content>Date</v-list-item-content>-->
+<!--                                  <v-list-item-content class="align-end">{{ item.date }}</v-list-item-content>-->
+<!--                                </v-list-item>-->
 
-                                <v-list-item>
-                                  <v-list-item-content>Submit Due Date</v-list-item-content>
-                                  <v-list-item-content class="align-end">{{ item.submitDueDate }}</v-list-item-content>
-                                </v-list-item>
+<!--                                <v-list-item>-->
+<!--                                  <v-list-item-content>Submit Due Date</v-list-item-content>-->
+<!--                                  <v-list-item-content class="align-end">{{ item.submitDueDate }}</v-list-item-content>-->
+<!--                                </v-list-item>-->
 
-                                <v-list-item>
-                                  <v-list-item-content>Result Release Date</v-list-item-content>
-                                  <v-list-item-content class="align-end">{{ item.resultReleaseDate }}</v-list-item-content>
-                                </v-list-item>
+<!--                                <v-list-item>-->
+<!--                                  <v-list-item-content>Result Release Date</v-list-item-content>-->
+<!--                                  <v-list-item-content class="align-end">{{ item.resultReleaseDate }}</v-list-item-content>-->
+<!--                                </v-list-item>-->
 
-                                <v-list-item>
-                                  <v-list-item-content>Spot</v-list-item-content>
-                                  <v-list-item-content class="align-end">{{ item.spot }}</v-list-item-content>
-                                </v-list-item>
-                                <v-list-item>
-                                  <v-list-item-content>Status</v-list-item-content>
-                                  <v-list-item-content class="align-end">{{ item.statusMessage }}</v-list-item-content>
-                                </v-list-item>
-                              </v-list>
-                            </v-card>
-                          </v-col>
-                        </v-row>
-                      </v-data-iterator>
-                    </v-container>
-                  </v-app>
+<!--                                <v-list-item>-->
+<!--                                  <v-list-item-content>Spot</v-list-item-content>-->
+<!--                                  <v-list-item-content class="align-end">{{ item.spot }}</v-list-item-content>-->
+<!--                                </v-list-item>-->
+<!--                                <v-list-item>-->
+<!--                                  <v-list-item-content>Status</v-list-item-content>-->
+<!--                                  <v-list-item-content class="align-end">{{ item.statusMessage }}</v-list-item-content>-->
+<!--                                </v-list-item>-->
+<!--                              </v-list>-->
+<!--                            </v-card>-->
+<!--                          </v-col>-->
+<!--                        </v-row>-->
+<!--                      </v-data-iterator>-->
+<!--                    </v-container>-->
+<!--                  </v-app>-->
 
                   <h2 class="title">I Contributed</h2>
                   <v-app>
@@ -257,7 +255,7 @@
                             lg="6"
                           >
                             <v-card>
-                              <v-card-title class="subheading font-weight-bold">conference</v-card-title>
+                              <v-card-title class="subheading font-weight-bold">conference-{{item.identity}}</v-card-title>
 
                               <v-divider></v-divider>
 
@@ -339,7 +337,6 @@ export default {
       const conferences = [];
       this.$axios.post('/meetingIApplied',store.state.userName)
         .then(resp => {
-          if(resp != null) {
             var response = resp.data
             response.forEach((meeting,index) => {
               var obj={
@@ -347,19 +344,43 @@ export default {
                 index
               }
               conferences.push({
+                router : "invite",
+                identity : "Chair",
                 chair : meeting.chair,
-                pcMembers : meeting.pcMembers,
+                pcMemberNames : meeting.pcMembers,
                 abbrName : meeting.abbrName,
                 fullName : meeting.fullName,
                 date : meeting.date,
                 spot : meeting.spot,
                 submitDueDate : meeting.submitDueDate,
                 resultReleaseDate : meeting.resultReleaseDate,
-                statusMessage : meeting.status == 1 ? 'To Be Approved' : (meeting.status == 2 ?'Already Approved': (meeting.status == 3 ?'Allow Contribution':'Rejected'))
+                statusMessage : meeting.status === 0 ? 'To Be Approved' : (meeting.status === 1 ?'Already Approved': (meeting.status === 2 ?'Allow Contribution':'Rejected'))
               });
             })
-            return conferences;
-          } else return null;
+        })
+
+      this.$axios.post('/meetingIJoined',store.state.userName)
+        .then(resp => {
+            var response = resp.data
+            response.forEach((meeting,index) => {
+              var obj={
+                meeting,
+                index
+              }
+              conferences.push({
+                router : '',
+                identity: "PC Member",
+                chair : meeting.chair,
+                pcMemberNames : meeting.pcMembers,
+                abbrName : meeting.abbrName,
+                fullName : meeting.fullName,
+                date : meeting.date,
+                spot : meeting.spot,
+                submitDueDate : meeting.submitDueDate,
+                resultReleaseDate : meeting.resultReleaseDate,
+                statusMessage : meeting.status === 0 ? 'To Be Approved' : (meeting.status === 1 ?'Already Approved': (meeting.status === 2 ?'Allow Contribution':'Rejected'))
+              });
+            })
         })
         .catch(error =>{
           console.log(error)
@@ -367,37 +388,38 @@ export default {
       return conferences;
     };
 
-    const generateJoinedConference = _ => {
-      const conferences = [];
-      this.$axios.post('/meetingIJoined',store.state.userName)
-        .then(resp => {
-          if(resp != null) {
-            var response = resp.data
-            response.forEach((meeting,index) => {
-              var obj={
-                meeting,
-                index
-              }
-              conferences.push({
-                chair : meeting.chair,
-                pcMembers : meeting.pcMembers,
-                abbrName : meeting.abbrName,
-                fullName : meeting.fullName,
-                date : meeting.date,
-                spot : meeting.spot,
-                submitDueDate : meeting.submitDueDate,
-                resultReleaseDate : meeting.resultReleaseDate,
-                statusMessage : meeting.status == 1 ? 'To Be Approved' : (meeting.status == 2 ?'Already Approved': (meeting.status == 3 ?'Allow Contribution':'Rejected'))
-              });
-            })
-            return conferences;
-          } else return null;
-        })
-        .catch(error =>{
-          console.log(error)
-        })
-      return conferences;
-    };
+    // const generateJoinedConference = _ => {
+    //   const conferences = [];
+    //   this.$axios.post('/meetingIJoined',store.state.userName)
+    //     .then(resp => {
+    //       if(resp != null) {
+    //         var response = resp.data
+    //         response.forEach((meeting,index) => {
+    //           var obj={
+    //             meeting,
+    //             index
+    //           }
+    //           conferences.push({
+    //             identity: "PC Member",
+    //             chair : meeting.chair,
+    //             pcMemberNames : meeting.pcMembers,
+    //             abbrName : meeting.abbrName,
+    //             fullName : meeting.fullName,
+    //             date : meeting.date,
+    //             spot : meeting.spot,
+    //             submitDueDate : meeting.submitDueDate,
+    //             resultReleaseDate : meeting.resultReleaseDate,
+    //             statusMessage : meeting.status === 0 ? 'To Be Approved' : (meeting.status === 1 ?'Already Approved': (meeting.status === 2 ?'Allow Contribution':'Rejected'))
+    //           });
+    //         })
+    //         return conferences;
+    //       } else return null;
+    //     })
+    //     .catch(error =>{
+    //       console.log(error)
+    //     })
+    //   return conferences;
+    // };
 
     const generateContributedConference = _ => {
       const conferences = [];
@@ -411,15 +433,16 @@ export default {
                 index
               }
               conferences.push({
+                identity : "Author",
                 chair : meeting.chair,
-                pcMembers : meeting.pcMembers,
+                pcMemberNames : meeting.pcMembers,
                 abbrName : meeting.abbrName,
                 fullName : meeting.fullName,
                 date : meeting.date,
                 spot : meeting.spot,
                 submitDueDate : meeting.submitDueDate,
                 resultReleaseDate : meeting.resultReleaseDate,
-                statusMessage : meeting.status == 1 ? 'To Be Approved' : (meeting.status == 2 ?'Already Approved': (meeting.status == 3 ?'Allow Contribution':'Rejected'))
+                statusMessage : meeting.status === 0 ? 'To Be Approved' : (meeting.status === 1 ?'Already Approved': (meeting.status === 2 ?'Allow Contribution':'Rejected'))
               });
             })
             return conferences;
@@ -444,14 +467,14 @@ export default {
               }
               conferences.push({
                 chair : meeting.chair,
-                pcMembers : meeting.pcMembers,
+                pcMemberNames : meeting.pcMembers,
                 abbrName : meeting.abbrName,
                 fullName : meeting.fullName,
                 date : meeting.date,
                 spot : meeting.spot,
                 submitDueDate : meeting.submitDueDate,
                 resultReleaseDate : meeting.resultReleaseDate,
-                statusMessage : meeting.status === 1 ? 'To Be Approved' : (meeting.status === 2 ?'Already Approved': (meeting.status === 3 ?'Allow Contribution':'Rejected'))
+                statusMessage : meeting.status === 0 ? 'To Be Approved' : (meeting.status === 1 ?'Already Approved': (meeting.status === 2 ?'Allow Contribution':'Rejected'))
               });
             })
             return conferences;
@@ -469,7 +492,7 @@ export default {
       itemsPerPage: 4,
       myConferences: generateMyConference(),
       invitedConferences: generateInvitedConference(),
-      joinedConferences: generateJoinedConference(),
+      // joinedConferences: generateJoinedConference(),
       contributedConferences :generateContributedConference()
     }
   },
@@ -483,6 +506,7 @@ export default {
           if (resp.status === 200 && resp.data.hasOwnProperty('abbrName')) {
             alert('successful allowance')
             item.statusMessage = 'Allow Contribution'
+            location.reload()
           } else alert('allow error')
         })
         .catch(error => {
@@ -501,6 +525,7 @@ export default {
           if (resp.status === 200 && resp.data === "accepted") {
             alert('successful aggreement')
             this.invitedConferences.splice(itemIndex,1)
+            location.reload()
           } else {
             alert('agree error')
           }
@@ -518,6 +543,7 @@ export default {
           if (resp.status === 200 && resp.data === "rejected") {
             alert('successful Rejection')
             this.invitedConferences.splice(itemIndex,1)
+            location.reload()
           } else {
             alert('reject error')
           }
