@@ -9,7 +9,8 @@
           <card plain style="margin-top: 200px">
             <h1 class="title" style="color: white">Contribute</h1>
             <el-form :model="contribute" class="register_container" label-position="left"
-                     label-width="0px" :ref="contribute">
+                     :rules="rules"
+                     label-width="0px" ref="contribute">
               <el-form-item>
                 <el-autocomplete
                   v-model="state"
@@ -18,11 +19,11 @@
                   @select="handleSelect"
                 ></el-autocomplete>
               </el-form-item>
-              <el-form-item prop="username">
+              <el-form-item prop="fileTitle">
                 <el-input type="text" v-model="contribute.fileTitle"
                           auto-complete="off" placeholder="Title......"></el-input>
               </el-form-item>
-              <el-form-item prop="text">
+              <el-form-item prop="abstract">
                 <el-input type="textarea" v-model="contribute.abstract"
                           auto-complete="off" placeholder="Abstract......"></el-input>
               </el-form-item>
@@ -33,7 +34,7 @@
                        title="请选择文件"
                        value="请选择文件"
                        ref="fileInput"
-                       accept=".application/pdf"
+                       accept=".pdf"
                        @change="uploadFile"
                 >
               </el-form-item>
@@ -67,6 +68,29 @@
   export default {
     name: 'contribute',
     data () {
+      const dataValid = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('can\'t be empty'))
+        }
+        if (value === '') {
+          return callback(new Error('can\'t be empty'))
+        }
+        return callback()
+      }
+      const nameValid = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('can\'t be empty'))
+        } else if (value === '') {
+          return callback(new Error('can\'t be empty'))
+        } else {
+          // eslint-disable-next-line no-useless-escape
+          let reg = /^[a-zA-Z\-][a-zA-Z0-9_\-]*$/
+          if (!reg.test(value)) {
+            return callback(new Error('只能包含字母，数字或两种特殊字符(-_)且只能以字母或-开头'))
+          }
+        }
+        return callback()
+      }
       const generateOpenedContributionConference = _ => {
         const conferences = [];
         this.$axios.post('/meetingOpenedContribution', store.state.userName)
@@ -99,6 +123,20 @@
         contribute: {
           fileTitle: '',
           abstract: ''
+        },
+        rules: {
+          fileTitle: [
+            {required: true, message: 'Fill in file title', trigger: 'blur'},
+            {min: 5, max: 50},
+            {validator: nameValid, trigger: 'blur'},
+            {validator: dataValid, trigger: 'blur'}
+          ],
+          abstract: [
+            {required: true, message: 'Fill in abstract', trigger: 'blur'},
+            {min: 5, max: 80},
+            {validator: nameValid, trigger: 'blur'},
+            {validator: dataValid, trigger: 'blur'}
+          ]
         },
         // fileList: [
         //   {
@@ -154,16 +192,23 @@
         console.log("meeting:" + this.currentMeeting)
         console.log("title:" + this.contribute.fileTitle)
         console.log("abstract:" + this.contribute.abstract)
-
-        axios({
-          url: '/uploadwork',
-          data: formData,
-          method: 'post',
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          }
-        }).then((res) => {
-          console.log(res.data);
+        this.$refs.contribute.validate(valid => {
+          if (valid) {
+            axios({
+              url: '/uploadwork',
+              data: formData,
+              method: 'post',
+              headers: {
+                'Content-Type': 'multipart/form-data',
+              }
+            }).then((res) => {
+              console.log(res.data);
+            })
+              .catch(error => {
+                console.log(error)
+                alert('Meeting Has Been Applied')
+              })
+          } else alert("表单填写不完整")
         })
       },
 

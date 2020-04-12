@@ -92,7 +92,7 @@
                 }
                 data.push({
                   identity: user.fullname,
-                  label: "("+user.fullname+")"+user.affiliation + "-" + user.region,
+                  label: "("+user.fullname+")"+user.affiliation + " " + user.region,
                   key: user.username,
                   disabled: true
                 });
@@ -176,7 +176,8 @@
           .then(resp => {
             if (resp.status === 200 && resp.data.hasOwnProperty('abbrName')) {
               alert('successful Invitation')
-              this.$router.replace('workspace')
+              location.reload()
+              this.$route.replace('workspace')
             } else {
               alert('invite error')
             }
