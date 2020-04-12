@@ -233,11 +233,11 @@
         })//后端未实现
           .then(resp => {
             if (resp.status === 200 && resp.data.hasOwnProperty('abbrName')) {
-              alert('successful Approval')
+              // alert('successful Approval')
               this.notApprovedMeetings.splice(itemIndex,1)
               location.reload()
             } else {
-              alert('approve error')
+              // alert('approve error')
             }
           })
           .catch(error => {
@@ -251,10 +251,10 @@
         })//后端未实现
           .then(resp => {
             if (resp.status === 200 && resp.data.hasOwnProperty('abbrName')) {
-              alert('successful Rejection')
+              // alert('successful Rejection')
               this.notApprovedMeetings.splice(itemIndex,1)
             } else {
-              alert('reject error')
+              // alert('reject error')
             }
           })
           .catch(error => {

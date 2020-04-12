@@ -78,7 +78,7 @@
           })
           .catch(error =>{
             console.log(error)
-            alert('get users error')
+            // alert('get users error')
           })
 
         this.$axios.post('/alreadyInvitedUsers',this.$route.params.id)
@@ -175,11 +175,11 @@
         })//未实现
           .then(resp => {
             if (resp.status === 200 && resp.data.hasOwnProperty('abbrName')) {
-              alert('successful Invitation')
+              // alert('successful Invitation')
               location.reload()
               this.$route.replace('workspace')
             } else {
-              alert('invite error')
+              // alert('invite error')
             }
           })
           .catch(error => {

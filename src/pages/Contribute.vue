@@ -72,15 +72,10 @@
         if (!value) {
           return callback(new Error('can\'t be empty'))
         }
-        if (value === '') {
-          return callback(new Error('can\'t be empty'))
-        }
         return callback()
       }
       const nameValid = (rule, value, callback) => {
         if (!value) {
-          return callback(new Error('can\'t be empty'))
-        } else if (value === '') {
           return callback(new Error('can\'t be empty'))
         } else {
           // eslint-disable-next-line no-useless-escape

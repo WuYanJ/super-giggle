@@ -125,7 +125,6 @@ export default {
           message: 'Cancelled'
         });
       });
-
     }
   }
 }

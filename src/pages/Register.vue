@@ -57,15 +57,10 @@ export default {
       if (!value) {
         return callback(new Error('can\'t be empty'))
       }
-      if (value === '') {
-        return callback(new Error('can\'t be empty'))
-      }
       return callback()
     }
     const usernameValid = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error('can\'t be empty'))
-      } else if (value === '') {
         return callback(new Error('can\'t be empty'))
       } else {
         // eslint-disable-next-line no-useless-escape
@@ -78,8 +73,6 @@ export default {
     }
     const passwordValid = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error('can\'t be empty'))
-      } else if (value === '') {
         return callback(new Error('can\'t be empty'))
       } else {
         // eslint-disable-next-line no-useless-escape
@@ -114,8 +107,6 @@ export default {
     }
     const emailValid = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error('can\'t be empty'))
-      } else if (value === '') {
         return callback(new Error('can\'t be empty'))
       } else {
         // if (value !== '') {
