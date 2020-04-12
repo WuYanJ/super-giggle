@@ -1,18 +1,62 @@
 <template>
-  <div id="app">
-    <h1>Hello App!</h1>
-    <p>
-      <!-- 使用 router-link 组件来导航. -->
-      <!-- 通过传入 `to` 属性指定链接. -->
-      <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
-      <router-link to="/foo">Go to Foo</router-link>
-      <router-link to="/bar">Go to Bar</router-link>
-    </p>
-    <!-- 路由出口 -->
-    <!-- 路由匹配到的组件将渲染在这里 -->
-    <router-view></router-view>
-  </div>
+  <section class="p-10">
+    <el-select v-model="value" placeholder="请选择" filterable :filter-method="dataFilter">
+      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+    </el-select>
+  </section>
 </template>
-
 <script>
+  export default {
+    data() {
+      return {
+        optionsCopy: [{
+          value: '1',
+          label: 'meat'
+        }, {
+          value: '2',
+          label: 'drink'
+        }, {
+          value: '3',
+          label: 'food'
+        }, {
+          value: '4',
+          label: '龙须面'
+        }, {
+          value: '5',
+          label: '北京烤鸭'
+        }],
+        options: [{
+          value: '1',
+          label: 'meat'
+        }, {
+          value: '2',
+          label: 'drink'
+        }, {
+          value: '3',
+          label: 'food'
+        }, {
+          value: '4',
+          label: '龙须面'
+        }, {
+          value: '5',
+          label: '北京烤鸭'
+        }],
+        value: ''
+      };
+    },
+    methods: {
+      dataFilter(val) {
+        this.value = val;
+        if (val) { //val存在
+          this.options = this.optionsCopy.filter((item) => {
+            if (!!~item.label.indexOf(val) || !!~item.label.toUpperCase().indexOf(val.toUpperCase())) {
+              return true
+            }
+          })
+        } else { //val为空时，还原数组
+          this.options = this.optionsCopy;
+        }
+      }
+    }
+  };
 </script>

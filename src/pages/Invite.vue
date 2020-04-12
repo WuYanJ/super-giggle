@@ -29,6 +29,7 @@
                 style="text-align: left;display: inline-block"
                 v-model="selectList"
                 filterable
+                :filter-method="dataFilter"
                 :render-content="renderFunc"
                 :titles="['All users', 'PC member']"
                 :button-texts="['delete', 'select']"
@@ -102,33 +103,33 @@
         return data;
       };
 
-      const generateAppliedConference = _ => {
-        const conferences = [];
-        this.$axios.post('/meetingIApplied', store.state.userName)
-          .then(resp => {
-            if (resp != null) {
-              var response = resp.data
-              response.forEach((meeting, index) => {
-                var obj = {
-                  meeting,
-                  index
-                }
-                conferences.push({
-                  value: meeting.fullName
-                 });
-              })
-              return conferences;
-            } else return null;
-          })
-          .catch(error => {
-            console.log(error)
-          })
-        return conferences;
-      };
+      // const generateAppliedConference = _ => {
+      //   const conferences = [];
+      //   this.$axios.post('/meetingIApplied', store.state.userName)
+      //     .then(resp => {
+      //       if (resp != null) {
+      //         var response = resp.data
+      //         response.forEach((meeting, index) => {
+      //           var obj = {
+      //             meeting,
+      //             index
+      //           }
+      //           conferences.push({
+      //             value: meeting.fullName
+      //            });
+      //         })
+      //         return conferences;
+      //       } else return null;
+      //     })
+      //     .catch(error => {
+      //       console.log(error)
+      //     })
+      //   return conferences;
+      // };
 
       return {
         meetingName: this.$route.params.id,
-        selectAMeeting: generateAppliedConference(),
+        // selectAMeeting: generateAppliedConference(),
         state: '',
         timeout:  null,
         data: generateData(),
@@ -160,6 +161,9 @@
       // },
       handleChange(abbrName, direction, movedKeys) {
         console.log(abbrName, direction, movedKeys);
+      },
+      dataFilter(query,item) {
+        return item.key.indexOf(query) > -1;
       },
       invite() {
         this.$axios.post('/invite',{
