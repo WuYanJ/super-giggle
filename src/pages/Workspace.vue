@@ -262,42 +262,23 @@
 
                               <v-list dense>
                                 <v-list-item>
-                                  <v-list-item-content>Abbr Name</v-list-item-content>
-                                  <v-list-item-content class="align-end">{{ item.abbrName }}</v-list-item-content>
+                                  <v-list-item-content>Contributor</v-list-item-content>
+                                  <v-list-item-content class="align-end">{{ item.contributor }}</v-list-item-content>
                                 </v-list-item>
 
                                 <v-list-item>
-                                  <v-list-item-content>Full Name</v-list-item-content>
-                                  <v-list-item-content class="align-end">{{ item.fullName }}</v-list-item-content>
+                                  <v-list-item-content>Meeting Full Name</v-list-item-content>
+                                  <v-list-item-content class="align-end">{{ item.meetingFullName }}</v-list-item-content>
                                 </v-list-item>
 
                                 <v-list-item>
-                                  <v-list-item-content>PC Members</v-list-item-content>
-                                  <v-list-item-content class="align-end">{{ item.pcMemberNames }}</v-list-item-content>
+                                  <v-list-item-content>FileTitle</v-list-item-content>
+                                  <v-list-item-content class="align-end">{{ item.fileTitle }}</v-list-item-content>
                                 </v-list-item>
 
                                 <v-list-item>
-                                  <v-list-item-content>Date</v-list-item-content>
-                                  <v-list-item-content class="align-end">{{ item.date }}</v-list-item-content>
-                                </v-list-item>
-
-                                <v-list-item>
-                                  <v-list-item-content>Submit Due Date</v-list-item-content>
-                                  <v-list-item-content class="align-end">{{ item.submitDueDate }}</v-list-item-content>
-                                </v-list-item>
-
-                                <v-list-item>
-                                  <v-list-item-content>Result Release Date</v-list-item-content>
-                                  <v-list-item-content class="align-end">{{ item.resultReleaseDate }}</v-list-item-content>
-                                </v-list-item>
-
-                                <v-list-item>
-                                  <v-list-item-content>Spot</v-list-item-content>
-                                  <v-list-item-content class="align-end">{{ item.spot }}</v-list-item-content>
-                                </v-list-item>
-                                <v-list-item>
-                                  <v-list-item-content>Status</v-list-item-content>
-                                  <v-list-item-content class="align-end">{{ item.statusMessage }}</v-list-item-content>
+                                  <v-list-item-content>Abstract</v-list-item-content>
+                                  <v-list-item-content class="align-end">{{ item.fileAbstract }}</v-list-item-content>
                                 </v-list-item>
                               </v-list>
                             </v-card>
@@ -451,22 +432,17 @@ export default {
         .then(resp => {
           if(resp != null) {
             var response = resp.data
-            response.forEach((meeting,index) => {
+            response.forEach((contribution,index) => {
               var obj={
-                meeting,
+                contribution,
                 index
               }
               conferences.push({
                 identity : "Author",
-                chair : meeting.chair,
-                pcMemberNames : meeting.pcMembers,
-                abbrName : meeting.abbrName,
-                fullName : meeting.fullName,
-                date : meeting.date,
-                spot : meeting.spot,
-                submitDueDate : meeting.submitDueDate,
-                resultReleaseDate : meeting.resultReleaseDate,
-                statusMessage : meeting.status === 0 ? 'To Be Approved' : (meeting.status === 1 ?'Already Approved': (meeting.status === 2 ?'Allow Contribution': (meeting.status === 3 ?'Ended':'Rejected')))
+                contributor : contribution.contributor,
+                meetingFullName : contribution.meetingFullName,
+                fileTitle : contribution.fileTitle,
+                fileAbstract : contribution.fileAbstract,
               });
             })
             return conferences;

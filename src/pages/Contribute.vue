@@ -198,10 +198,12 @@
               }
             }).then((res) => {
               console.log(res.data);
+              alert('Success')
+              location.reload()
             })
               .catch(error => {
                 console.log(error)
-                alert('Meeting Has Been Applied')
+                alert('Fail to upload')
               })
           } else alert("表单填写不完整")
         })
