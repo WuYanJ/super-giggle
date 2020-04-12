@@ -79,9 +79,9 @@
           return callback(new Error('can\'t be empty'))
         } else {
           // eslint-disable-next-line no-useless-escape
-          let reg = /^[a-zA-Z\-][a-zA-Z0-9_\-]*$/
+          let reg = /^[a-zA-Z0-9][a-zA-Z0-9_\- ,.]*$/
           if (!reg.test(value)) {
-            return callback(new Error('只能包含字母，数字或两种特殊字符(-_)且只能以字母或-开头'))
+            return callback(new Error('只能包含字母，数字，空格或四种特殊字符(-_,.)且只能以字母或数字开头'))
           }
         }
         return callback()
