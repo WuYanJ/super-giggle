@@ -47,7 +47,7 @@
               icon="now-ui-icons design_image"
               class="nav-item"
       >
-        <nav-link to="/landing">
+        <nav-link to="/aboutUs">
           <i class="now-ui-icons education_paper"></i> About Us
         </nav-link>
       </drop-down>
