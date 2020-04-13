@@ -31,17 +31,20 @@
                         <el-form-item prop="date" style="margin-bottom: 5px">
                           Choose Conference Date
                           <el-date-picker type="date" placeholder="Choose Conference Date"
+                                          :picker-options="pickerOptions"
                                           v-model="applyMeetingForm.date"></el-date-picker>
                         </el-form-item>
                         <el-form-item prop="submitDueDate" style="margin-bottom: 5px">
                           Choose Submit Due Date
                           <el-date-picker type="date" placeholder="Choose Submit Due Date"
+                                          :picker-options="pickerOptions1"
                                           v-model="applyMeetingForm.submitDueDate"></el-date-picker>
                         </el-form-item>
                         <el-form-item prop="resultReleaseDate" style="margin-bottom: 5px">
                           Choose Result Releasing Date
                           <el-date-picker type="date"
                                           placeholder="Choose Result Releasing Date"
+                                          :picker-options="pickerOptions2"
                                           v-model="applyMeetingForm.resultReleaseDate">
                           </el-date-picker>
                         </el-form-item>
@@ -72,7 +75,7 @@
                             </div>
                             <div class="pull-right">
                                 <h6>
-                                    <a href="#pablo" class="link footer-link">Need Help?</a>
+                                    <a href="/aboutUs" class="link footer-link">Need Help?</a>
                                 </h6>
                             </div>
                         </template>
@@ -123,6 +126,9 @@ export default {
       return callback()
     }
     return {
+      pickerOptions: this.Date(),
+      pickerOptions1: this.SDDate(),
+      pickerOptions2: this.RRDate(),
       applyMeetingForm: {
         // 表单对象
         abbrName: '',
@@ -174,6 +180,38 @@ export default {
     }
   },
   methods: {
+    Date(){
+      let self = this
+      return {
+        disabledDate(time){
+          return time.getTime() < Date.now()//开始时间不选时，结束时间最大值小于等于当天
+        }
+      }
+    },
+    SDDate(){
+      let self = this
+      return {
+        disabledDate(time){
+          if(self.applyMeetingForm.date){
+            return new Date(self.applyMeetingForm.date).getTime() >= time.getTime() || time.getTime() < Date.now()
+          }else{
+            return time.getTime() < Date.now()//开始时间不选时，结束时间最大值小于等于当天
+          }
+        }
+      }
+    },
+    RRDate(){
+      let self = this
+      return {
+        disabledDate(time){
+          if(self.applyMeetingForm.submitDueDate){
+            return new Date(self.applyMeetingForm.submitDueDate).getTime() >= time.getTime() || time.getTime() < Date.now()
+          }else{
+            return time.getTime() < Date.now()//开始时间不选时，结束时间最大值小于等于当天
+          }
+        }
+      }
+    },
     submit (formName) {
       this.$refs.applyMeetingForm.validate(valid => {
         if (valid) {

@@ -1,62 +1,27 @@
 <template>
-  <section class="p-10">
-    <el-select v-model="value" placeholder="请选择" filterable :filter-method="dataFilter">
-      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-    </el-select>
-  </section>
+  <div class="block">
+    <span class="demonstration">带快捷选项</span>
+    <el-date-picker
+      v-model="value2"
+      align="right"
+      type="date"
+      placeholder="选择日期"
+      :picker-options="pickerOptions">
+    </el-date-picker>
+  </div>
 </template>
 <script>
   export default {
-    data() {
+    data () {
       return {
-        optionsCopy: [{
-          value: '1',
-          label: 'meat'
-        }, {
-          value: '2',
-          label: 'drink'
-        }, {
-          value: '3',
-          label: 'food'
-        }, {
-          value: '4',
-          label: '龙须面'
-        }, {
-          value: '5',
-          label: '北京烤鸭'
-        }],
-        options: [{
-          value: '1',
-          label: 'meat'
-        }, {
-          value: '2',
-          label: 'drink'
-        }, {
-          value: '3',
-          label: 'food'
-        }, {
-          value: '4',
-          label: '龙须面'
-        }, {
-          value: '5',
-          label: '北京烤鸭'
-        }],
-        value: ''
+        pickerOptions: {
+          disabledDate (time) {
+            return time.getTime() > Date.now();
+          },
+        },
+        value1: '',
+        value2: '',
       };
-    },
-    methods: {
-      dataFilter(val) {
-        this.value = val;
-        if (val) { //val存在
-          this.options = this.optionsCopy.filter((item) => {
-            if (!!~item.label.indexOf(val) || !!~item.label.toUpperCase().indexOf(val.toUpperCase())) {
-              return true
-            }
-          })
-        } else { //val为空时，还原数组
-          this.options = this.optionsCopy;
-        }
-      }
     }
-  };
+  }
 </script>
