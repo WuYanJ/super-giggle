@@ -215,15 +215,17 @@ export default {
     submit (formName) {
       this.$refs.applyMeetingForm.validate(valid => {
         if (valid) {
+          console.log(this.applyMeetingForm.date)
+          console.log(this.applyMeetingForm.submitDueDate)
           this.$axios.post('/meeting', {
-            abbrName: this.applyMeetingForm.abbrName,
-            fullName: this.applyMeetingForm.fullName,
+            abbr: this.applyMeetingForm.abbrName,
+            full: this.applyMeetingForm.fullName,
             chair: store.state.userName,
-            pcMembers: null,
+            pc: null,
             date: this.applyMeetingForm.date,
             spot: this.applyMeetingForm.spot,
-            submitDueDate: this.applyMeetingForm.submitDueDate,
-            resultReleaseDate: this.applyMeetingForm.resultReleaseDate
+            submit: this.applyMeetingForm.submitDueDate,
+            result: this.applyMeetingForm.resultReleaseDate
           })
             .then(resp => {
               if (resp.status === 200 && resp.data.hasOwnProperty('abbrName')) {

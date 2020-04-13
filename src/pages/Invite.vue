@@ -212,7 +212,7 @@
   }
   .el-button--primary.is-disabled, .el-button--primary.is-disabled:active, .el-button--primary.is-disabled:focus, .el-button--primary.is-disabled:hover {
     color: #FFF;
-    background-color: #f96332;
-    border-color: #f96332;
+    background-color: #f96332 !important;
+    border-color: #f96332 !important;
   }
 </style>
