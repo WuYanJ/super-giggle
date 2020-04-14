@@ -1,20 +1,17 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '../pages/Index'
+import Profile from '../pages/Profile'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
-import Profile from '../pages/Profile.vue'
-import AboutUs from '../pages/AboutUs'
 import ApplyMeeting from '../pages/ApplyMeeting'
 import Workspace from '../pages/Workspace'
-import AdminApprove from '../pages/AdminApprove'
-import TimeLine from '../pages/components/TimeLine'
-import Contribute from '../pages/Contribute'
 import Invite from '../pages/Invite'
-import MainNavbar from '../layout/MainNavbar.vue'
-import MainFooter from '../layout/MainFooter.vue'
-
-import pdfTest from '../pages/pdfTest'
+import News from '../pages/News'
+import Window from '../pages/Window'
+import AdminApprove from '../pages/AdminApprove'
+import Dashboard from '../pages/Dashboard'
+import Users from '../pages/Users'
 import store from '../store'
 
 Vue.use(Router)
@@ -25,135 +22,78 @@ export const router = new Router({
     {
       path: '/',
       name: 'index',
-      components: { default: Index, header: MainNavbar, footer: MainFooter },
-      props: {
-        header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
-      },
-      meta: { title: 'Homepage' }
-    },
-    {
-      path: '/aboutUs',
-      name: 'aboutUs',
-      components: { default: AboutUs, header: MainNavbar, footer: MainFooter },
-      props: {
-        header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
-      },
-      meta: { title: 'AboutUs' }
-    },
-    {
-      path: '/login',
-      name: 'login',
-      components: { default: Login, header: MainNavbar },
-      props: {
-        header: { colorOnScroll: 400 }
-      },
-      meta: { title: 'Login' }
-    },
-    {
-      path: '/register',
-      name: 'register',
-      components: { default: Register, header: MainNavbar },
-      props: {
-        header: { colorOnScroll: 400 }
-      },
-      meta: { title: 'Register' }
-    },
-    {
-      path: '/applyMeeting',
-      name: 'applyMeeting',
-      components: { default: ApplyMeeting, header: MainNavbar, footer: MainFooter },
-      props: {
-        header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
-      },
-      meta: {
-        requireAuth: true, // 需要登录权限
-        title: 'ApplyMeeting'
-      }
-    },
-    {
-      path: '/profile',
-      name: 'profile',
-      components: { default: Profile, header: MainNavbar, footer: MainFooter },
-      props: {
-        header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
-      },
-      meta: {
-        requireAuth: true, // 需要登录权限
-        title: 'Profile' }
-    },
-    {
-      path: '/workspace',
-      name: 'workspace',
-      components: { default: Workspace, header: MainNavbar, footer: MainFooter },
-      props: {
-        header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
-      },
-      meta: {
-        requireAuth: true, // 需要登录权限
-        title: 'Workspace' }
-    },
-    {
-      path: '/timeLine',
-      name: 'timeLine',
-      components: { default: TimeLine, header: MainNavbar, footer: MainFooter },
-      props: {
-        header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
-      },
-      meta: {
-        title: 'Line' }
-    },
-    {
-      path: '/adminApprove',
-      name: 'adminApprove',
-      components: { default: AdminApprove, header: MainNavbar, footer: MainFooter },
-      props: {
-        header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
-      },
-      meta: {
-        requireAuth : true,
-        title: 'AdminApprove' }
-    },
-    {
-      path: '/contribute',
-      name: 'contribute',
-      components: { default: Contribute, header: MainNavbar, footer: MainFooter },
-      props: {
-        header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
-      },
-      meta: {
-        requireAuth : true,
-        title: 'Contribute' }
-    },
-    {
-      path: '/invite/:id',
-      name: 'invite',
-      components: { default: Invite, header: MainNavbar, footer: MainFooter },
-      props: {
-        header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
-      },
-      meta: {
-        requireAuth : true,
-        title: 'Invite' }
-    },
-    {
-      path: '/pdf',
-      name: 'pdfTest',
-      components: { default: pdfTest },
-      props: {
-        header: { colorOnScroll: 400 },
-        footer: { backgroundColor: 'black' }
-      },
-      meta: { title: 'pdfTest' }
-    },
+      components: { default: Index},
+      meta: { title: 'Index' },
+      children: [
+        {
+          // 当 /foo/:id/profile 匹配成功，
+          // FooProfile 会被渲染在 Foo的 <router-view> 中
+          path: 'profile',
+          name: 'profile',
+          component: Profile
+        },
+        {
+          // 当 /foo/:id/profile 匹配成功，
+          // FooProfile 会被渲染在 Foo的 <router-view> 中
+          path: 'users',
+          name: 'users',
+          component: Users
+        },
+        {
+          // 当 /foo/:id/profile 匹配成功，
+          // FooProfile 会被渲染在 Foo的 <router-view> 中
+          path: 'news',
+          name: 'news',
+          component: News
+        },
+        {
+          path: 'login',
+          name: 'login',
+          component: Login
+        },
+        {
+          path: 'register',
+          name: 'register',
+          component: Register
+        },
+        {
+          // 当 /foo/:id/profile 匹配成功，
+          // FooProfile 会被渲染在 Foo的 <router-view> 中
+          path: 'applyMeeting',
+          name: 'applyMeeting',
+          component: ApplyMeeting
+        },
+        {
+          // 当 /foo/:id/profile 匹配成功，
+          // FooProfile 会被渲染在 Foo的 <router-view> 中
+          path: 'workspace',
+          name: 'workspace',
+          component: Workspace
+        },
+        {
+          // 当 /foo/:id/profile 匹配成功，
+          // FooProfile 会被渲染在 Foo的 <router-view> 中
+          path: 'invite/:id',
+          name: 'invite',
+          component: Invite
+        },
+        {
+          path: 'window',
+          name: 'window',
+          component: Window
+        },
+        {
+          path: 'adminApprove',
+          name: 'adminApprove',
+          component: AdminApprove
+        },
+        {
+          path: 'dashboard',
+          name: 'dashboard',
+          component: Dashboard
+        }
+      ]
+    }
   ]
 })
 

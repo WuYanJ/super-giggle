@@ -1,268 +1,162 @@
 <template>
-    <div class="page-header clear-filter" filter-color="orange">
-        <div
-      class="page-header-image"
-    ></div>
-        <div class="content">
-            <div class="container">
-                <div class="col-md-5 ml-auto mr-auto">
-                    <card type="login" plain>
-                      <h3>Apply For A Meeting.</h3>
-                      <el-form ref="applyMeetingForm"
-                               :inline="true"
-                               :rules="rules"
-                               :model="applyMeetingForm"
-                               v-loading="loading"
-                               class="demo-form-inline">
-                        <el-form-item prop="abbrName" style=" margin-bottom: 5px">
-                          Conference Name(abbr.)
-                          <el-input v-model="applyMeetingForm.abbrName" label="Conference Name(abbr.)"
+  <v-app id="inspire">
+    <v-content>
+      <v-container
+        class="fill-height"
+        fluid
+      >
+        <v-row
+          align="center"
+          justify="center"
+        >
+          <v-col
+            cols="12"
+            sm="8"
+            md="8"
+          >
+            <v-card class="elevation-12">
+              <v-toolbar
+                color="primary"
+                dark
+                flat
+              >
+                <v-toolbar-title>Apply meeting form</v-toolbar-title>
+                <v-spacer />
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      :href="source"
+                      icon
+                      large
+                      target="_blank"
+                      v-on="on"
+                    >
+                      <!--                      <v-icon>mdi-code-tags</v-icon>-->
+                    </v-btn>
+                  </template>
+                  <span>Source</span>
+                </v-tooltip>
+                <v-tooltip right>
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      icon
+                      large
+                      href="https://codepen.io/johnjleider/pen/pMvGQO"
+                      target="_blank"
+                      v-on="on"
+                    >
+                      <!--                      <v-icon>mdi-codepen</v-icon>-->
+                    </v-btn>
+                  </template>
+                  <span>Codepen</span>
+                </v-tooltip>
+              </v-toolbar>
+              <v-card-text>
+                <v-form>
+                  <v-text-field
+                    label="Conference Name(abbr.)"
+                    name="Conference Name(abbr.)"
+                    type="text"
+                  />
 
-                                    placeholder="Conference Name(abbr.)"
-                          ></el-input>
-                        </el-form-item>
-                        <el-form-item prop="fullName" style=" margin-bottom: 5px"
-                        >
-                          Conference Name(formal)
-                          <el-input v-model="applyMeetingForm.fullName" placeholder="Conference Name(formal)"
+                  <v-text-field
+                    label="Conference Name(formal)"
+                    name="Conference Name(formal)"
+                    type="text"
+                  />
 
-                                    class="input"></el-input>
-                        </el-form-item>
-                        <el-form-item prop="date" style="margin-bottom: 5px">
-                          Choose Conference Date
-                          <el-date-picker type="date" placeholder="Choose Conference Date"
-                                          :picker-options="pickerOptions"
-                                          v-model="applyMeetingForm.date"></el-date-picker>
-                        </el-form-item>
-                        <el-form-item prop="submitDueDate" style="margin-bottom: 5px">
-                          Choose Submit Due Date
-                          <el-date-picker type="date" placeholder="Choose Submit Due Date"
-                                          :picker-options="pickerOptions1"
-                                          v-model="applyMeetingForm.submitDueDate"></el-date-picker>
-                        </el-form-item>
-                        <el-form-item prop="resultReleaseDate" style="margin-bottom: 5px">
-                          Choose Result Releasing Date
-                          <el-date-picker type="date"
-                                          placeholder="Choose Result Releasing Date"
-                                          :picker-options="pickerOptions2"
-                                          v-model="applyMeetingForm.resultReleaseDate">
-                          </el-date-picker>
-                        </el-form-item>
+                  <v-menu
+                    v-model="menu2"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-model="date"
+                        label="Choose Conference Date"
+                        prepend-icon="event"
+                        readonly
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                  </v-menu>
 
-                        <el-form-item prop="spot">
-                          Conference Venue
-                          <el-select v-model="applyMeetingForm.spot" placeholder="Conference Venue">
-                            <el-option label="Shanghai" value="shanghai"></el-option>
-                            <el-option label="Beijing" value="beijing"></el-option>
-                          </el-select>
-                        </el-form-item>
-                      </el-form>
+                  <v-menu
+                    v-model="menu2"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-model="date"
+                        label="Choose Submit Due Date"
+                        prepend-icon="event"
+                        readonly
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                  </v-menu>
 
-                        <template slot="raw-content">
-                            <div class="card-footer text-center">
-                                <a
-                                        v-on:click="submit(applyMeetingForm)"
-                                        class="btn btn-primary btn-round btn-lg btn-block"
-                                >Ready To Apply</a
-                                >
-                            </div>
-                            <div class="pull-left">
-                                <h6>
-                                    <router-link to="/" class="link footer-link">
-                                        Create Account
-                                    </router-link>
-                                </h6>
-                            </div>
-                            <div class="pull-right">
-                                <h6>
-                                    <a href="/aboutUs" class="link footer-link">Need Help?</a>
-                                </h6>
-                            </div>
-                        </template>
-                    </card>
-                </div>
-            </div>
-        </div>
-    </div>
+                  <v-menu
+                    v-model="menu2"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-model="date"
+                        label="Choose Result Releasing Date"
+                        prepend-icon="event"
+                        readonly
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                  </v-menu>
+
+
+                  <v-text-field
+                    label="Spot"
+                    name="Choose spot"
+                    type="text"
+                  />
+
+                </v-form>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer />
+                <v-btn color="primary">Apply</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
+
 <script>
-import { Card, Button, FormGroupInput, Checkbox } from '@/components'
-import MainFooter from '@/layout/MainFooter'
-import JavascriptComponents from './components/JavascriptComponents'
-import { DatePicker } from 'element-ui'
-import store from '../store'
-
-export default {
-  name: 'meeting',
-  bodyClass: 'login-page',
-  components: {
-    Card,
-    MainFooter,
-    [Button.name]: Button,
-    [FormGroupInput.name]: FormGroupInput,
-    [DatePicker.name]: DatePicker,
-    JavascriptComponents,
-    [Checkbox.name]: Checkbox,
-    DatePicker
-  },
-  data () {
-    const dataValid = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error('can\'t be empty'))
-      }
-
-      return callback()
-    }
-    const nameValid = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error('can\'t be empty'))
-      } else {
-        // eslint-disable-next-line no-useless-escape
-        let reg = /^[a-zA-Z\-][a-zA-Z0-9_\-]*$/
-        if (!reg.test(value)) {
-          return callback(new Error('只能包含字母，数字或两种特殊字符(-_)且只能以字母或-开头'))
-        }
-      }
-      return callback()
-    }
-    return {
-      pickerOptions: this.Date(),
-      pickerOptions1: this.SDDate(),
-      pickerOptions2: this.RRDate(),
-      applyMeetingForm: {
-        // 表单对象
-        abbrName: '',
-        fullName: '',
-        date: '',
-        spot: '',
-        submitDueDate: '',
-        resultReleaseDate: ''
-      },
-      modals: {
-        classic: false,
-        mini: false
-      },
-      checkboxes: {
-        unchecked: false,
-        checked: true,
-        disabledUnchecked: false,
-        disabledChecked: true
-      },
-      valid: false,
-      abbrName: '',
-      rules: {
-        abbrName: [
-          {required: true, message: 'Fill in abbrName', trigger: 'blur'},
-          {min: 5, max: 32},
-          {validator: nameValid, trigger: 'blur'},
-          {validator: dataValid, trigger: 'blur'}
-        ],
-        fullName: [
-          {required: true, message: 'Fill in abbrName', trigger: 'blur'},
-          {min: 5, max: 32},
-          {validator: nameValid, trigger: 'blur'},
-          {validator: dataValid, trigger: 'blur'}
-        ],
-        date: [
-          {required: true, message: 'Date is required', trigger: 'blur'},
-        ],
-        submitDueDate: [
-          {required: true, message: 'Submit Due Date is required', trigger: 'blur'},
-        ],
-        resultReleaseDate: [
-          {required: true, message: 'Result Release Date is required', trigger: 'blur'},
-        ],
-        spot: [
-          {required: true, message: 'Spot is required', trigger: 'blur'},
-        ]
-      },
-      loading: false
-    }
-  },
-  methods: {
-    Date(){
-      let self = this
-      return {
-        disabledDate(time){
-          return time.getTime() < Date.now()//开始时间不选时，结束时间最大值小于等于当天
-        }
-      }
+  export default {
+    props: {
+      source: String,
     },
-    SDDate(){
-      let self = this
+    data () {
       return {
-        disabledDate(time){
-          if(self.applyMeetingForm.date){
-            return new Date(self.applyMeetingForm.date).getTime() >= time.getTime() || time.getTime() < Date.now()
-          }else{
-            return time.getTime() < Date.now()//开始时间不选时，结束时间最大值小于等于当天
-          }
-        }
+        date: new Date().toISOString().substr(0, 10),
+        menu2: false
       }
-    },
-    RRDate(){
-      let self = this
-      return {
-        disabledDate(time){
-          if(self.applyMeetingForm.submitDueDate){
-            return new Date(self.applyMeetingForm.submitDueDate).getTime() >= time.getTime() || time.getTime() < Date.now()
-          }else{
-            return time.getTime() < Date.now()//开始时间不选时，结束时间最大值小于等于当天
-          }
-        }
-      }
-    },
-    submit (formName) {
-      this.$refs.applyMeetingForm.validate(valid => {
-        if (valid) {
-          console.log(this.applyMeetingForm.date)
-          console.log(this.applyMeetingForm.submitDueDate)
-          this.$axios.post('/meeting', {
-            abbr: this.applyMeetingForm.abbrName,
-            full: this.applyMeetingForm.fullName,
-            chair: store.state.userName,
-            pc: null,
-            date: this.applyMeetingForm.date,
-            spot: this.applyMeetingForm.spot,
-            submit: this.applyMeetingForm.submitDueDate,
-            result: this.applyMeetingForm.resultReleaseDate
-          })
-            .then(resp => {
-              if (resp.status === 200 && resp.data.hasOwnProperty('abbrName')) {
-                alert('successful application')
-                this.$router.replace({path: '/workspace'})
-              } else if (resp.status === 200 && resp.data.hasOwnProperty('error')) {
-                alert('please login first')
-                this.$router.replace({path: '/login'})
-              } else {
-                alert('apply error')
-              }
-            })
-            .catch(error => {
-              console.log(error)
-              alert('Meeting Has Been Applied')
-            })
-        } else {
-          alert('表单填写不完整')
-        }
-      })
     }
   }
-}
 </script>
-<style lang="scss">
-#javascriptComponents {
-    .modal-buttons,
-    .popover-buttons,
-    .tooltip-buttons {
-    .btn + .btn {
-        margin-left: 3px;
-    }
-    }
-}
-input.el-input__inner {
-  padding: 0 30px;
-  opacity:0.5;
-  border-radius: 20px;
-}
-</style>
+

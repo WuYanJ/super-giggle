@@ -6,15 +6,26 @@ import {router} from './router'
 import store from './store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import NowUiKit from './plugins/now-ui-kit'
 import Vuetify from 'vuetify'
 import Vuelidate from 'vuelidate'
 import VueWechatTitle from 'vue-wechat-title'
 import 'babel-polyfill'
 import 'vuetify/dist/vuetify.min.css'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loader
+import VueMdl from 'vue-mdl'
+import VueMdc from 'vue-mdc'
+// You need a specific loader for CSS files like https://github.com/webpack/css-loader
+import 'vue-mdc/dist/vue-mdc.css'
+import VueMDCAdapter from 'vue-mdc-adapter'
+Vue.use(VueMDCAdapter)
+
+
+Vue.use(VueMdc)
+
+Vue.use(VueMdl)
 
 Vue.use(VueWechatTitle)
-Vue.use(NowUiKit)
 Vue.use(Vuetify)
 Vue.use(Vuelidate)
 Vue.use(ElementUI)

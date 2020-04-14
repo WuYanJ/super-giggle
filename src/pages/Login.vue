@@ -1,119 +1,88 @@
 <template>
-  <div class="page-header clear-filter" filter-color="orange">
-    <div
-      class="page-header-image"
-      style="background-image: url('./../../public/img/login.jpg')"
-    ></div>
-    <div class="content">
-      <div class="container">
-        <div class="col-md-5 ml-auto mr-auto">
-          <card type="login" plain>
-            <h3>Sign in</h3>
-            <v-form :model="loginForm" :ref="loginForm">
-              <fg-input v-model="loginForm.username"
-                        type="text"
-                        class="no-border"
-                        addon-left-icon="now-ui-icons users_circle-08"
-                        placeholder="User Name..."
+  <v-app id="inspire">
+    <v-content>
+      <v-container
+        class="fill-height"
+        fluid
+      >
+        <v-row
+          align="center"
+          justify="center"
+        >
+          <v-col
+            cols="12"
+            sm="8"
+            md="8"
+          >
+            <v-card class="elevation-12">
+              <v-toolbar
+                color="primary"
+                dark
+                flat
               >
-              </fg-input>
+                <v-toolbar-title>Login form</v-toolbar-title>
+                <v-spacer />
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      :href="source"
+                      icon
+                      large
+                      target="_blank"
+                      v-on="on"
+                    >
+<!--                      <v-icon>mdi-code-tags</v-icon>-->
+                    </v-btn>
+                  </template>
+                  <span>Source</span>
+                </v-tooltip>
+                <v-tooltip right>
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      icon
+                      large
+                      href="https://codepen.io/johnjleider/pen/pMvGQO"
+                      target="_blank"
+                      v-on="on"
+                    >
+<!--                      <v-icon>mdi-codepen</v-icon>-->
+                    </v-btn>
+                  </template>
+                  <span>Codepen</span>
+                </v-tooltip>
+              </v-toolbar>
+              <v-card-text>
+                <v-form>
+                  <v-text-field
+                    label="Login"
+                    name="login"
+                    type="text"
+                  />
 
-              <fg-input v-model="loginForm.password"
-                        type="password"
-                        class="no-border"
-                        addon-left-icon="now-ui-icons text_caps-small"
-                        placeholder="Password..."
-              >
-              </fg-input>
-               <div class="card-footer text-center">
-                  <a v-on:click="login"
-                     :disabled="!loginForm"
-                  class="btn btn-primary btn-round btn-lg btn-block"
-                  >Get Started</a
-                  >
-               </div>
-                <div class="pull-left">
-                 <h6>
-                   <router-link to="/" class="link footer-link">
-                      Create Account
-                    </router-link>
-                </h6>
-              </div>
-              <div class="pull-right">
-                <h6>
-                  <a href="/" class="link footer-link">Need Help?</a>
-                </h6>
-              </div>
-            </v-form>
-          </card>
-        </div>
-      </div>
-    </div>
-    <main-footer></main-footer>
-  </div>
+                  <v-text-field
+                    id="password"
+                    label="Password"
+                    name="password"
+                    type="password"
+                  />
+                </v-form>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer />
+                <v-btn color="primary">Login</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
-<script>
-import store from './../store'
-import { validationMixin } from 'vuelidate'
-import { Card, Button, FormGroupInput, Alert } from '@/components'
 
-import MainFooter from '@/layout/MainFooter'
-export default {
-  name: 'login-page',
-  bodyClass: 'login-page',
-  mixins: [validationMixin],
-  components: {
-    Card,
-    MainFooter,
-    Alert,
-    [Button.name]: Button,
-    [FormGroupInput.name]: FormGroupInput
-  },
-  data () {
-    return {
-      loginForm: {
-        username: '',
-        password: ''
-      },
-      loading: false,
-      showAlert: false
-    }
-  },
-  methods: {
-    validate () {
-      this.$refs.loginForm.validate()
+<script>
+  export default {
+    props: {
+      source: String,
     },
-    login () {
-      if (store.state.userName != null) {//
-        alert('已经登陆过了哥')
-      } else {
-        this.$axios.post('/login', {
-          username: this.loginForm.username,
-          password: this.loginForm.password
-        })
-          .then(resp => {
-            console.log(resp)
-            if (resp.status === 200 && resp.data.hasOwnProperty('token')) {
-              alert('登录成功！')
-              this.$store.commit('login', resp.data)
-              this.$store.state.userName = this.loginForm.username
-              localStorage.setItem('userName', this.loginForm.username)
-              localStorage.setItem('now', true)
-              if(this.loginForm.username === 'admin'){
-                this.$router.replace({path: '/adminApprove'})
-              }else this.$router.replace({path: '/workspace'})
-              location.reload()
-            } else {
-              alert(resp.data)
-            }
-          })
-          .catch(error => {
-            console.log(error)
-            alert('用户名不存在！')
-          })
-      }
-    }
   }
-}
 </script>
-<style></style>

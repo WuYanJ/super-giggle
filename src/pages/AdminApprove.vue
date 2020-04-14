@@ -1,161 +1,134 @@
 <template>
-  <div>
-    <div class="page-header page-header-small clear-filter" filter-color="orange">
-      <parallax
-        class="page-header-image"
+  <v-app id="inspire">
+    <v-content>
+      <v-container fluid>
+  <h1 class="title">TO BE APPROVED</h1>
+  <v-app>
+    <v-container fluid>
+      <v-data-iterator
+        :items="notApprovedMeetings"
+        :items-per-page.sync="itemsPerPage"
+        hide-default-footer
       >
-      </parallax>
-      <div class="content-center">
-        <div class="container">
-          <h1 class="title">Admin: Handle Meetings ! </h1>
-        </div>
-      </div>
-    </div>
-    <div class="section">
-      <div class="container" >
-        <h1 class="title">TO BE APPROVED</h1>
-        <v-app>
-          <v-container fluid>
-            <v-data-iterator
-              :items="notApprovedMeetings"
-              :items-per-page.sync="itemsPerPage"
-              hide-default-footer
+        <template v-slot:default="props">
+          <v-row>
+            <v-col
+              v-for="(item,itemIndex) in notApprovedMeetings"
+              :key="item.name"
+              cols="12"
+              sm="12"
+              md="4"
+              lg="4"
             >
-              <template v-slot:default="props">
-                <v-row>
-                  <v-col
-                    v-for="(item,itemIndex) in notApprovedMeetings"
-                    :key="item.name"
-                    cols="12"
-                    sm="12"
-                    md="6"
-                    lg="6"
-                  >
-                    <v-card>
-                      <v-card-title class="subheading font-weight-bold">Conference</v-card-title>
-                      <v-divider></v-divider>
-                      <v-list dense>
-                        <v-list-item>
-                          <v-list-item-content>Abbr Name:</v-list-item-content>
-                          <v-list-item-content class="align-end">{{ item.abbrName }}</v-list-item-content>
-                        </v-list-item>
+              <v-card>
+                <v-card-title class="subheading font-weight-bold">Conference</v-card-title>
+                <v-divider></v-divider>
+                <v-list dense>
+                  <v-list-item>
+                    <v-list-item-content>Abbr Name:</v-list-item-content>
+                    <v-list-item-content class="align-end">{{ item.abbrName }}</v-list-item-content>
+                  </v-list-item>
 
-                        <v-list-item>
-                          <v-list-item-content>Full Name:</v-list-item-content>
-                          <v-list-item-content class="align-end">{{ item.fullName }}</v-list-item-content>
-                        </v-list-item>
+                  <v-list-item>
+                    <v-list-item-content>Full Name:</v-list-item-content>
+                    <v-list-item-content class="align-end">{{ item.fullName }}</v-list-item-content>
+                  </v-list-item>
 
-                        <v-list-item>
-                          <v-list-item-content>Date:</v-list-item-content>
-                          <v-list-item-content class="align-end">{{ item.date }}</v-list-item-content>
-                        </v-list-item>
+                  <v-list-item>
+                    <v-list-item-content>Date:</v-list-item-content>
+                    <v-list-item-content class="align-end">{{ item.date }}</v-list-item-content>
+                  </v-list-item>
 
-                        <v-list-item>
-                          <v-list-item-content>Submit Due Date:</v-list-item-content>
-                          <v-list-item-content class="align-end">{{ item.submitDueDate }}</v-list-item-content>
-                        </v-list-item>
+                  <v-list-item>
+                    <v-list-item-content>Submit Due Date:</v-list-item-content>
+                    <v-list-item-content class="align-end">{{ item.submitDueDate }}</v-list-item-content>
+                  </v-list-item>
 
-                        <v-list-item>
-                          <v-list-item-content>Result Release Date:</v-list-item-content>
-                          <v-list-item-content class="align-end">{{ item.resultReleaseDate }}</v-list-item-content>
-                        </v-list-item>
+                  <v-list-item>
+                    <v-list-item-content>Result Release Date:</v-list-item-content>
+                    <v-list-item-content class="align-end">{{ item.resultReleaseDate }}</v-list-item-content>
+                  </v-list-item>
 
-                        <v-list-item>
-                          <v-list-item-content>Spot:</v-list-item-content>
-                          <v-list-item-content class="align-end">{{ item.spot }}</v-list-item-content>
-                        </v-list-item>
-                      </v-list>
-                      <n-button type="neutral" round size="lg" @click="approve(item,itemIndex)">Approve-{{item.abbrName}}</n-button>
-                      <n-button type="neutral" round size="lg" @click="reject(item,itemIndex)">Reject-{{item.abbrName}}</n-button>
-                    </v-card>
-                  </v-col>
-                </v-row>
-              </template>
-            </v-data-iterator>
-          </v-container>
+                  <v-list-item>
+                    <v-list-item-content>Spot:</v-list-item-content>
+                    <v-list-item-content class="align-end">{{ item.spot }}</v-list-item-content>
+                  </v-list-item>
+                </v-list>
+                <v-btn type="neutral" round size="lg" @click="approve(item,itemIndex)">Approve-{{item.abbrName}}</v-btn>
+                <v-btn type="neutral" round size="lg" @click="reject(item,itemIndex)">Reject-{{item.abbrName}}</v-btn>
+              </v-card>
+            </v-col>
+          </v-row>
+        </template>
+      </v-data-iterator>
+    </v-container>
 
 
-        <h1 class="title">ALREADY APPROVED</h1>
+    <h1 class="title">ALREADY APPROVED</h1>
 
-          <v-container fluid>
-            <v-data-iterator
-              :items="alreadyApprovedMeetings"
-              :items-per-page.sync="itemsPerPage"
-              hide-default-footer
-            >
-                <v-row>
-                  <v-col
-                    v-for="(item,itemIndex) in alreadyApprovedMeetings"
-                    :key="item.name"
-                    cols="12"
-                    sm="12"
-                    md="6"
-                    lg="6"
-                  >
-                    <v-card>
-                      <v-card-title class="subheading font-weight-bold">Conference</v-card-title>
-                      <v-divider></v-divider>
-                      <v-list dense>
-                        <v-list-item>
-                          <v-list-item-content>Abbr Name:</v-list-item-content>
-                          <v-list-item-content class="align-end">{{ item.abbrName }}</v-list-item-content>
-                        </v-list-item>
+    <v-container fluid>
+      <v-data-iterator
+        :items="alreadyApprovedMeetings"
+        :items-per-page.sync="itemsPerPage"
+        hide-default-footer
+      >
+        <v-row>
+          <v-col
+            v-for="(item,itemIndex) in alreadyApprovedMeetings"
+            :key="item.name"
+            cols="12"
+            sm="12"
+            md="4"
+            lg="4"
+          >
+            <v-card>
+              <v-card-title class="subheading font-weight-bold">Conference</v-card-title>
+              <v-divider></v-divider>
+              <v-list dense>
+                <v-list-item>
+                  <v-list-item-content>Abbr Name:</v-list-item-content>
+                  <v-list-item-content class="align-end">{{ item.abbrName }}</v-list-item-content>
+                </v-list-item>
 
-                        <v-list-item>
-                          <v-list-item-content>Full Name:</v-list-item-content>
-                          <v-list-item-content class="align-end">{{ item.fullName }}</v-list-item-content>
-                        </v-list-item>
+                <v-list-item>
+                  <v-list-item-content>Full Name:</v-list-item-content>
+                  <v-list-item-content class="align-end">{{ item.fullName }}</v-list-item-content>
+                </v-list-item>
 
-                        <v-list-item>
-                          <v-list-item-content>Date:</v-list-item-content>
-                          <v-list-item-content class="align-end">{{ item.date }}</v-list-item-content>
-                        </v-list-item>
+                <v-list-item>
+                  <v-list-item-content>Date:</v-list-item-content>
+                  <v-list-item-content class="align-end">{{ item.date }}</v-list-item-content>
+                </v-list-item>
 
-                        <v-list-item>
-                          <v-list-item-content>Submit Due Date:</v-list-item-content>
-                          <v-list-item-content class="align-end">{{ item.submitDueDate }}</v-list-item-content>
-                        </v-list-item>
+                <v-list-item>
+                  <v-list-item-content>Submit Due Date:</v-list-item-content>
+                  <v-list-item-content class="align-end">{{ item.submitDueDate }}</v-list-item-content>
+                </v-list-item>
 
-                        <v-list-item>
-                          <v-list-item-content>Result Release Date:</v-list-item-content>
-                          <v-list-item-content class="align-end">{{ item.resultReleaseDate }}</v-list-item-content>
-                        </v-list-item>
+                <v-list-item>
+                  <v-list-item-content>Result Release Date:</v-list-item-content>
+                  <v-list-item-content class="align-end">{{ item.resultReleaseDate }}</v-list-item-content>
+                </v-list-item>
 
-                        <v-list-item>
-                          <v-list-item-content>Spot:</v-list-item-content>
-                          <v-list-item-content class="align-end">{{ item.spot }}</v-list-item-content>
-                        </v-list-item>
-                      </v-list>
-                    </v-card>
-                  </v-col>
-                </v-row>
-            </v-data-iterator>
-          </v-container>
-        </v-app>
-      </div>
-    </div>
-  </div>
+                <v-list-item>
+                  <v-list-item-content>Spot:</v-list-item-content>
+                  <v-list-item-content class="align-end">{{ item.spot }}</v-list-item-content>
+                </v-list-item>
+              </v-list>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-data-iterator>
+    </v-container>
+  </v-app>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-  import { Tabs, TabPane, Button } from '@/components'
-  import Navigation from './components/Navigation'
-  import TabsSection from './components/Tabs'
-  import vTable from './components/Table'
-  import NButton from '../components/Button'
-
   export default {
-    name: 'adminApprove',
-    bodyClass: 'profile-page',
-    components: {
-      NButton,
-      Tabs,
-      TabPane,
-      vTable,
-      [Button.name]: Button,
-      Navigation,
-      TabsSection
-    },
+    name: 'AdminApprove',
     data () {
       const generateConferenceNotApproved = _ => {
         const conferences = [];
@@ -265,5 +238,6 @@
   }
 </script>
 
-<style>
+<style scoped>
+
 </style>
