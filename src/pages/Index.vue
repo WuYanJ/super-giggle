@@ -205,7 +205,7 @@
           {
             icon: 'mdi-chevron-up',
             'icon-alt': 'mdi-chevron-down',
-            text: 'Labels',
+            text: '乱七八糟的新功能',
             router: "login",
             model: true,
             children: [

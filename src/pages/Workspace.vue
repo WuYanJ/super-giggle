@@ -5,7 +5,7 @@
           <v-btn
             color="pink"
             fab
-            absolute
+            fixed
             right
             large
             @click="openApplyPage"

@@ -5,7 +5,7 @@
         <v-btn
           color="pink"
           fab
-          absolute
+          fixed
           right
           large
           @click="openApplyPage"
@@ -77,19 +77,21 @@
   var formData = new window.FormData() // vue 中使用 window.FormData(),否则会报 'FormData isn't definded'
 
   export default {
-    data: () => ({
-      meetingName: this.$route.params.id,
-      pdfData: '', // PDF的base64
-      scale: 2, // 缩放值
-      select: null,
-      valid: false,
-      fileTitle: '',
-      fileAbstract: '',
-      nameRules: [
-        v => !!v || 'Name is required',
-        v => v.length <= 10 || 'Name must be less than 10 characters',
-      ],
-    }),
+    data (){
+      return {
+        meetingName: this.$route.params.id,
+        pdfData: '', // PDF的base64
+        scale: 2, // 缩放值
+        select: null,
+        valid: '',
+        fileTitle: '',
+        fileAbstract: '',
+        nameRules: [
+          v => !!v || 'Name is required',
+          v => v.length <= 10 || 'Name must be less than 10 characters',
+        ],
+      }
+    },
     methods:{
       openApplyPage:function(){
         this.$router.replace({path: '/applyMeeting'})
