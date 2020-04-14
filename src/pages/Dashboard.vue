@@ -64,6 +64,7 @@
 
 <script>
   import DisplayList from './DisplayList'
+  import store from '../store'
 
   export default {
     components:{
@@ -166,7 +167,7 @@
         var username = localStorage.username;
         var requestUrl = "/meetingIApplied";
         var that = this;
-        this.$axios.post('/meetingIApplied','wuyanjie')
+        this.$axios.post('/meetingIApplied',store.state.userName)
           .then(resp => {
             if(resp!=null){
               let response = resp.data;
@@ -231,7 +232,7 @@
         //       this.snackbar = true
         //     }
         //   })
-        this.$axios.post('/meetingIApplied','wuyanjie')
+        this.$axios.post('/meetingIApplied',store.state.userName)
           .then(resp => {
             if(resp!=null){
               let response = resp.data;

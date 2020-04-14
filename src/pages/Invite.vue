@@ -31,6 +31,7 @@
 </template>
 
 <script>
+  import store from '../store'
   export default {
     name: 'Invite',
     data () {
@@ -97,7 +98,7 @@
     methods :{
       invite() {
         this.$axios.post('/invite',{
-          chair: 'wuyanjie',
+          chair: store.state.userName,
           meetingName: this.meetingName,
           pcMemberNames: this.selectList,
         })//未实现

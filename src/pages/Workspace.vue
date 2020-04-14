@@ -44,6 +44,7 @@
 </template>
 
 <script>
+  import store from '../store'
   import DisplayList from './DisplayList'
   export default {
     name: 'Workspace',
@@ -53,7 +54,7 @@
     data () {
       const generateMyConference = _ => {
         const conferences = [];
-        this.$axios.post('/meetingIApplied','wuyanjie')
+        this.$axios.post('/meetingIApplied',store.state.userName)
           .then(resp => {
             var response = resp.data
             response.forEach((meeting,index) => {
@@ -76,7 +77,7 @@
               });
             })
           })
-        this.$axios.post('/meetingMyEnded','wuyanjie')
+        this.$axios.post('/meetingMyEnded',store.state.userName)
           .then(resp => {
             var response = resp.data
             response.forEach((meeting,index) => {
@@ -100,7 +101,7 @@
             })
           })
 
-        this.$axios.post('/meetingIJoined','wuyanjie')
+        this.$axios.post('/meetingIJoined',store.state.userName)
           .then(resp => {
             var response = resp.data
             response.forEach((meeting,index) => {
@@ -131,7 +132,7 @@
       };
       const generateContributedConference = _ => {
         const conferences = [];
-        this.$axios.post('/meetingIContributed','wuyanjie')
+        this.$axios.post('/meetingIContributed',store.state.userName)
           .then(resp => {
             if(resp != null) {
               var response = resp.data
@@ -159,7 +160,7 @@
 
       const generateInvitedConference = _ => {
         const conferences = [];
-        this.$axios.post('/meetingInvitedMe','wuyanjie')
+        this.$axios.post('/meetingInvitedMe',store.state.userName)
           .then(resp => {
             if(resp != null) {
               var response = resp.data
@@ -190,7 +191,7 @@
       };
       return {
         //userName: store.state.userName,
-        userName: 'wuyanjie',
+        userName: store.state.userName,
         invitationTitle: "NewInvitations",
         router: '',
         itemsPerPage: 4,
@@ -205,7 +206,7 @@
       },
       allowContribute (item) {
         this.$axios.post('/allowContribute',{
-          userName: 'wuyanjie',
+          userName: store.state.userName,
           meetingFullName: item.fullName
         })
           .then(resp => {
@@ -230,7 +231,7 @@
       },
       agree (item,itemIndex) {
         this.$axios.post('/agreeInvitation', {
-          username: 'wuyanjie',
+          username: store.state.userName,
           meetingFullName: item.fullName
         })
           .then(resp => {
@@ -250,7 +251,7 @@
       },
       reject (item,itemIndex) {
         this.$axios.post('/rejectInvitation', {
-          username: 'wuyanjie',
+          username: store.state.userName,
           meetingFullName: item.fullName
         })
           .then(resp => {
