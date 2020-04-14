@@ -9,12 +9,33 @@
               v-for="(item,i) in newConferences"
               :key="i"
             >
-              <v-expansion-panel-header>Conference: {{item.abbrName}} —— Chair: {{item.chair}} 👉
-                <h6 v-if="item.statusMessage==='Already Approved'" style="color: cornflowerblue">Status: {{item.statusMessage}}</h6>
-                <h6 v-else-if="item.statusMessage==='To Be Approved'" style="color: #edde34">Status: {{item.statusMessage}}</h6>
-                <h6 v-else-if="item.statusMessage==='Allow Contribution'" style="color: darkseagreen">Status: {{item.statusMessage}}</h6>
-                <h6 v-else-if="item.statusMessage==='Ended'" style="color: gainsboro">Status: {{item.statusMessage}}</h6>
-                <h6 v-else style="color: red">Status: {{item.statusMessage}}</h6>
+              <v-expansion-panel-header><div class="my-2">{{item.fullName}}</div>
+                <div class="my-2"><v-btn small>{{item.chair}}</v-btn></div>
+                <div class="my-2" v-if="item.statusMessage==='Already Approved'">
+                <v-btn class="ma-2" color="primary" small dark >Approved
+                    <v-icon dark right>mdi-checkbox-marked-circle</v-icon>
+                  </v-btn>
+                </div>
+                  <div class="my-2" v-else-if="item.statusMessage==='To Be Approved'">
+                  <v-btn class="ma-2" color="yellow" small dark >To Be Approved
+                    <v-icon dark right>mdi-cancel</v-icon>
+                  </v-btn>
+                  </div>
+                    <div class="my-2" v-else-if="item.statusMessage==='Allow Contribution'">
+                  <v-btn class="ma-2" color="orange darken-2" small dark >
+                    <v-icon dark left>mdi-arrow-left</v-icon>Contribution Opening
+                  </v-btn>
+                    </div>
+                      <div class="my-2" v-else-if="item.statusMessage==='Ended'">
+                  <v-btn class="ma-2" color="grey" small dark >Ended
+                    <v-icon dark right>mdi-cancel</v-icon>
+                  </v-btn>
+                      </div>
+                        <div class="my-2" v-else>
+                <v-btn class="ma-2" color="red" small dark >Decline
+                  <v-icon dark right>mdi-cancel</v-icon>
+                </v-btn>
+                        </div>
               </v-expansion-panel-header>
               <v-expansion-panel-content>
                 Chair: {{item.chair}}

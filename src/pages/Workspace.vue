@@ -2,10 +2,21 @@
   <v-app id="inspire">
     <v-content>
         <v-container fluid>
+          <v-btn
+            color="pink"
+            fab
+            absolute
+            right
+            large
+            @click="openApplyPage"
+          >
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
           <h1 >My Meeting</h1>
             <displayList
               @wantToEatApple="inviteButton"
               @wantToAllContribute="allowContribute"
+              @wantToContribute="contributeButton"
               :_items="myConferences"
               :_item-per-page="4"
             >
@@ -13,7 +24,9 @@
 
           <h1>New Invitations</h1>
           <displayList
-            @wantToEatBanana="inviteButton"
+            :_title="invitationTitle"
+            @wantToEatBanana="agree"
+            @wantNotToEatBanana="reject"
             :_items="invitedConferences"
             :_item-per-page="4"
           >
@@ -72,7 +85,6 @@
                 index
               }
               conferences.push({
-
                 identity : "Chair",
                 chair : meeting.chair,
                 pcMemberNames : meeting.pcMembers,
@@ -129,11 +141,11 @@
                   index
                 }
                 conferences.push({
-                  identity : "Author",
-                  contributor : contribution.contributor,
-                  meetingFullName : contribution.meetingFullName,
-                  fileTitle : contribution.fileTitle,
-                  fileAbstract : contribution.fileAbstract,
+                  // identity : "Author",
+                  // contributor : contribution.contributor,
+                  MeetingFullName : contribution.meetingFullName,
+                  FileTitle : contribution.fileTitle,
+                  FileAbstract : contribution.fileAbstract,
                 });
               })
               return conferences;
@@ -179,6 +191,7 @@
       return {
         //userName: store.state.userName,
         userName: 'wuyanjie',
+        invitationTitle: "NewInvitations",
         router: '',
         itemsPerPage: 4,
         myConferences: generateMyConference(),
@@ -187,6 +200,9 @@
       }
     },
     methods: {
+      openApplyPage:function(){
+        this.$router.replace({path: '/applyMeeting'})
+      },
       allowContribute (item) {
         this.$axios.post('/allowContribute',{
           userName: 'wuyanjie',
@@ -207,6 +223,10 @@
       inviteButton(item){
         console.log(item.router)
         this.$router.replace({path: item.router})
+      },
+      contributeButton(item){
+        console.log(item.router)
+        this.$router.replace('/contribute/'+ item.fullName)
       },
       agree (item,itemIndex) {
         this.$axios.post('/agreeInvitation', {

@@ -6,12 +6,13 @@ import Login from '../pages/Login'
 import Register from '../pages/Register'
 import ApplyMeeting from '../pages/ApplyMeeting'
 import Workspace from '../pages/Workspace'
-import Invite from '../pages/Invite'
+import InviteUsers from '../pages/InviteUsers'
 import News from '../pages/News'
 import Window from '../pages/Window'
 import AdminApprove from '../pages/AdminApprove'
 import Dashboard from '../pages/Dashboard'
 import Users from '../pages/Users'
+import Contribute from '../pages/Contribute'
 import store from '../store'
 
 Vue.use(Router)
@@ -30,21 +31,32 @@ export const router = new Router({
           // FooProfile 会被渲染在 Foo的 <router-view> 中
           path: 'profile',
           name: 'profile',
-          component: Profile
+          component: Profile,
+          meta: {
+            requireAuth: true, // 需要登录权限
+            title: 'Profile'
+          }
         },
         {
           // 当 /foo/:id/profile 匹配成功，
           // FooProfile 会被渲染在 Foo的 <router-view> 中
           path: 'users',
           name: 'users',
-          component: Users
+          component: Users,
+          meta: {
+            requireAuth: true, // 需要登录权限
+            title: 'Users'
+          }
         },
         {
           // 当 /foo/:id/profile 匹配成功，
           // FooProfile 会被渲染在 Foo的 <router-view> 中
           path: 'news',
           name: 'news',
-          component: News
+          component: News,
+          meta: {
+            title: 'News'
+          }
         },
         {
           path: 'login',
@@ -61,21 +73,33 @@ export const router = new Router({
           // FooProfile 会被渲染在 Foo的 <router-view> 中
           path: 'applyMeeting',
           name: 'applyMeeting',
-          component: ApplyMeeting
+          component: ApplyMeeting,
+          meta: {
+            requireAuth: true, // 需要登录权限
+            title: 'ApplyMeeting'
+          }
         },
         {
           // 当 /foo/:id/profile 匹配成功，
           // FooProfile 会被渲染在 Foo的 <router-view> 中
           path: 'workspace',
           name: 'workspace',
-          component: Workspace
+          component: Workspace,
+          meta: {
+            requireAuth: true, // 需要登录权限
+            title: 'WorkSpace'
+          }
         },
         {
           // 当 /foo/:id/profile 匹配成功，
           // FooProfile 会被渲染在 Foo的 <router-view> 中
           path: 'invite/:id',
-          name: 'invite',
-          component: Invite
+          name: 'inviteUsers',
+          component: InviteUsers,
+          meta: {
+            requireAuth: true, // 需要登录权限
+            title: 'Invite'
+          }
         },
         {
           path: 'window',
@@ -85,12 +109,21 @@ export const router = new Router({
         {
           path: 'adminApprove',
           name: 'adminApprove',
-          component: AdminApprove
+          component: AdminApprove,
+          meta: {
+            requireAuth: true, // 需要登录权限
+            title: 'AdminApprove'
+          }
         },
         {
           path: 'dashboard',
           name: 'dashboard',
           component: Dashboard
+        },
+        {
+          path: 'contribute/:id',
+          name: 'contribute',
+          component: Contribute
         }
       ]
     }

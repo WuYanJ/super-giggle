@@ -1,5 +1,16 @@
 <template>
   <v-app id="inspire">
+      <v-btn
+        color="pink"
+        fab
+        absolute
+        righ
+        large
+        @click="openApplyPage"
+      >
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+
     <v-navigation-drawer
       v-model="drawer"
       :clipped="$vuetify.breakpoint.lgAndUp"
@@ -41,7 +52,7 @@
             </v-list-item>
           </v-list-group>
           <v-list-item
-            v-else
+            v-else-if="!((item.text==='Login' || item.text==='Register') && this.localStorage.getItem('userName')!=null)"
             :key="item.text"
             link
           >
@@ -59,7 +70,9 @@
         </template>
       </v-list>
     </v-navigation-drawer>
+
     <router-view></router-view>
+
     <v-app-bar
       :clipped-left="$vuetify.breakpoint.lgAndUp"
       app
@@ -82,26 +95,44 @@
         class="hidden-sm-and-down"
       />
       <v-spacer />
-      <v-btn icon>
-        <v-icon>mdi-apps</v-icon>
+      <router-link to="/login">
+      <v-btn large color="primary"
+             v-if="userName == null"
+      >Login
       </v-btn>
+      </router-link>
+      <router-link to="/register">
+      <v-btn large color="primary"
+             v-if="userName == null"
+      >Register
+      </v-btn>
+      </router-link>
+      <router-link to="/adminApprove">
+        <v-btn large color="primary"
+               v-if="userName == 'admin'"
+        >Approve Meeting
+        </v-btn>
+      </router-link>
         <v-menu open-on-hover offset-y>
-      <template v-slot:activator="{ on }">
-        <mdl-badge badge="3" no-background>
-        <v-btn icon>
-        <v-icon>mdi-bell</v-icon>
-      </v-btn>
-        </mdl-badge>
-      </template>
-      <v-list>
-        <v-list-item
-          v-for="(item, index) in dropdownItems"
-          :key="index"
-          @click=""
-        >
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                color="primary"
+                dark
+                v-on="on"
+                v-if="userName != null"
+              >
+                {{userName}}
+              </v-btn>
+            </template>
+            <v-list v-if="now">
+              <v-list-item
+                v-for="(item, index) in dropdownItems"
+                :key="index"
+                @click="item.function"
+              >
+                <v-list-item-title >{{ item.title }}</v-list-item-title>
+              </v-list-item>
+            </v-list>
         </v-menu>
       <v-btn
         icon
@@ -118,20 +149,11 @@
           /></v-avatar>
       </v-btn>
     </v-app-bar>
-    <v-btn
-      color="pink"
-      dark
-      fab
-      fixed
-      draggable="true"
-      @click="openApplyPage"
-    >
-      <v-icon>mdi-plus</v-icon>
-    </v-btn>
   </v-app>
 </template>
 
 <script>
+  import store from '../store'
   export default {
     methods: {
       openApplyPage:function(){
@@ -139,55 +161,62 @@
       },
       openWorkspace:function() {
         this.$router.replace({path: '/workspace'})
+      },
+      toProfile(){
+        this.$router.replace({path: '/profile'})
+      },
+      logout () {
+        this.$confirm('You want to logout?', 'Confirm', {
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: 'Logout!'
+          });
+          this.$store.commit('logout')
+          this.$router.push({path: '/'})
+          location.reload()
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: 'Cancelled'
+          });
+        });
       }
     },
     props: {
       source: String,
     },
-    data: () => ({
-      drawer: null,
-      dropdownItems: [
-        { title: 'Click Me' },
-        { title: 'Click Me' }
-      ],
-      items: [
-        { icon: 'lightbulb_outline', text: 'News', router: "news"},
-        { icon: 'touch_app', text: 'Work Space', router: "workspace"},
-        { icon: 'add', text: 'Apply For A Meeting', router: "applyMeeting"  },
-        { icon: 'delete', text: 'Register', router: "register" },
-        { icon: 'settings', text: 'Login',router: "login" },
-        { icon: 'add', text: 'Window',router: "window" },
-        { icon: 'settings', text: 'Approve Meeting',router: "adminApprove" },
-        { icon: 'add', text: 'AllUsers',router: "users" },
-        {
-          icon: 'mdi-chevron-up',
-          'icon-alt': 'mdi-chevron-down',
-          text: 'Labels',
-          router: "login",
-          model: true,
-          children: [
-            { icon: 'mdi-plus', text: 'Create label',router: "login"  },
-          ],
-        },
-        {
-          icon: 'mdi-chevron-up',
-          'icon-alt': 'mdi-chevron-down',
-          text: 'More',
-          router: "login",
-          model: false,
-          children: [
-            { icon: 'mdi-plus',text: 'Import',router: "login" },
-            { icon: 'mdi-plus',text: 'Export',router: "login" },
-            { icon: 'mdi-plus',text: 'Print',router: "login" },
-            { icon: 'mdi-plus',text: 'Undo changes',router: "login" },
-            { icon: 'mdi-plus',text: 'Other contacts',router: "login" },
-          ],
-        },
-        { icon: 'mdi-keyboard', text: 'Go to the old version',router: "login" },
-      ],
-    }),
-    created () {
+    data () {
+      return {
+        userName: store.state.userName, // userDetails.getUsername()
+        now: store.state.now,
+        drawer: null,
+        dropdownItems: [
+          {title: 'Profile', function: this.toProfile},
+          {title: 'Logout', function: this.logout}
+        ],
+        items: [
+          {icon: 'lightbulb_outline', text: 'News', router: "/news"},
+          {icon: 'touch_app', text: 'Work Space', router: "/workspace"},
+          {icon: 'add', text: 'Apply For A Meeting', router: "/applyMeeting"},
+          {
+            icon: 'mdi-chevron-up',
+            'icon-alt': 'mdi-chevron-down',
+            text: 'Labels',
+            router: "login",
+            model: true,
+            children: [
+              {icon: 'mdi-plus', text: 'Create label', router: "login"},
+            ],
+          }
+        ],
+      }
     },
+    created () {
+    }
   }
 </script>
 <style>

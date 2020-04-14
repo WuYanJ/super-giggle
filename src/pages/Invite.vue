@@ -4,6 +4,7 @@
         <v-container fluid>
           <h1 class="title">Invite</h1>
           <p>当前会议：{{meetingName}}</p>
+
         <v-card plain >
             <el-transfer
               style="text-align: left;display: inline-block"
@@ -94,12 +95,6 @@
       };
     },
     methods :{
-      handleChange(abbrName, direction, movedKeys) {
-        console.log(abbrName, direction, movedKeys);
-      },
-      dataFilter(query,item) {
-        return item.identity.indexOf(query) > -1;
-      },
       invite() {
         this.$axios.post('/invite',{
           chair: 'wuyanjie',

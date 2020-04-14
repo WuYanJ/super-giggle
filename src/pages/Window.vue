@@ -67,6 +67,11 @@
       </v-window>
     </v-col>
   </v-row>
+
+<!--        <p>{{ selected }}</p>-->
+<!--        <v-checkbox v-model="selected" label="John" value="John"></v-checkbox>-->
+<!--        <v-checkbox v-model="selected" label="Jacob" value="Jacob"></v-checkbox>-->
+
       </v-container>
     </v-content>
   </v-app>
@@ -78,6 +83,8 @@
     data: () => ({
       length: 3,
       window: 0,
+      selected: ['John'],
+
     }),
   }
 </script>

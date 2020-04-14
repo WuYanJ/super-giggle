@@ -22,57 +22,33 @@
               >
                 <v-toolbar-title>Register form</v-toolbar-title>
                 <v-spacer />
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-btn
-                      :href="source"
-                      icon
-                      large
-                      target="_blank"
-                      v-on="on"
-                    >
-                      <!--                      <v-icon>mdi-code-tags</v-icon>-->
-                    </v-btn>
-                  </template>
-                  <span>Source</span>
-                </v-tooltip>
-                <v-tooltip right>
-                  <template v-slot:activator="{ on }">
-                    <v-btn
-                      icon
-                      large
-                      href="https://codepen.io/johnjleider/pen/pMvGQO"
-                      target="_blank"
-                      v-on="on"
-                    >
-                      <!--                      <v-icon>mdi-codepen</v-icon>-->
-                    </v-btn>
-                  </template>
-                  <span>Codepen</span>
-                </v-tooltip>
               </v-toolbar>
               <v-card-text>
-                <v-form>
+                <v-form v-model="valid">
                   <v-text-field
+                    v-model="username"
                     label="Username"
                     name="Username"
                     type="text"
                   />
 
                   <v-text-field
-                    id="password"
-                    label="Full Name"
-                    name="Full Name"
-                    type="text"
-                  />
+                    v-model="fullName"
+                    :rules="nameRules"
+                    :counter="10"
+                    label="Full name"
+                    required
+                  ></v-text-field>
 
                   <v-text-field
+                    v-model="password"
                     id="password"
                     label="Password"
                     name="password"
                     type="password"
                   />
                   <v-text-field
+                    v-model="confirmPassword"
                     id="password"
                     label="Confirm Password"
                     name="confirm password"
@@ -80,17 +56,20 @@
                   />
 
                   <v-text-field
-                    label="Email"
-                    name="email"
-                    type="email"
-                  />
+                    v-model="email"
+                    :rules="emailRules"
+                    label="E-mail"
+                    required
+                  ></v-text-field>
                   <v-text-field
+                    v-model="affiliation"
                     label="Affiliation"
                     name="Full Name"
                     type="text"
                   />
 
                   <v-text-field
+                    v-model="region"
                     label="Region"
                     name="region"
                     type="text"
@@ -100,7 +79,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
-                <v-btn color="primary">Register</v-btn>
+                <v-btn color="primary" @click="register(valid)">Register</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -115,5 +94,54 @@
     props: {
       source: String,
     },
+    data() {
+      return{
+
+        emailRules: [
+          v => !!v || 'E-mail is required',
+          v => /.+@.+/.test(v) || 'E-mail must be valid',
+        ],
+
+        nameRules: [
+          v => !!v || 'Name is required',
+          v => v.length <= 10 || 'Name must be less than 10 characters',
+        ],
+        valid: '',
+          username: '',
+          fullName: '',
+          password: '',
+          confirmPassword: '',
+          email: '',
+          affiliation: '',
+          region: ''
+
+      }
+    },
+    methods: {
+      register (formName) {
+            this.$axios.post('/register', { // axios.post (url, data)
+              username: this.username,
+              password: this.password,
+              fullname: this.fullName,
+              email: this.email,
+              affiliation: this.affiliation,
+              region: this.region
+            })
+              .then(resp => {
+                // 根据后端的返回数据修改
+                if (resp.status === 200 && resp.data.hasOwnProperty('id')) {
+                  // 跳转到login
+                  alert('successful registration')
+                  this.$router.push('/login')
+                } else {
+                  alert('register error')
+                }
+              })
+              .catch(error => {
+                console.log(error)
+                alert('该用户名已经被注册了')
+              })
+      }
+    }
   }
 </script>

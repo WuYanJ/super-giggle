@@ -1,7 +1,5 @@
 <template>
   <v-app id="inspire">
-    <v-content>
-      <v-container >
         <v-data-iterator
           :items="items"
           :items-per-page.sync="itemsPerPage"
@@ -24,6 +22,12 @@
             :subtitle="item.affiliation" >
           </mdc-card-header>
           <mdc-card-text>
+            <v-checkbox
+              v-model="selectList"
+              :label="item.username"
+              :value="item.username"
+              :disabled="item.checkbox"
+            ></v-checkbox>
             {{item.email}}
           </mdc-card-text>
           <mdc-card-actions>
@@ -39,8 +43,7 @@
           </v-row>
         </template>
         </v-data-iterator>
-      </v-container>
-    </v-content>
+      <v-btn @click="sendSelectList">Send Invitation</v-btn>
   </v-app>
 </template>
 
@@ -55,6 +58,7 @@
       '_items',
       '_functions',
       '_itemPerPage',
+      '_selectList',
     ],
     data () {
       return {
@@ -64,7 +68,15 @@
         title: this._title,
         displaySet: this._displaySet,
         items:this._items,
-        functions: this._functions
+        selectList:[],
+        // selectList: this._selectList,
+        functions: this._functions,
+      }
+    },
+    methods:{
+      sendSelectList(){
+        console.log(this.selectList)
+        this.$emit('selectListFunction',this.selectList)
       }
     }
   }

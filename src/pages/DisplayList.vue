@@ -1,7 +1,6 @@
 <template>
-
   <v-container>
-    <h2>{{title}}</h2>
+<!--    <h2>{{title}}</h2>-->
     <v-data-iterator
       :items="items"
       :items-per-page.sync="itemsPerPage"
@@ -18,38 +17,35 @@
               color="blue"
               class="white lighten-5 pa-0"
             >
-              <template
-                v-slot:heading
-              >
-                <v-card-title class="whit--text display-2 red_title font-weight-bold px-0 py-2">{{item.abbrName}}
+                <v-card-title >{{item.abbrName}}
+                  <v-btn type="neutral" round size="lg"
+                         v-if="item.statusMessage === 'Already Approved' && item.chair === 'PJW'"
+                         @click="allowContribute(item)">Allow Contribute</v-btn>
+                  <v-btn v-if="title==='NewInvitations'" type="neutral" round size="lg" @click="agree(item,item.index)">Agree</v-btn>
+                  <v-btn v-if="title==='NewInvitations'" type="neutral" round size="lg" @click="reject(item,item.index)">Reject</v-btn>
+                  <v-btn @click="invitebutton(item)"
+                         v-if="item.identity === 'Chair' && (item.statusMessage === 'Already Approved' || item.statusMessage === 'Allow Contribution')"
+                  > Invite
+                  </v-btn>
+                  <v-btn @click="contributebutton(item)"
+                         v-if="item.identity !== 'Chair' && (item.statusMessage === 'Allow Contribution')"
+                  > Contribute
+                  </v-btn>
                 </v-card-title>
-                <v-card-subtitle
-                  small
-                  class="white--text text--darken-2 py-2 px-0"
-                >{{ item.fullName }}
-                </v-card-subtitle>
-              </template>
               <v-divider class="my-4 py-0"></v-divider>
               <v-list
+                color="blue"
                 dense
                 class="white lighten-5 px-0 py-0"
                 v-for="(value,name) in item"
-                :key="value"
+                :key="item.index"
               >
                 <v-list-item>
                   <v-list-item-content>{{name}} :</v-list-item-content>
                   <v-list-item-content>{{value}}</v-list-item-content>
                 </v-list-item>
                 </v-list>
-              <v-btn type="neutral" round size="lg"
-                     v-if="item.statusMessage === 'Already Approved' && item.chair === 'PJW'"
-                     @click="allowContribute(item)">Allow Contribute</v-btn>
-              <v-btn v-if="this.title==='NewInvitations'" type="neutral" round size="lg" @click="agree(item,item.index)">Agree</v-btn>
-              <v-btn v-if="this.title==='NewInvitations'" type="neutral" round size="lg" v-on:click="this.reject(item,i)">Reject</v-btn>
-              <v-btn @click="invitebutton(item)"
-                     v-if="item.identity === 'Chair' && (item.statusMessage === 'Already Approved' || item.statusMessage === 'Allow Contribution')"
-              > Invite
-              </v-btn>
+
               <v-list
                 dense
                 class="white lighten-5 px-0 py-0"
@@ -106,8 +102,15 @@
         console.log(item.router)
         this.$emit('wantToEatApple', item)
       },
+      contributebutton(item){
+        console.log(item.router)
+        this.$emit('wantToContribute', item)
+      },
       agree(item,itemIndex){
         this.$emit('wantToEatBanana', item,itemIndex)
+      },
+      reject(item,itemIndex){
+        this.$emit('wantNotToEatBanana', item,itemIndex)
       },
       allowContribute(item){
         this.$emit('wantToAllContribute', item)
